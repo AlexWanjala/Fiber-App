@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.ShiftRequest">
+
+    <FrameLayout
+        android:layout_marginTop="70sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:contentDescription="@string/close"
+            android:id="@+id/image_close"
+            android:layout_marginStart="20sp"
+            android:src="@drawable/arrow_left"
+            android:layout_width="30sp"
+            android:layout_height="30sp"/>
+        <TextView
+            android:textColor="@color/text_color_black"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/shift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+
+
+
+    <TextView
+        android:textColor="@color/text_grey"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginStart="20dp"
+        android:text="@string/shift_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/ed_date"
+        android:padding="20sp"
+        android:hint="@string/date"
+        android:background="@drawable/bg_border"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+    <TextView
+        android:textColor="@color/text_grey"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginStart="20dp"
+        android:text="@string/shift_des"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:padding="20sp"
+        android:hint="@string/message"
+        android:background="@drawable/bg_border"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="20sp"
+        android:layout_marginStart="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="200sp"/>
+
+    <TextView
+        android:id="@+id/tv_change_plan"
+        android:clickable="true"
+        android:focusable="true"
+        android:background="@drawable/indicator_state_blue_background"
+        android:textColor="@drawable/indicator_state_color_button"
+        android:layout_marginEnd="30sp"
+        android:layout_marginStart="30sp"
+        android:gravity="center"
+        android:layout_marginTop="20sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="12sp"
+        android:text="@string/send"
+        android:layout_width="match_parent"
+        android:layout_height="40sp"
+        />
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

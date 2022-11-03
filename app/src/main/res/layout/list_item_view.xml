@@ -1,0 +1,12 @@
+<TextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textSize="13sp"
+    android:gravity="center_vertical"
+    app:drawableStartCompat="@drawable/dot"
+    android:drawablePadding="10sp"
+    android:padding="2sp"
+    />

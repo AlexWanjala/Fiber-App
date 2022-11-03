@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/radio_group"
+        android:orientation="horizontal"
+        android:layout_marginTop="10sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radio_1"
+            android:textSize="12sp"
+            android:textColor="@drawable/indicator_state_color"
+            android:gravity="center"
+            android:background="@drawable/indicator_state_background"
+            android:button="@android:color/transparent"
+            android:text="@string/triple_play"
+            android:layout_width="88sp"
+            android:layout_height="32sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_2"
+            android:layout_marginStart="10sp"
+            android:textSize="12sp"
+            android:textColor="@drawable/indicator_state_color"
+            android:gravity="center"
+            android:background="@drawable/indicator_state_background"
+            android:button="@android:color/transparent"
+            android:text="@string/internet_only"
+            android:layout_width="88sp"
+            android:layout_height="32sp"/>
+
+        <RadioButton
+            android:id="@+id/radio_3"
+            android:layout_marginStart="10sp"
+            android:textSize="12sp"
+            android:textColor="@drawable/indicator_state_color"
+            android:gravity="center"
+            android:background="@drawable/indicator_state_background"
+            android:button="@android:color/transparent"
+            android:text="@string/office_plan"
+            android:layout_width="88sp"
+            android:layout_height="32sp"/>
+
+    </RadioGroup>

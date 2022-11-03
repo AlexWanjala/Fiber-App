@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    android:background="@color/blue_bg"
+    tools:context=".ui.Packages">
+
+    <FrameLayout
+        android:layout_marginTop="70sp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:contentDescription="@string/close"
+            android:id="@+id/image_close"
+            android:layout_marginStart="20sp"
+            android:src="@drawable/arrow_left"
+            android:layout_width="26sp"
+            android:layout_height="26sp"/>
+        <TextView
+            android:textColor="@color/text_color_black"
+            android:layout_gravity="center"
+            android:textSize="16sp"
+            android:text="@string/zuku_payment_options"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_marginTop="70sp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+
+  <!--  <RadioGroup
+        android:layout_marginEnd="20sp"
+        android:layout_marginStart="20sp"
+        android:id="@+id/radio_group"
+        android:orientation="vertical"
+        android:layout_marginTop="70sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:padding="10dp"
+            android:drawableEnd="@drawable/arrow_down_black"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@drawable/indicator_state_background_grey"
+            android:button="@android:color/transparent"
+            android:text="@string/zuku_fiber_plans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="123sp">
+            <View
+                android:background="@color/grey"
+                android:layout_width="match_parent"
+                android:layout_height="1sp"/>
+            <ListView
+                android:layout_marginTop="10sp"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="5dp"
+                android:scrollbars="none"
+                android:id="@+id/list_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </LinearLayout>
+
+        <RadioButton
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+            android:drawableEnd="@drawable/arrow_down_black"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:background="@drawable/indicator_state_background_grey"
+            android:button="@android:color/transparent"
+            android:text="@string/zuku_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <RadioButton
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+            android:drawableEnd="@drawable/arrow_down_black"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/zuku_phone_airtime"
+            android:background="@drawable/indicator_state_background_grey"
+            android:button="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+            android:drawableEnd="@drawable/arrow_down_black"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/mobile_banking"
+            android:background="@drawable/indicator_state_background_grey"
+            android:button="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+        <RadioButton
+            android:layout_marginTop="10sp"
+            android:padding="10dp"
+            android:drawableEnd="@drawable/arrow_down_black"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:text="@string/direct_banking"
+            android:background="@drawable/indicator_state_background_grey"
+            android:button="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+
+    </RadioGroup>-->
+
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
