@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -23,6 +24,7 @@ class TransactionResponse : AppCompatActivity() {
         setContentView(R.layout.activity_transaction_reponse)
         close.setOnClickListener { finish() }
         btn_download.setOnClickListener {
+            startActivity(Intent(this,PDFViewer::class.java))
 
         }
 
