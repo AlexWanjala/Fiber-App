@@ -22,9 +22,11 @@ class TransactionResponse : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_reponse)
         close.setOnClickListener { finish() }
-        btn_download.setOnClickListener {  }
+        btn_download.setOnClickListener {
 
-        val api = Retrofit.Builder()
+        }
+
+     /*   val api = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -37,6 +39,6 @@ class TransactionResponse : AppCompatActivity() {
                     Log.d(TAG,comment.toString())
                 }
             }
-        }
+        }*/
     }
 }

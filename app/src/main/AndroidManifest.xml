@@ -15,7 +15,7 @@
         android:theme="@style/Theme.ZukuFiber"
         tools:targetApi="31">
         <activity
-            android:name=".OTP"
+            android:name=".ui.landing.OTP"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
