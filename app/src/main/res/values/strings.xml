@@ -73,6 +73,9 @@
     <string name="timer">Timer</string>
     <string name="Verify">Verify &amp; Proceed</string>
     <string name="change_phone">Change Phone Number</string>
-
+    <string name="select_map">Select Location from Map</string>
+    <string name="title">Title</string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
 
 </resources>

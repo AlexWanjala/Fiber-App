@@ -14,7 +14,6 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_phone_number)
-
         image_close.setOnClickListener { finish() }
         tv0.setOnClickListener(this)
         tv1.setOnClickListener(this)
@@ -29,6 +28,7 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         tvBack.setOnClickListener(this)
         btnNext.setOnClickListener(this)
         tvPlus.setOnClickListener(this)
+
         value = ""
 
     }
@@ -57,7 +57,6 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     }
 
     override fun onClick(v: View) {
-
         when (v.id) {
             R.id.tv0 -> {
                 setText("0")
