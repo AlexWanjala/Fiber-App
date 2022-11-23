@@ -80,6 +80,7 @@
 
 
     <LinearLayout
+        android:layout_marginBottom="55sp"
         android:weightSum="4"
         android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -87,6 +88,7 @@
         android:layout_height="100sp">
 
         <LinearLayout
+            android:id="@+id/whatsapp"
             android:layout_marginBottom="5sp"
             android:layout_marginEnd="5sp"
             android:layout_marginStart="5sp"
@@ -99,20 +101,22 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:src="@drawable/logo"
+                android:src="@drawable/whastapp"
                 android:layout_width="70sp"
                 android:layout_height="70sp"/>
 
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
-                android:text="@string/title"
+                android:text="@string/whatsapp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/call"
             android:layout_marginBottom="5sp"
             android:layout_marginEnd="5sp"
             android:layout_marginStart="5sp"
@@ -125,20 +129,22 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:src="@drawable/logo"
-                android:layout_width="70sp"
-                android:layout_height="70sp"/>
+                android:layout_width="50sp"
+                android:layout_height="71dp"
+                android:src="@drawable/call" />
 
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
-                android:text="@string/title"
+                android:text="@string/call"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
         <LinearLayout
+            android:id="@+id/info"
             android:layout_marginBottom="5sp"
             android:layout_marginEnd="5sp"
             android:layout_marginStart="5sp"
@@ -151,21 +157,23 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:src="@drawable/logo"
-                android:layout_width="70sp"
+                android:src="@drawable/info"
+                android:layout_width="50sp"
                 android:layout_height="70sp"/>
 
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
-                android:text="@string/title"
+                android:text="@string/info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/faq"
             android:layout_marginBottom="5sp"
             android:layout_marginEnd="5sp"
             android:layout_marginStart="5sp"
@@ -178,15 +186,16 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:src="@drawable/logo"
-                android:layout_width="70sp"
+                android:src="@drawable/faw"
+                android:layout_width="50sp"
                 android:layout_height="70sp"/>
 
 
             <TextView
+                android:textColor="@color/black"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
-                android:text="@string/title"
+                android:text="@string/faq"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
