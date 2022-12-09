@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private val arrayList3: Array<String> = arrayOf("30:5,899","40:6,399","808,299","300:11,299","500:12,299","700:7,299")
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -118,6 +119,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
         getPackageInfo( p0?.getItemAtPosition(p2).toString());
        // Toast.makeText(this, p0?.getItemAtPosition(p2).toString(),Toast.LENGTH_LONG).show()
@@ -136,14 +138,16 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         }
     }
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun getSubscriber(){
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = api.getSubscriber("getSubscriber","0100844789")
+            val response = api.getSubscriber("getSubscriber","0722275135")
             runOnUiThread {
                 if(response.success){
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
 
                     for (item in response.data.subDetailsResponse){
+                        getPackageInfo(response.data.subDetailsResponse[0].packageinfo.subid.toString())
                         accounts.add(item.packageinfo.subid.toString())
 
                     }
@@ -175,31 +179,60 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getPackageInfo(subid :String){
-        for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
-            if(subid==item.packageinfo.subid.toString()){
-                tvBalance.text = item.packageinfo.buckamt.toString()
-                tvAmountDue.text = item.packageinfo.dueamt.toString()
-                tvDays.text = dateDiff(item.packageinfo.billthru)
-                tvUntil.text = "Until "+ item.packageinfo.billthru
-                tvDes.text = item.packageinfo.lastpack
+        try {
+            for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
+                if(subid==item.packageinfo.subid.toString()){
+                    tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
+                    tvAmountDue.text = item.packageinfo.dueamt.toString()
+                    if(item.packageinfo.billthru == null){
+                        tvDays.text = "Due";
+                    }else{
+                        tvDays.text = dateDiff(item.packageinfo.billthru)
+                    }
 
+                    tvUntil.text = "Until "+ item.packageinfo.billthru
+                    tvDes.text = item.packageinfo.lastpack
+                    var speed = item.packageinfo.lastpack.filter { it.isDigit() }
+                    if(speed.length > 3){
+                        speed = speed.drop(1);
+                    }
+                    tvSPeed.text =  speed
+
+                }
             }
+        }catch (ex: NullPointerException){
+
         }
+
 
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun dateDiff(finalDate: String): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        val currentDate = LocalDateTime.now().format(formatter);
+        try {
+            if(finalDate==null){
+                return "Due";
+            }
+            else{
+                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val currentDate = LocalDateTime.now().format(formatter);
 
-        val date1: Date
-        val date2: Date
-        val dates = SimpleDateFormat("yyyy-MM-dd")
-        date1 = dates.parse(currentDate)
-        date2 = dates.parse(finalDate)
-        val difference: Long = abs(date1.time - date2.time)
-        val differenceDates = difference / (24 * 60 * 60 * 1000)
-        val dayDifference = differenceDates.toString();
-        return dayDifference;
+                val date1: Date
+                val date2: Date
+                val dates = SimpleDateFormat("yyyy-MM-dd")
+                date1 = dates.parse(currentDate)
+                date2 = dates.parse(finalDate)
+                val difference: Long = abs(date1.time - date2.time)
+                val differenceDates = difference / (24 * 60 * 60 * 1000)
+                val dayDifference = differenceDates.toString();
+                if(differenceDates>30){
+                    return "Due";
+                }else{
+                    return dayDifference;
+                }
+
+            }
+        }catch (NullPointerException : NullPointerException){
+            return "Due";
+        }
     }
 }
