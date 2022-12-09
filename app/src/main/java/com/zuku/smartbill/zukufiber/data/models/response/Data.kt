@@ -1,3 +1,6 @@
+package com.zuku.smartbill.zukufiber.data.models.response
+
+import com.zuku.smartbill.zukufiber.data.models.subscriber.SubDetailsResponse
 import com.google.gson.annotations.SerializedName
 
 

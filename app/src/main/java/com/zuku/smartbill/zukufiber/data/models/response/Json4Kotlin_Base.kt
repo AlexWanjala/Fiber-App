@@ -1,3 +1,5 @@
+package com.zuku.smartbill.zukufiber.data.models.response
+
 import com.google.gson.annotations.SerializedName
 
 data class Json4Kotlin_Base (

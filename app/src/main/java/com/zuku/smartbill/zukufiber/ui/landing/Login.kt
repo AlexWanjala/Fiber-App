@@ -1,44 +1,55 @@
 package com.zuku.smartbill.zukufiber.ui.landing
 
 import android.content.Intent
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import android.view.View
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.MyAPI
+import com.zuku.smartbill.zukufiber.data.services.api
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login2.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+import kotlinx.coroutines.runBlocking
 
 class Login : AppCompatActivity() {
-    private val BASE_URL = "https://b2d6-41-212-37-138.eu.ngrok.io/apis/fiber-app-api/"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-      //  tv_get_otp.setOnClickListener { startActivity(Intent(this,OTP::class.java)) }
-        tv_get_otp.setOnClickListener { getSubscriber() }
+
+        tv_get_otp.setOnClickListener {
+            if (edPhone.text.isEmpty()){
+                Toast.makeText(this,"Please input registered phone number",Toast.LENGTH_LONG).show()
+            }else{
+                getSubscriber()
+            }
+        }
     }
 
 
-    private fun getSubscriber(){
+    private fun getSubscriber() {
+        progress_circular.visibility = View.VISIBLE
 
-           val api = Retrofit.Builder()
-          .baseUrl(BASE_URL)
-          .addConverterFactory(GsonConverterFactory.create())
-          .build()
-          .create(MyAPI::class.java)
+       lifecycleScope.launch(Dispatchers.IO) {
 
-         lifecycleScope.launch(Dispatchers.IO) {
-          val response = api.getSubscriber("getSubscriber","0100844789")
-          Log.d("######", response.message.toString())
-         }
+            try {
+                val response = api.getSubscriber("getSubscriber", "0100844789")
+                runOnUiThread {
+                    progress_circular.visibility = View.GONE
+                    if (response.success) {
+                        startActivity(Intent(this@Login, OTP::class.java))
+                    } else {
+                        Toast.makeText(this@Login, response.message, Toast.LENGTH_LONG).show()
+                    }
+                }
+            } catch (ex: Exception) {
+                runOnUiThread { Toast.makeText(this@Login, ex.message, Toast.LENGTH_LONG).show() }
 
-
-
+            }
+        }
     }
 }

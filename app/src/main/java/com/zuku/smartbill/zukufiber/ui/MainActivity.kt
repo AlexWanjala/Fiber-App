@@ -1,26 +1,45 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.Const
+import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
+import com.zuku.smartbill.zukufiber.ui.landing.OTP
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycler_view
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
 import kotlinx.android.synthetic.main.radio_group.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.lang.Math.abs
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
-    private var accounts = arrayOf("12345678", "9876654", "9987272")
+    private var accounts: MutableList<String> = ArrayList();
     private val arrayList: Array<String> = arrayOf("10:2,899","20:4,399","60:6,299","100:8,299","200:10,299","500:15,299")
     private val arrayList2: Array<String> = arrayOf("20:4,899","30:5,399","70:7,299","200:10,299","400:12,299","600:16,299")
     private val arrayList3: Array<String> = arrayOf("30:5,899","40:6,399","808,299","300:11,299","500:12,299","700:7,299")
@@ -29,17 +48,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val aa = ArrayAdapter(this, R.layout.spinner_right_aligned, accounts)
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        with(mySpinner)
-        {
-            adapter = aa
-            setSelection(0, false)
-            onItemSelectedListener = this@MainActivity
-            prompt = R.string.select_acc.toString()
-            gravity = Gravity.CENTER
 
-        }
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
             override fun onStateChanged(bottomSheet: View, newState: Int) {
@@ -97,6 +106,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         }
 
+
+        getSubscriber()
+
     }
 
     private fun initRecyclerView(arrayList:Array<String> ){
@@ -107,7 +119,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     }
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-      //  Toast.makeText(this, p0?.getItemAtPosition(p2).toString(),Toast.LENGTH_LONG).show()
+        getPackageInfo( p0?.getItemAtPosition(p2).toString());
+       // Toast.makeText(this, p0?.getItemAtPosition(p2).toString(),Toast.LENGTH_LONG).show()
 
     }
     override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -122,5 +135,71 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
+    }
+    private fun getSubscriber(){
+        lifecycleScope.launch(Dispatchers.IO) {
+            val response = api.getSubscriber("getSubscriber","0100844789")
+            runOnUiThread {
+                if(response.success){
+                    Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
+
+                    for (item in response.data.subDetailsResponse){
+                        accounts.add(item.packageinfo.subid.toString())
+
+                    }
+
+                    runOnUiThread {
+                        val aa = ArrayAdapter(this@MainActivity, R.layout.spinner_right_aligned, accounts)
+                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                        with(mySpinner)
+                        {
+                            adapter = aa
+                            setSelection(0, false)
+                            onItemSelectedListener = this@MainActivity
+                            prompt = R.string.select_acc.toString()
+                            gravity = Gravity.CENTER
+
+                        }
+                    }
+
+                }else{
+
+                }
+            }
+        }
+
+
+
+    }
+
+    @SuppressLint("SetTextI18n")
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun getPackageInfo(subid :String){
+        for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
+            if(subid==item.packageinfo.subid.toString()){
+                tvBalance.text = item.packageinfo.buckamt.toString()
+                tvAmountDue.text = item.packageinfo.dueamt.toString()
+                tvDays.text = dateDiff(item.packageinfo.billthru)
+                tvUntil.text = "Until "+ item.packageinfo.billthru
+                tvDes.text = item.packageinfo.lastpack
+
+            }
+        }
+
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun dateDiff(finalDate: String): String {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+        val currentDate = LocalDateTime.now().format(formatter);
+
+        val date1: Date
+        val date2: Date
+        val dates = SimpleDateFormat("yyyy-MM-dd")
+        date1 = dates.parse(currentDate)
+        date2 = dates.parse(finalDate)
+        val difference: Long = abs(date1.time - date2.time)
+        val differenceDates = difference / (24 * 60 * 60 * 1000)
+        val dayDifference = differenceDates.toString();
+        return dayDifference;
     }
 }
