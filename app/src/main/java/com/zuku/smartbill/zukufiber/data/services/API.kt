@@ -13,7 +13,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-private const val HOST = "https://b2d6-41-212-37-138.eu.ngrok.io/apis/fiber-app-api/"
+private const val HOST = "https://6a33-154-70-56-156.ap.ngrok.io/apis/fiber-app-api/"
 
 private val client = OkHttpClient.Builder()
     .addInterceptor(HeaderInterceptor())

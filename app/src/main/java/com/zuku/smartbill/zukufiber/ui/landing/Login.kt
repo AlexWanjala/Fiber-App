@@ -29,8 +29,6 @@ class Login : AppCompatActivity() {
             }
         }
     }
-
-
     private fun getSubscriber() {
         progress_circular.visibility = View.VISIBLE
 
