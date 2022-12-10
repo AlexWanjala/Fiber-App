@@ -16,7 +16,8 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     lateinit var value: String
-    var amount : String ="";
+    var amount : String =""
+    var kk : String ="h"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
