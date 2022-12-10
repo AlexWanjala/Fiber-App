@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     lateinit var value: String
+    var amount : String ="";
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +37,7 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         tvPlus.setOnClickListener(this)
 
         value = ""
+        amount =  intent.getStringExtra("amount").toString()
 
     }
 
@@ -113,6 +115,10 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         } else {
             startActivity(Intent(this, TransactionResponse::class.java))
         }
+
+    }
+    private fun sendPromt(){
+
 
     }
 

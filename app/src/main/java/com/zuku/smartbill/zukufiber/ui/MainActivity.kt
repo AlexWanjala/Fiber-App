@@ -39,11 +39,12 @@ import kotlin.collections.ArrayList
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
-    private var accounts: MutableList<String> = ArrayList();
+    private var accounts: MutableList<String> = ArrayList()
     private val arrayList: Array<String> = arrayOf("10:2,899","20:4,399","60:6,299","100:8,299","200:10,299","500:15,299")
     private val arrayList2: Array<String> = arrayOf("20:4,899","30:5,399","70:7,299","200:10,299","400:12,299","600:16,299")
     private val arrayList3: Array<String> = arrayOf("30:5,899","40:6,399","808,299","300:11,299","500:12,299","700:7,299")
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
+    private var accNo: String = ""
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -87,7 +88,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         tv_see_all.setOnClickListener { startActivity(Intent(this, Packages::class.java)) }
         tv_pay.setOnClickListener { startActivity(Intent(this, Payments::class.java)) }
         image_statement.setOnClickListener { startActivity(Intent(this, Transactions::class.java)) }
-        tv_top_up.setOnClickListener { startActivity(Intent(this, Amount::class.java)) }
+        tv_top_up.setOnClickListener { startActivity(Intent(this, Amount::class.java)
+            .putExtra("amountDue",tvAmountDue.text)
+            .putExtra("accNo",accNo)
+        ) }
         chat.setOnClickListener { startActivity(Intent(this, ShiftRequest::class.java)) }
         profile.setOnClickListener { startActivity(Intent(this, Profile::class.java)) }
 
@@ -141,7 +145,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getSubscriber(){
         lifecycleScope.launch(Dispatchers.IO) {
-            val response = api.getSubscriber("getSubscriber","0722275135")
+            val response = api.getSubscriber("getSubscriber","0722387708")
             runOnUiThread {
                 if(response.success){
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
@@ -179,6 +183,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.O)
     private fun getPackageInfo(subid :String){
+        accNo = subid
         try {
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
