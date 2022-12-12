@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         })
 
-        tv_change_plan.setOnClickListener {   toggleBottomSheet() }
+        tv_change_plan.setOnClickListener {   startActivity(Intent(this, PackagesActivity::class.java)) }
         ll_package.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         ll_package2.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         ll_package3.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }

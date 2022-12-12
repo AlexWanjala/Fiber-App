@@ -20,6 +20,12 @@ class PackageDetails : AppCompatActivity() {
         setContentView(R.layout.activity_package_details)
 
 
+        tvTitle.text =  intent.getStringExtra("packageName").toString()
+        tvSPeed.text =   intent.getStringExtra("item").toString()
+        tvAmount.text =  intent.getStringExtra("currency").toString()+" "+ intent.getStringExtra("price").toString()
+        tvDes.text =   intent.getStringExtra("des").toString()
+
+
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
                 cal.set(Calendar.YEAR, year)

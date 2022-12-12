@@ -39,7 +39,8 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
                 tv_currency = view.findViewById(R.id.tv_currency)
                 tvAmount = view.findViewById(R.id.tv_amount)
                 tvSpeed = view.findViewById(R.id.tv_speed)
-                tvDes = view.findViewById(R.id.tvDes);
+                tvDes = view.findViewById(R.id.tvDes)
+                clPackage = view.findViewById(R.id.cl_package)
             }
 
         }
@@ -65,12 +66,30 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
             viewHolder.tvSpeed.text = list.item
             viewHolder.tvAmount.text =  "${list.currency} ${list.price}"
             viewHolder.clPackage.setOnClickListener {
-                context.startActivity(Intent(context, PackageDetails::class.java)) }
+                context.startActivity(Intent(context, PackageDetails::class.java)
+                    .putExtra("packageName",list.packageName)
+                    .putExtra("item",list.item)
+                    .putExtra("price",list.price)
+                    .putExtra("des",list.des)
+                    .putExtra("currency",list.currency)
+
+                )
+            }
         }else{
             viewHolder.tv_currency.text = list.currency
             viewHolder.tvAmount.text = list.price
             viewHolder.tvSpeed.text = list.item
             viewHolder.tvDes.text = list.des
+            viewHolder.clPackage.setOnClickListener {
+                context.startActivity(Intent(context, PackageDetails::class.java)
+                    .putExtra("packageName",list.packageName)
+                    .putExtra("item",list.item)
+                    .putExtra("price",list.price)
+                    .putExtra("des",list.des)
+                    .putExtra("currency",list.currency)
+
+                )
+            }
         }
 
 

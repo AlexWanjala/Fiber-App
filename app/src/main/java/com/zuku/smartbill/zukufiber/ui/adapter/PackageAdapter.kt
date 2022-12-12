@@ -54,10 +54,27 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
         if(position==0){
             if (context is MainActivity) {
                 (context as MainActivity).initRecyclerView(item.packageItems)
+
+                //Check the 1st item
+                viewHolder.radio_1.isChecked = true
+                if (lastCheckedRB != null) {
+                    lastCheckedRB?.isChecked = false
+                }
+                lastCheckedRB = viewHolder.radio_1
+
             }
             if (context is PackagesActivity) {
                 (context as PackagesActivity).initRecyclerView(item.packageItems)
+
+                //Check the 1st item
+                viewHolder.radio_1.isChecked = true
+                if (lastCheckedRB != null) {
+                    lastCheckedRB?.isChecked = false
+                }
+                lastCheckedRB = viewHolder.radio_1
             }
+
+
 
         }
 
