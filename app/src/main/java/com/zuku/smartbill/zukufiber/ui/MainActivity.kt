@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import PackageItems
 import Packages
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -40,9 +41,6 @@ import kotlin.collections.ArrayList
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     private var accounts: MutableList<String> = ArrayList()
-    private val arrayList: Array<String> = arrayOf("10:2,899","20:4,399","60:6,299","100:8,299","200:10,299","500:15,299")
-    private val arrayList2: Array<String> = arrayOf("20:4,899","30:5,399","70:7,299","200:10,299","400:12,299","600:16,299")
-    private val arrayList3: Array<String> = arrayOf("30:5,899","40:6,399","808,299","300:11,299","500:12,299","700:7,299")
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var accNo: String = ""
     lateinit var adapter : PackageAdapter
@@ -98,19 +96,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         chat.setOnClickListener { startActivity(Intent(this, ShiftRequest::class.java)) }
         profile.setOnClickListener { startActivity(Intent(this, Profile::class.java)) }
 
-
-        initRecyclerView(arrayList)
-
-
-
         getSubscriber()
 
 
     }
 
-    private fun initRecyclerView(arrayList:Array<String> ){
+     fun initRecyclerView(packageItems: List<PackageItems>){
         //Packages
-        val adapter = PackagesAdapter(this,arrayList)
+        val adapter = PackagesAdapter(this,packageItems)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
@@ -125,10 +118,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     }
 
-     fun selectedPackageItem(position: Int){
-         Toast.makeText(this,"sjsj",Toast.LENGTH_LONG).show()
-
-    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -257,6 +246,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         lifecycleScope.launch(Dispatchers.IO){
             val response =  api.getPackages("getPackages",subid)
             if(response.success){
+                Const.ConstHolder.INSTANCE.setPackages(response.data.packages)
                 initRecyclerViewRadio(response.data.packages)
 
             }else{

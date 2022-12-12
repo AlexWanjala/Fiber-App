@@ -35,8 +35,15 @@
         android:layout_marginStart="20sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <include
-            layout="@layout/radio_group"/>
+        <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/layout"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:id="@+id/recycler_view_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
     </LinearLayout>
 
 

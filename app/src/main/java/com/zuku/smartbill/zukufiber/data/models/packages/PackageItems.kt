@@ -6,9 +6,9 @@ data class PackageItems (
 
 	@SerializedName("package") val packageName : String,
 	@SerializedName("item") val item : String,
-	@SerializedName("price") val price : Int,
+	@SerializedName("price") val price : String,
 	@SerializedName("currency") val currency : String,
 	@SerializedName("subdb") val subdb : String,
-	@SerializedName("id") val id : Int,
+	@SerializedName("id") val id : String,
 	@SerializedName("des") val des : String
 )

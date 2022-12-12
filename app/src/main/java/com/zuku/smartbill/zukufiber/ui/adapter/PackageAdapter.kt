@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.ui.MainActivity
+import com.zuku.smartbill.zukufiber.ui.PackagesActivity
 
 
 class PackageAdapter(private val context: Context, private val dataSet: List<Packages>) :
@@ -38,6 +39,7 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
     // Create new views (invoked by the layout manager)
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         // Create a new view, which defines the UI of the list item
+
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.radio_group, viewGroup, false)
 
         return ViewHolder(view)
@@ -58,7 +60,11 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
 
 
             if (context is MainActivity) {
-                (context as MainActivity).selectedPackageItem(position)
+                (context as MainActivity).initRecyclerView(item.packageItems)
+            }
+
+            if (context is PackagesActivity) {
+                (context as PackagesActivity).initRecyclerView(item.packageItems)
             }
         }
 
