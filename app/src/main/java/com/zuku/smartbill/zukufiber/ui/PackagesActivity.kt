@@ -10,9 +10,7 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.Const
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
-import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter2
 import kotlinx.android.synthetic.main.activity_packages.*
-import kotlinx.android.synthetic.main.radio_group.*
 
 class PackagesActivity : AppCompatActivity() {
 

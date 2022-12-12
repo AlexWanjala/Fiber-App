@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.RadioButton
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.ui.MainActivity
@@ -47,10 +48,20 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
 
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
-        val item = dataSet[position];
+        val item = dataSet[position]
+
+        //Load the 1st item
+        if(position==0){
+            if (context is MainActivity) {
+                (context as MainActivity).initRecyclerView(item.packageItems)
+            }
+            if (context is PackagesActivity) {
+                (context as PackagesActivity).initRecyclerView(item.packageItems)
+            }
+
+        }
 
         viewHolder.radio_1.text = item.packageName.toString().lowercase().capitalize()
-
         viewHolder.radio_1.setOnClickListener {
             if (lastCheckedRB != null) {
                 lastCheckedRB?.isChecked = false
