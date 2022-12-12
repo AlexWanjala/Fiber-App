@@ -1,21 +1,34 @@
 package com.zuku.smartbill.zukufiber.data.services
 
+import Push
 import com.zuku.smartbill.zukufiber.data.models.response.Json4Kotlin_Base
 
 class Const  private constructor() {
 
     var json4Kotlin_Base: Json4Kotlin_Base? = null
+    private var push: Push? = null
 
     @JvmName("setJson4Kotlin_Base1")
     fun setJson4Kotlin_Base(responseLogin: Json4Kotlin_Base) {
         this.json4Kotlin_Base = responseLogin
     }
 
-
     @JvmName("getResponseLogin1")
     fun getJson4Kotlin_Base(): Json4Kotlin_Base? {
         return this.json4Kotlin_Base
     }
+
+
+    @JvmName("setPushRes")
+    fun setPush(push: Push) {
+        this.push = push
+    }
+
+    @JvmName("getPushRes")
+    fun getPush(): Push? {
+        return this.push
+    }
+
 
     private fun Const() {
         init()
@@ -25,7 +38,7 @@ class Const  private constructor() {
         this.getJson4Kotlin_Base()
     }
 
-    fun getInstance(): Const? {
+    fun getInstance(): Const {
         return ConstHolder.INSTANCE
     }
 

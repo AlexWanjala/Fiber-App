@@ -13,7 +13,8 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-private const val HOST = "https://6a33-154-70-56-156.ap.ngrok.io/apis/fiber-app-api/"
+private const val HOST = "https://07f5-154-70-56-156.ap.ngrok.io/apis/fiber-app-api/"
+
 
 private val client = OkHttpClient.Builder()
     .addInterceptor(HeaderInterceptor())
@@ -34,7 +35,24 @@ val api: API = Retrofit.Builder()
 interface API {
     @FormUrlEncoded
     @POST("index.php")
-    suspend fun getSubscriber(@Field("function") function: String, @Field("phoneNumber") phoneNumber: String): Json4Kotlin_Base
+    suspend fun getSubscriber(@Field("function") function: String,
+                              @Field("phoneNumber") phoneNumber: String): Json4Kotlin_Base
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun sendPrompt(@Field("function") function: String,
+                           @Field("accNo") accNo : String,
+                           @Field("amount") amount: String,
+                           @Field("phoneNumber") phoneNumber: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun checkPayment(@Field("function") function: String,
+                             @Field("accNo") accNo: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun getPackages(@Field("function") function: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
 
 }
 

@@ -47,24 +47,26 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tvAccNo"
             android:textAllCaps="true"
             android:textColor="@color/text_grey"
             android:textSize="12sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/acc_no"
+            tools:text="@string/acc_no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
 
         <TextView
+            android:id="@+id/tvAmount"
             android:layout_marginTop="20sp"
             android:textAllCaps="true"
             android:textColor="@color/black"
             android:textSize="38sp"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="KES 3,200.00"
+            tools:text="KES 3,200.00"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <TextView
@@ -86,6 +88,7 @@
             android:layout_height="142sp">
 
             <TextView
+                android:id="@+id/tvPackage"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -114,30 +117,32 @@
                 android:layout_marginTop="80sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
-                android:text="@string/zuku_tv"
+                android:text="@string/code"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
             <TextView
+                android:id="@+id/tvSPeed"
                 android:textStyle="bold"
                 android:layout_marginEnd="20sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="50sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:text="20 Bmps"
+                tools:text="20 Bmps"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <TextView
+                android:id="@+id/paymentCode"
                 android:textStyle="bold"
                 android:layout_marginEnd="20sp"
                 android:textColor="@color/black"
                 android:layout_marginTop="80sp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                android:text="@string/zuku_tv"
+                tools:text="@string/zuku_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 

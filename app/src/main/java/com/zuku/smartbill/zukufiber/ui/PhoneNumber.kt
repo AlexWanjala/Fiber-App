@@ -7,15 +7,20 @@ import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.Const
+import com.zuku.smartbill.zukufiber.data.services.api
 
 import kotlinx.android.synthetic.main.activity_phone_number.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 
 class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     lateinit var value: String
+    var amount : String =""
+    var accNo : String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,6 +41,8 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         tvPlus.setOnClickListener(this)
 
         value = ""
+        amount =  intent.getStringExtra("amount").toString()
+        accNo =  intent.getStringExtra("accNo").toString()
 
     }
 
@@ -111,9 +118,53 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         if (tv_phone.text.isEmpty()) {
             Toast.makeText(this, "Amount Required", Toast.LENGTH_LONG).show()
         } else {
-            startActivity(Intent(this, TransactionResponse::class.java))
+            sendPrompt(accNo,amount,tv_phone.text.toString() );
         }
 
+    }
+    private fun sendPrompt(accNo: String,amount: String,phoneNumber: String){
+        tv_message.text ="Initiating Payment Prompt.."
+        progress_circular.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO){
+            val result = api.sendPrompt("sendPrompt", accNo,amount, phoneNumber)
+            runOnUiThread {
+                progress_circular.visibility = View.GONE
+                tv_message.text =result.message }
+            if (result.success){
+                checkPayment(accNo)
+            }
+
+        }
+
+    }
+    private fun checkPayment(accNo: String){
+        lifecycleScope.launch(Dispatchers.IO){
+            val result = api.checkPayment("checkPayment",accNo)
+            if(result.success){
+                runOnUiThread { tv_message.text ="Payment received" }
+                Const.ConstHolder.INSTANCE.getInstance().setPush(result.data.push)
+                if(result.data.push.callback_returned=="PAID"){
+                    startActivity(Intent(this@PhoneNumber, TransactionResponse::class.java)
+                        .putExtra("accNo",accNo)
+                        .putExtra("amount",result.data.push.amount)
+                        .putExtra("paymentCode",result.data.push.transaction_code)
+                        .putExtra("speed",intent.getStringExtra("speed"))
+                    )
+                }else if(result.data.push.callback_returned=="PENDING"){
+                    runOnUiThread { tv_message.text ="Waiting for payment.." }
+                    TimeUnit.SECONDS.sleep(2L)
+                    checkPayment(accNo)
+                }else{
+                    runOnUiThread { tv_message.text = result.data.push.message}
+                }
+
+            }else{
+                runOnUiThread { tv_message.text ="Waiting for payment.." }
+                TimeUnit.SECONDS.sleep(2L)
+                checkPayment(accNo)
+            }
+
+        }
     }
 
 

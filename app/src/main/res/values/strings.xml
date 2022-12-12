@@ -81,5 +81,7 @@
     <string name="call">Call</string>
     <string name="info">Info</string>
     <string name="faq">FAQ</string>
+    <string name="waiting">Waiting for payment..</string>
+    <string name="code">Payment Code</string>
 
 </resources>

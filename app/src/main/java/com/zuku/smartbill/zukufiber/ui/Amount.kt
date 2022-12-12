@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.Const
 import kotlinx.android.synthetic.main.activity_amount.*
 
 class Amount : AppCompatActivity(), View.OnClickListener {
@@ -31,6 +32,8 @@ class Amount : AppCompatActivity(), View.OnClickListener {
         btnNext.setOnClickListener(this)
         value =""
 
+        tvAmountDue.text = intent.getStringExtra("amountDue").toString()
+        tvAccNo.text = "Acc No."+ intent.getStringExtra("accNo").toString()
     }
 
     private fun setText(text: String){
@@ -79,7 +82,11 @@ class Amount : AppCompatActivity(), View.OnClickListener {
         if(tv_amount.text.isEmpty()){
             Toast.makeText(this,"Amount Required", Toast.LENGTH_LONG).show()
         }else{
-            startActivity(Intent(this@Amount, PhoneNumber::class.java))
+            startActivity(Intent(this@Amount, PhoneNumber::class.java)
+                .putExtra("amount",tv_amount.text)
+                .putExtra("accNo",intent.getStringExtra("accNo").toString())
+                .putExtra("speed",intent.getStringExtra("speed").toString())
+            )
         }
 
     }

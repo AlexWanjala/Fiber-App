@@ -1,15 +1,21 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.annotation.RequiresApi
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.Const
+
 import kotlinx.android.synthetic.main.activity_transaction_reponse.*
 
 class TransactionResponse : AppCompatActivity() {
-    private val BASE_URL = "https://jsonplaceholder.typicode.com/"
-    private val TAG ="TransactionResponse"
 
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transaction_reponse)
@@ -19,19 +25,14 @@ class TransactionResponse : AppCompatActivity() {
 
         }
 
-     /*   val api = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(MyAPI::class.java)
+        tvAccNo.text = intent.getStringExtra("accNo").toString()
+        tvAmount.text = "KES "+intent.getStringExtra("amount").toString()
+        paymentCode.text = intent.getStringExtra("paymentCode").toString()
+        tvSPeed.text =  intent.getStringExtra("speed").toString()+" MBPS"
 
-        lifecycleScope.launch(Dispatchers.IO) {
-            val response = api.getComments()
-            if(response.isSuccessful){
-                for (comment in response.body()!!){
-                    Log.d(TAG,comment.toString())
-                }
-            }
-        }*/
     }
+
 }
+
+
+
