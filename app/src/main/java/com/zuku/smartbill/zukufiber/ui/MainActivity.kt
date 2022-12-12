@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import Packages
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
@@ -18,8 +19,8 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.Const
 import com.zuku.smartbill.zukufiber.data.services.api
+import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
-import com.zuku.smartbill.zukufiber.ui.landing.OTP
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycler_view
@@ -28,11 +29,10 @@ import kotlinx.android.synthetic.main.radio_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Math.abs
+import java.text.FieldPosition
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.ChronoUnit
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -45,6 +45,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private val arrayList3: Array<String> = arrayOf("30:5,899","40:6,399","808,299","300:11,299","500:12,299","700:7,299")
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var accNo: String = ""
+    lateinit var adapter : PackageAdapter
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,12 +82,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         })
 
         tv_change_plan.setOnClickListener {   toggleBottomSheet() }
-        ll_package.setOnClickListener { startActivity(Intent(this, Packages::class.java)) }
-        ll_package2.setOnClickListener { startActivity(Intent(this, Packages::class.java)) }
-        ll_package3.setOnClickListener { startActivity(Intent(this, Packages::class.java)) }
-        radio_1.isChecked = true
+        ll_package.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
+        ll_package2.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
+        ll_package3.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
 
-        tv_see_all.setOnClickListener { startActivity(Intent(this, Packages::class.java)) }
+
+        tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener { startActivity(Intent(this, Payments::class.java)) }
         image_statement.setOnClickListener { startActivity(Intent(this, Transactions::class.java)) }
         tv_top_up.setOnClickListener { startActivity(Intent(this, Amount::class.java)
@@ -98,23 +100,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
 
         initRecyclerView(arrayList)
-        radio_group.setOnCheckedChangeListener { radioGroup, optionId ->
-            run {
-                when (optionId) {
-                    R.id.radio_1 -> { initRecyclerView(arrayList)
-                    }
-                    R.id.radio_2 -> {
-                        initRecyclerView(arrayList2)
-                    } R.id.radio_3 -> {
-                        initRecyclerView(arrayList3)
-                    }
-                }
-            }
-        }
+
 
 
         getSubscriber()
-        getPackages()
+
 
     }
 
@@ -123,6 +113,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         val adapter = PackagesAdapter(this,arrayList)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+    }
+
+    private fun initRecyclerViewRadio(arrayList: List<Packages>){
+        //Packages
+        runOnUiThread {
+            adapter = PackageAdapter(this,arrayList)
+            recycler_view_radio.adapter = adapter
+            recycler_view_radio.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        }
+
+    }
+
+     fun selectedPackageItem(position: Int){
+         Toast.makeText(this,"sjsj",Toast.LENGTH_LONG).show()
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -252,7 +257,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         lifecycleScope.launch(Dispatchers.IO){
             val response =  api.getPackages("getPackages",subid)
             if(response.success){
-
+                initRecyclerViewRadio(response.data.packages)
 
             }else{
                 Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show()

@@ -8,7 +8,7 @@ import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter2
 import kotlinx.android.synthetic.main.activity_packages.*
 import kotlinx.android.synthetic.main.radio_group.*
 
-class Packages : AppCompatActivity() {
+class PackagesActivity : AppCompatActivity() {
 
     private val arrayList: Array<String> = arrayOf("10:2,899","20:4,399","60:6,299","100:8,299","200:10,299","500:15,299")
     private val arrayList2: Array<String> = arrayOf("20:4,899","30:5,399","70:7,299","200:10,299","400:12,299","600:16,299")
@@ -26,11 +26,11 @@ class Packages : AppCompatActivity() {
                 when (optionId) {
                     R.id.radio_1 -> { initRecyclerView(arrayList)
                     }
-                    R.id.radio_2 -> {
+                  /*  R.id.radio_2 -> {
                         initRecyclerView(arrayList2)
                     } R.id.radio_3 -> {
                     initRecyclerView(arrayList3)
-                }
+                }*/
                 }
             }
         }

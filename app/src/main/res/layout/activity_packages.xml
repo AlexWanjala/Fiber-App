@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/blue_bg"
-    tools:context=".ui.Packages">
+    tools:context=".ui.PackagesActivity">
 
     <FrameLayout
         android:layout_marginTop="70sp"

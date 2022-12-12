@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.data.models.response
 
+
 import Packages
 import Push
 import com.zuku.smartbill.zukufiber.data.models.subscriber.SubDetailsResponse
