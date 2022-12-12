@@ -54,6 +54,12 @@ interface API {
     suspend fun getPackages(@Field("function") function: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
 
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun getSubsTrans(@Field("function") function: String,
+                             @Field("subid") subid: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
+
 }
 
 fun save(context: Context, key: String?, value: String?) {

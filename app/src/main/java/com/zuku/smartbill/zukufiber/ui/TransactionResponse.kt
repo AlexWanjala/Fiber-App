@@ -26,9 +26,9 @@ class TransactionResponse : AppCompatActivity() {
         }
 
         tvAccNo.text = intent.getStringExtra("accNo").toString()
-        tvAmount.text = "KES "+intent.getStringExtra("amount").toString()
+        tvAmount.text = intent.getStringExtra("amount").toString()
         paymentCode.text = intent.getStringExtra("paymentCode").toString()
-        tvSPeed.text =  intent.getStringExtra("speed").toString()+" MBPS"
+        tvSPeed.text =  intent.getStringExtra("speed").toString()
 
     }
 

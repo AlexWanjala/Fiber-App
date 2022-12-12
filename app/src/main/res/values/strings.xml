@@ -83,5 +83,6 @@
     <string name="faq">FAQ</string>
     <string name="waiting">Waiting for payment..</string>
     <string name="code">Payment Code</string>
+    <string name="description">Des</string>
 
 </resources>

@@ -43,6 +43,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var accounts: MutableList<String> = ArrayList()
     private lateinit var bottomSheetBehavior: BottomSheetBehavior<ConstraintLayout>
     private var accNo: String = ""
+    private var subdb: String =""
     lateinit var adapter : PackageAdapter
 
 
@@ -87,7 +88,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener { startActivity(Intent(this, Payments::class.java)) }
-        image_statement.setOnClickListener { startActivity(Intent(this, Transactions::class.java)) }
+        image_statement.setOnClickListener { startActivity(Intent(this, Transactions::class.java)
+            .putExtra("subdb",subdb)
+            .putExtra("subid",accNo)
+        ) }
         tv_top_up.setOnClickListener { startActivity(Intent(this, Amount::class.java)
             .putExtra("amountDue",tvAmountDue.text)
             .putExtra("accNo",accNo)
@@ -185,6 +189,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         try {
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
+                    subdb = item.subdetails.subdb
+                    updatedate.text = item.packageinfo.updatedate
+                    tvName.text = item.subdetails.subname
                     tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
                     tvAmountDue.text = item.packageinfo.dueamt.toString()
                     if(item.packageinfo.billthru == null){

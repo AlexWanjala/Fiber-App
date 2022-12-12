@@ -1,25 +1,49 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.ui.adapter.TransactionAdapter
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.activity_transactions.image_close
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class Transactions : AppCompatActivity() {
 
-    private val arrayList: Array<String> = arrayOf("20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM","20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM","20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM","20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM",
-        "20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM","20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM","20 Jan, 08:47 AMr","20 Jan, 08:47 AM","20 Jan, 08:47 AM")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
         image_close.setOnClickListener { finish() }
 
-        val adapter = TransactionAdapter(this,arrayList)
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = LinearLayoutManager(this)
+
+
+        getSubsTrans(intent.getStringExtra("subid").toString(),intent.getStringExtra("subdb").toString())
+    }
+
+    fun getSubsTrans(subid :String,subdb: String){
+        progress_circular.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO){
+          val result =   api.getSubsTrans("getSubsTrans",subid, subdb)
+            runOnUiThread {  progress_circular.visibility = View.GONE }
+            if(result.success){
+               runOnUiThread {
+                   val adapter = TransactionAdapter(this@Transactions,result.data.substrans)
+                   recycler_view.adapter = adapter
+                   recycler_view.layoutManager = LinearLayoutManager(this@Transactions)
+               }
+
+            }else{
+                runOnUiThread { Toast.makeText(this@Transactions,result.message,Toast.LENGTH_LONG).show()}
+            }
+        }
+
     }
 }
