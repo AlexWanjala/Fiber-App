@@ -12,10 +12,15 @@ import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.ui.MainActivity
 import com.zuku.smartbill.zukufiber.ui.TransactionResponse
 import kotlinx.android.synthetic.main.activity_otp.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 
 class OTP : AppCompatActivity(), View.OnClickListener{
@@ -110,6 +115,8 @@ class OTP : AppCompatActivity(), View.OnClickListener{
 */
       /*  initBroadCast()
         initSmsListener()*/
+
+       // sendSMS()
     }
 
     fun minusOneSecond() {
@@ -207,6 +214,16 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             myClipboard?.clearPrimaryClip()
         }
 
+    }
+    private fun sendSMS(phoneNumber: String, message: String){
+        lifecycleScope.launch(Dispatchers.IO){
+          var result =   api.sendSMS("sendSMS",phoneNumber,message)
+            if(result.success){
+
+            }else{
+                Toast.makeText(this@OTP,result.message,Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
 /*

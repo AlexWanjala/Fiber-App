@@ -35,11 +35,11 @@ class Login : AppCompatActivity() {
        lifecycleScope.launch(Dispatchers.IO) {
 
             try {
-                val response = api.getSubscriber("getSubscriber", "0100844789")
+                val response = api.getSubscriber("getSubscriber", edPhone.text.toString())
                 runOnUiThread {
                     progress_circular.visibility = View.GONE
                     if (response.success) {
-                        startActivity(Intent(this@Login, OTP::class.java))
+                        startActivity(Intent(this@Login, OTP::class.java).putExtra("phoneNumber", edPhone.text.toString()))
                     } else {
                         Toast.makeText(this@Login, response.message, Toast.LENGTH_LONG).show()
                     }
