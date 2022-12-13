@@ -37,6 +37,8 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 import kotlin.collections.ArrayList
 
+//ALex
+
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
