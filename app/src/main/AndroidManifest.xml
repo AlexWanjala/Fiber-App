@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
         android:usesCleartextTraffic="true"
@@ -17,6 +18,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ZukuFiber"
         tools:targetApi="31">
+
+
+        <receiver android:name=".data.services.SMSReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".ui.Login"
             android:exported="true">

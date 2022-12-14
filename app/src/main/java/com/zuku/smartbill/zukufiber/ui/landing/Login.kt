@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
+import com.zuku.smartbill.zukufiber.data.services.save
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
@@ -16,7 +17,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 class Login : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -39,6 +39,7 @@ class Login : AppCompatActivity() {
                 runOnUiThread {
                     progress_circular.visibility = View.GONE
                     if (response.success) {
+                        save(this@Login,"phoneNumber",edPhone.text.toString())
                         startActivity(Intent(this@Login, OTP::class.java).putExtra("phoneNumber", edPhone.text.toString()))
                     } else {
                         Toast.makeText(this@Login, response.message, Toast.LENGTH_LONG).show()

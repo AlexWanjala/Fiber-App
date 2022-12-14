@@ -1,32 +1,42 @@
 package com.zuku.smartbill.zukufiber.ui.landing
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.lifecycle.Lifecycle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.AppSignatureHashHelper
+import com.zuku.smartbill.zukufiber.data.services.SMSReceiver
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.ui.MainActivity
-import com.zuku.smartbill.zukufiber.ui.TransactionResponse
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 
 class OTP : AppCompatActivity(), View.OnClickListener{
 
+
+
     lateinit var code: String
     lateinit var mainHandler: Handler
+    var verificationCode: String =""
+
+    private var intentFilter: IntentFilter? = null
+    private var smsReceiver: SMSReceiver? = null
 
     private val updateTextTask = object : Runnable {
         override fun run() {
@@ -39,6 +49,7 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     private var myClipboard: ClipboardManager? = null
     private var myClip: ClipData? = null
 
+    @SuppressLint("SetTextI18n")
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -106,18 +117,34 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         code =""
         mainHandler = Handler(Looper.getMainLooper())
 
-      /*  Handler(Looper.getMainLooper()).postDelayed(
-            {
-                setText(getValue(this@OTP,"verificationCode").toString())
-            },
-            3000 // value in milliseconds
-        )
-*/
-      /*  initBroadCast()
-        initSmsListener()*/
+        initBroadCast()
+        initSmsListener()
 
-       // sendSMS()
+        verificationCode = generateNumber(4).toString()
+        tv_phone.text ="Enter the OTP sent to "+ intent.getStringExtra("phoneNumber").toString()
+
+        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)  }
+        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)
     }
+
+    private fun generateNumber(length: Int): Int {
+        var result = ""
+        var random: Int
+        while (true) {
+            random = (Math.random() * 10).toInt()
+            if (result.length == 0 && random == 0) { //when parsed this insures that the number doesn't start with 0
+                random += 1
+                result += random
+            } else if (!result.contains(Integer.toString(random))) { //if my result doesn't contain the new generated digit then I add it to the result
+                result += Integer.toString(random)
+            }
+            if (result.length >= length) { //when i reach the number of digits desired i break out of the loop and return the final result
+                break
+            }
+        }
+        return result.toInt()
+    }
+
 
     fun minusOneSecond() {
         if (secondsLeft > 0 ){
@@ -125,18 +152,17 @@ class OTP : AppCompatActivity(), View.OnClickListener{
                 mainHandler.removeCallbacks(updateTextTask)
             }else{
                 secondsLeft -= 1
-
+                tvTimer.text = secondsLeft.toString()
             }
 
         }
     }
     private fun validate(){
-        startActivity(Intent(this,MainActivity::class.java))
-      /*  if(getValue(this,"verificationCode").equals(code)){
+        if(verificationCode.equals(code)){
             startActivity(Intent(this,MainActivity::class.java))
         }else{
             Toast.makeText(this,"Invalid", Toast.LENGTH_LONG).show()
-        }*/
+        }
 
     }
     private fun setText(text: String){
@@ -201,6 +227,7 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     override fun onPause() {
         super.onPause()
         mainHandler.removeCallbacks(updateTextTask)
+        unregisterReceiver(smsReceiver)
     }
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
@@ -213,24 +240,21 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             updateEditText()
             myClipboard?.clearPrimaryClip()
         }
+        registerReceiver(smsReceiver, intentFilter)
 
     }
     private fun sendSMS(phoneNumber: String, message: String){
         lifecycleScope.launch(Dispatchers.IO){
-          var result =   api.sendSMS("sendSMS",phoneNumber,message)
-            if(result.success){
+           val hashCode = "hashCode" to  AppSignatureHashHelper(this@OTP).appSignatures[0]
+            Log.d("hashCode",AppSignatureHashHelper(this@OTP).appSignatures[0])
+           api.sendSMS("sendSMS",phoneNumber,hashCode.toString(),message)
 
-            }else{
-                Toast.makeText(this@OTP,result.message,Toast.LENGTH_LONG).show()
-            }
         }
     }
 
-/*
-    //SMS Reader
-    private var intentFilter: IntentFilter? = null
-    private var smsReceiver: SMSReceiver? = null
 
+    //SMS Reader
+    //SMS Reader
     private fun showToast(msg: String?) {
         Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
     }
@@ -249,6 +273,6 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             }
         })
     }
-*/
+
 
 }

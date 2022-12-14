@@ -20,6 +20,7 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.Const
 import com.zuku.smartbill.zukufiber.data.services.api
+import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import kotlinx.android.synthetic.main.activity_login.*
@@ -149,7 +150,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         lifecycleScope.launch(Dispatchers.IO) {
 
-            val response = api.getSubscriber("getSubscriber","0722387708")
+            val response = api.getSubscriber("getSubscriber", getValue(this@MainActivity,"phoneNumber").toString())
             runOnUiThread {
                 if(response.success){
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)

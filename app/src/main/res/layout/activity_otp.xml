@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/tv_phone"
             android:layout_marginTop="20sp"
             android:layout_gravity="center"
             android:textColor="@color/text_grey"
@@ -194,6 +195,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvResend"
                 android:layout_marginStart="5sp"
                 android:textSize="13sp"
                 android:textColor="@color/text_color"
@@ -215,6 +217,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <TextView
+                android:id="@+id/tvTimer"
                 android:layout_marginStart="5sp"
                 android:textSize="13sp"
                 android:textColor="@color/black"

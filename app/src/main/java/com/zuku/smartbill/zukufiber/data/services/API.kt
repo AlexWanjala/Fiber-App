@@ -13,7 +13,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-private const val HOST = "https://07f5-154-70-56-156.ap.ngrok.io/apis/fiber-app-api/"
+private const val HOST = "https://1347-41-212-42-41.eu.ngrok.io/apis/fiber-app-api/"
 
 
 private val client = OkHttpClient.Builder()
@@ -64,6 +64,7 @@ interface API {
     @POST("index.php")
     suspend fun sendSMS(@Field("function") function: String,
                              @Field("phoneNumber") phoneNumber: String,
+                             @Field("hashCode") hashCode: String,
                              @Field("message") message: String): Json4Kotlin_Base
 
 }
