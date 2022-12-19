@@ -21,6 +21,7 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.Const
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
+import com.zuku.smartbill.zukufiber.data.services.save
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import kotlinx.android.synthetic.main.activity_login.*
@@ -100,7 +101,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             .putExtra("accNo",accNo)
             .putExtra("speed",  tvSPeed.text)
         ) }
-        chat.setOnClickListener { startActivity(Intent(this, ShiftRequest::class.java)) }
+        chat.setOnClickListener {
+            save(this,"address","")
+            startActivity(Intent(this, ShiftRequest::class.java))
+        }
         profile.setOnClickListener { startActivity(Intent(this, Profile::class.java)) }
 
         getSubscriber()
@@ -150,7 +154,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         lifecycleScope.launch(Dispatchers.IO) {
 
-            val response = api.getSubscriber("getSubscriber", getValue(this@MainActivity,"phoneNumber").toString())
+            val response = api.getSubscriber("getSubscriber","0992083275" /*getValue(this@MainActivity,"phoneNumber").toString()*/)
             runOnUiThread {
                 if(response.success){
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
@@ -193,6 +197,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
                     subdb = item.subdetails.subdb
+                    save(this,"subName",item.subdetails.subname)
+                    save(this,"subapt",item.subdetails.subapt)
+                    save(this,"subid",item.subdetails.subid.toString())
                     updatedate.text = item.packageinfo.updatedate
                     tvName.text = item.subdetails.subname
                     tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()

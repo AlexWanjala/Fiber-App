@@ -16,6 +16,7 @@
     <color name="text_grey">#9C9C9C</color>
     <color name="green_zuku">#67BA04</color>
     <color name="blue_zuku">#0493C2</color>
+    <color name="blue_zuku_trans">#DA0493C2</color>
     <color name="grey">#22686767</color>
     <color name="label_color">#202426</color>
     <color name="blue_shade">#E0F4F8</color>

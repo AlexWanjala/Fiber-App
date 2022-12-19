@@ -2,10 +2,16 @@ package com.zuku.smartbill.zukufiber.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -22,6 +28,11 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.zuku.smartbill.zukufiber.R
+import android.provider.Settings
+import com.zuku.smartbill.zukufiber.data.services.save
+import kotlinx.android.synthetic.main.activity_shifting_map.*
+import java.io.IOException
+import java.util.*
 
 
 class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
@@ -33,26 +44,89 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
 
     var markerOptions = MarkerOptions()
 
+    private lateinit var locationManager: LocationManager
+    var gpsStatus = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shifting_map)
 
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
+
+        tv_submit.setOnClickListener { finish() }
+
+        getLocationPermission()
+        getDeviceLocation()
+
+
+
+
+    }
+
+    private fun getAddress(){
+        val lat = mMap.cameraPosition.target.latitude
+        val lng = mMap.cameraPosition.target.longitude
+        // Initializing Geocoder
+        val mGeocoder = Geocoder(applicationContext, Locale.getDefault())
+        var addressString= ""
+
+        // Reverse-Geocoding starts
+        try {
+            val addressList: List<Address> = mGeocoder.getFromLocation(lat,lng, 1)!!
+
+            // use your lat, long value here
+            if (addressList.isNotEmpty()) {
+                val address = addressList[0]
+                val sb = StringBuilder()
+                for (i in 0 until address.maxAddressLineIndex) {
+                    sb.append(address.getAddressLine(i)).append("\n")
+                }
+
+                // Various Parameters of an Address are appended
+                // to generate a complete Address
+                if (address.premises != null)
+                    sb.append(address.premises).append(", ")
+
+                sb.append(address.subAdminArea).append("\n")
+                sb.append(address.locality).append(", ")
+                sb.append(address.adminArea).append(", ")
+                sb.append(address.countryName).append(", ")
+                sb.append(address.featureName)
+
+                // StringBuilder sb is converted into a string
+                // and this value is assigned to the
+                // initially declared addressString string.
+                addressString = sb.toString()
+                runOnUiThread {  tvAddress.text = addressString.replace("null","") }
+                save(this,"address",tvAddress.text.toString())
+                save(this,"latLng","${lat}, $lng")
+                Log.d("###",tvAddress.text.toString())
+            }
+        } catch (e: IOException) {
+            Toast.makeText(applicationContext,"Unable connect to Geocoder",Toast.LENGTH_LONG).show()
+        }
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        mMap.setOnCameraIdleListener { OnCameraIdleListener {
-            val centerLatLang = mMap.projection.visibleRegion.latLngBounds.center
-
-            Log.d("##", "lat{$centerLatLang.longitude} long{$centerLatLang.longitude}")
-        } }
+        mMap.setOnCameraIdleListener {
+            val coords = mMap.cameraPosition.target
+          //Toast.makeText(this,"djjd",Toast.LENGTH_LONG).show()
+            getAddress()
+            tv_submit.visibility = View.VISIBLE
+            toolbar.visibility = View.VISIBLE
+        }
+        mMap.setOnCameraMoveListener {
+            tv_submit.visibility = View.GONE
+            toolbar.visibility = View.GONE
+        }
 
     }
     private fun getLocationPermission() {
 
-        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION), 1)
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
     }
 
     @SuppressLint("MissingPermission")
@@ -70,7 +144,7 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
                             println("## lastKnownLocation lat{$lastKnownLocation.longitude} long{$lastKnownLocation.longitude}")
                             updateMap(LatLng(lastKnownLocation.latitude, lastKnownLocation.longitude))
                         }else{
-                            println("## lastKnownLocation null ")
+                            println("## lastKnownLocation is null check GPS ")
                         }
                     } else {
                         println("## Current location is null. Using defaults."+ task.exception)
@@ -137,6 +211,22 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
 
         // updateLocationUI()
 
+    }
+    private fun checkGpsStatus() {
+        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        if (!gpsStatus) {
+            Toast.makeText(this,"Enable GPS location",Toast.LENGTH_LONG).show()
+            gpsStatus()
+        }else{
+            getLocationPermission()
+        }
+    }
+    private fun gpsStatus() {
+        startActivity(Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+    }
+    override fun onResume() {
+        super.onResume()
     }
 
 }

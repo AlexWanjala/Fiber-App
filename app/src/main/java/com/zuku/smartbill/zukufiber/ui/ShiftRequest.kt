@@ -5,11 +5,19 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.api
+import com.zuku.smartbill.zukufiber.data.services.getValue
 import kotlinx.android.synthetic.main.activity_package_details.*
 import kotlinx.android.synthetic.main.activity_shift_request.*
 import kotlinx.android.synthetic.main.activity_shift_request.image_close
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -41,6 +49,37 @@ class ShiftRequest : AppCompatActivity() {
                 cal.get(Calendar.MONTH),
                 cal.get(Calendar.DAY_OF_MONTH)).show()
         }
+        tv_submit.setOnClickListener {
+            if(ed_date.text.equals("") ||  select_map.text.equals("") || edDes.text.equals("")){
+                Toast.makeText(this,"Make sure you select date,Shifting Address and Additional Information",Toast.LENGTH_LONG).show()
+            }else{
+                shiftRequest()
+            }
+        }
+    }
+
+    private fun shiftRequest(){
+        progress_circular.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO){
+           val result =  api.shiftRequest("shiftRequest",
+               getValue(this@ShiftRequest,"subName").toString(),
+               ed_date.text.toString(),
+                getValue(this@ShiftRequest,"address").toString(),
+                getValue(this@ShiftRequest,"latLng").toString(),
+                edDes.text.toString(),
+               getValue(this@ShiftRequest,"subapt").toString(),
+               getValue(this@ShiftRequest,"phoneNumber").toString(),
+               getValue(this@ShiftRequest,"subid").toString()
+           )
+            runOnUiThread {
+                progress_circular.visibility = View.GONE
+                Toast.makeText(this@ShiftRequest,result.message,Toast.LENGTH_LONG).show() }
+
+            if(result.success){
+                finish()
+            }
+        }
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -49,5 +88,13 @@ class ShiftRequest : AppCompatActivity() {
         val myFormat = "dd MMMM yyyy" // mention the format you need
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         ed_date.setText(sdf.format(cal.time))
+    }
+
+    override fun onResume() {
+        if (!getValue(this,"address").equals("")){
+            select_map.setText(getValue(this,"address").toString())
+        }
+
+        super.onResume()
     }
 }

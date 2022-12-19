@@ -11,7 +11,7 @@
     <string name="time_">Until 23 No</string>
     <string name="mbps">MBPS</string>
     <string name="day">Days</string>
-    <string name="desc">60 Local &amp; int. TV Channels</string>
+    <string name="desc">Prepaid SIP Bundle 1,ASIA PREMIUM SALES PROMO ,GPON DUO CLASSIC 20</string>
     <string name="change_plan">Change Plan</string>
     <string name="zuku_fiber_plans">Zuku Fiber Plans</string>
     <string name="see_all">See All</string>
@@ -84,5 +84,10 @@
     <string name="waiting">Waiting for payment..</string>
     <string name="code">Payment Code</string>
     <string name="description">Des</string>
+    <string name="address_des">Drag the pin to the shifting location</string>
+    <string name="submit">Submit</string>
+    <string name="shifting_location">Shifting address</string>
+    <string name="additional">Additional information</string>
+    <string name="select_date">Select Date</string>
 
 </resources>

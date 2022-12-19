@@ -13,7 +13,8 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-private const val HOST = "https://1347-41-212-42-41.eu.ngrok.io/apis/fiber-app-api/"
+private const val HOST = "https://a3d9-41-212-42-41.ap.ngrok.io/apis/fiber-app-api/"
+//Alex Wanjala
 
 
 private val client = OkHttpClient.Builder()
@@ -66,6 +67,17 @@ interface API {
                              @Field("phoneNumber") phoneNumber: String,
                              @Field("hashCode") hashCode: String,
                              @Field("message") message: String): Json4Kotlin_Base
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun shiftRequest(@Field("function") function: String,
+                             @Field("fromName") fromName: String,
+                             @Field("date") date: String,
+                             @Field("address") address: String,
+                             @Field("latLng") latLng: String,
+                             @Field("description") description: String,
+                             @Field("fromAddress") fromAddress: String,
+                             @Field("phoneNumber") phoneNumber: String,
+                             @Field("accNo") accNo: String): Json4Kotlin_Base
 
 }
 
