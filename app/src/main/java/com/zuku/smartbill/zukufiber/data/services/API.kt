@@ -13,7 +13,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
-private const val HOST = "https://a3d9-41-212-42-41.ap.ngrok.io/apis/fiber-app-api/"
+private const val HOST = "https://fiberapp.zuku.co.ke/"
 //Alex Wanjala
 
 

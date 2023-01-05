@@ -20,6 +20,7 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.AppSignatureHashHelper
 import com.zuku.smartbill.zukufiber.data.services.SMSReceiver
 import com.zuku.smartbill.zukufiber.data.services.api
+import com.zuku.smartbill.zukufiber.data.services.save
 import com.zuku.smartbill.zukufiber.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.coroutines.Dispatchers
@@ -160,6 +161,8 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     private fun validate(){
         if(verificationCode.equals(code)){
             startActivity(Intent(this,MainActivity::class.java))
+            save(this,"login","true")
+            finishAffinity()
         }else{
             Toast.makeText(this,"Invalid", Toast.LENGTH_LONG).show()
         }

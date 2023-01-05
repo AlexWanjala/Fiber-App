@@ -154,7 +154,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         lifecycleScope.launch(Dispatchers.IO) {
 
-            val response = api.getSubscriber("getSubscriber","0992083275" /*getValue(this@MainActivity,"phoneNumber").toString()*/)
+            val response = api.getSubscriber("getSubscriber", getValue(this@MainActivity,"phoneNumber").toString())
             runOnUiThread {
                 if(response.success){
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
