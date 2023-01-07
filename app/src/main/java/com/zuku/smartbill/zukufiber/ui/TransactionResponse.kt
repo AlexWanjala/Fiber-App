@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.Const
@@ -21,7 +22,8 @@ class TransactionResponse : AppCompatActivity() {
         setContentView(R.layout.activity_transaction_reponse)
         close.setOnClickListener { finish() }
         btn_download.setOnClickListener {
-            startActivity(Intent(this,PDFViewer::class.java))
+            Toast.makeText(this,"coming soon", Toast.LENGTH_LONG).show()
+          //  startActivity(Intent(this,PDFViewer::class.java))
 
         }
 

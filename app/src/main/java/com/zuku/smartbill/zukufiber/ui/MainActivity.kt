@@ -105,7 +105,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             save(this,"address","")
             startActivity(Intent(this, ShiftRequest::class.java))
         }
-        profile.setOnClickListener { startActivity(Intent(this, Profile::class.java)) }
+        profile.setOnClickListener {
+            Toast.makeText(this,"coming soon",Toast.LENGTH_LONG).show()
+           // startActivity(Intent(this, Profile::class.java))
+        }
 
         getSubscriber()
 
@@ -197,6 +200,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
                     subdb = item.subdetails.subdb
+                    save(this,"subdb",subdb)
                     save(this,"subName",item.subdetails.subname)
                     save(this,"subapt",item.subdetails.subapt)
                     save(this,"subid",item.subdetails.subid.toString())

@@ -61,6 +61,7 @@ class ShiftRequest : AppCompatActivity() {
     private fun shiftRequest(){
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
+
            val result =  api.shiftRequest("shiftRequest",
                getValue(this@ShiftRequest,"subName").toString(),
                ed_date.text.toString(),
@@ -69,7 +70,8 @@ class ShiftRequest : AppCompatActivity() {
                 edDes.text.toString(),
                getValue(this@ShiftRequest,"subapt").toString(),
                getValue(this@ShiftRequest,"phoneNumber").toString(),
-               getValue(this@ShiftRequest,"subid").toString()
+               getValue(this@ShiftRequest,"subid").toString(),
+               getValue(this@ShiftRequest,"subdb").toString()
            )
             runOnUiThread {
                 progress_circular.visibility = View.GONE

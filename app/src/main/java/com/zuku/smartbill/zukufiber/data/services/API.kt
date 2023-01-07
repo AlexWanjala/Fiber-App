@@ -57,6 +57,11 @@ interface API {
 
     @FormUrlEncoded
     @POST("index.php")
+    suspend fun getInfo(@Field("function") function: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
     suspend fun getSubsTrans(@Field("function") function: String,
                              @Field("subid") subid: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
@@ -77,7 +82,9 @@ interface API {
                              @Field("description") description: String,
                              @Field("fromAddress") fromAddress: String,
                              @Field("phoneNumber") phoneNumber: String,
-                             @Field("accNo") accNo: String): Json4Kotlin_Base
+                             @Field("accNo") accNo: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
+
 
 }
 

@@ -11,13 +11,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 
 For support, please feel free to contact me at https://www.linkedin.com/in/syedabsar */
 
-
 data class Appinfo (
 
-	@SerializedName("id") val id : Int,
+	@SerializedName("id") val id : String,
 	@SerializedName("whatsapp") val whatsapp : String,
 	@SerializedName("phone") val phone : String,
-	@SerializedName("info") val info : Int,
-	@SerializedName("fax") val fax : String,
+	@SerializedName("info") val info : String,
+	@SerializedName("faq") val faq : String,
 	@SerializedName("subdb") val subdb : String
 )
