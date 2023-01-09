@@ -14,7 +14,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 private const val HOST = "https://fiberapp.zuku.co.ke/"
-//Alex Wanjala
+//Kama
 
 
 private val client = OkHttpClient.Builder()
