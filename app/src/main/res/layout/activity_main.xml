@@ -191,10 +191,10 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="@string/top_Up_balance"
+            android:text="@string/payments"
             android:layout_width="120sp"
             android:layout_height="wrap_content"
-            app:drawableStartCompat="@drawable/plus" />
+           />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

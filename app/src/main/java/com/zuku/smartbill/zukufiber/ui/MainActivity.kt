@@ -84,35 +84,47 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
         })
 
-        tv_change_plan.setOnClickListener {   startActivity(Intent(this, PackagesActivity::class.java)) }
+        tv_change_plan.setOnClickListener {
+            startActivity(Intent(this, PackagesActivity::class.java))
+        }
         ll_package.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         ll_package2.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         ll_package3.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
 
 
         tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
-        tv_pay.setOnClickListener { startActivity(Intent(this, Payments::class.java)) }
-        image_statement.setOnClickListener { startActivity(Intent(this, Transactions::class.java)
+        tv_pay.setOnClickListener {
+
+            if (subdb.contentEquals("ZukuFiberKe")|| subdb.contentEquals("ZukuSatKe")){
+                stkPayments()
+            }else{
+                if(getValue(this,"subdb")?.contains("ke") == true){
+
+                }else{
+                    startActivity(Intent(this, Payments::class.java))
+                }
+            }
+
+        }
+        image_statement.setOnClickListener {
+            startActivity(Intent(this, Transactions::class.java)
             .putExtra("subdb",subdb)
             .putExtra("subid",accNo)
         ) }
-        tv_top_up.setOnClickListener { startActivity(Intent(this, Amount::class.java)
-            .putExtra("amountDue",tvAmountDue.text)
-            .putExtra("accNo",accNo)
-            .putExtra("speed",  tvSPeed.text)
-        ) }
+
+        tv_top_up.setOnClickListener {
+
+            startActivity(Intent(this, Payments::class.java))
+        }
         chat.setOnClickListener {
             save(this,"address","")
             startActivity(Intent(this, ShiftRequest::class.java))
         }
         profile.setOnClickListener {
             Toast.makeText(this,"coming soon",Toast.LENGTH_LONG).show()
-           // startActivity(Intent(this, Profile::class.java))
+           //startActivity(Intent(this, Profile::class.java))
         }
-
         getSubscriber()
-
-
     }
 
      fun initRecyclerView(packageItems: List<PackageItems>){
@@ -130,6 +142,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             recycler_view_radio.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         }
 
+    }
+
+    fun stkPayments(){
+        startActivity(Intent(this, Amount::class.java)
+            .putExtra("amountDue",tvAmountDue.text)
+            .putExtra("accNo",accNo)
+            .putExtra("speed",  tvSPeed.text))
     }
 
 
@@ -216,6 +235,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                     tvUntil.text = "Until "+ item.packageinfo.billthru
                     tvDes.text = item.packageinfo.lastpack
+                    save(this,"currentPackage",item.packageinfo.lastpack)
                     var speed = item.packageinfo.lastpack.filter { it.isDigit() }
                     if(speed.length > 3){
                         speed = speed.drop(1);

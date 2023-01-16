@@ -111,8 +111,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_circular2"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
 
         <TextView
+            android:id="@+id/tvPackage"
             android:background="@drawable/indicator_state_blue_background"
             android:clickable="true"
             android:focusable="true"
@@ -120,7 +128,7 @@
             android:textColor="@color/white"
             android:textSize="16sp"
             android:layout_gravity="center"
-            android:text="@string/select_package"
+            android:text="@string/submit"
             android:gravity="center"
             android:layout_width="300sp"
             android:layout_height="48sp"/>

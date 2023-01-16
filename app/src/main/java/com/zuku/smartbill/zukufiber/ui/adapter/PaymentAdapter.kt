@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui.adapter
 
+import PaymentData
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.Color
@@ -13,7 +14,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
 
 
-class PaymentAdapter(private val context: Context, private val dataSet: Array<String>) :
+
+class PaymentAdapter(private val context: Context, private val dataSet:  List<PaymentData>) :
         RecyclerView.Adapter<PaymentAdapter.ViewHolder>() {
 
     /**
@@ -49,7 +51,7 @@ class PaymentAdapter(private val context: Context, private val dataSet: Array<St
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.tvView.text = dataSet[position]
+        viewHolder.tvView.text = dataSet[position].paymentsoptions.options
         viewHolder.tvView.setOnClickListener {
             if(viewHolder.listLayout.visibility==View.VISIBLE){
                 viewHolder.listLayout.visibility = View.GONE
@@ -62,16 +64,14 @@ class PaymentAdapter(private val context: Context, private val dataSet: Array<St
                 viewHolder.tvView.setBackgroundColor(Color.parseColor("#D3DBDE"))
                 viewHolder.layout.setBackgroundColor(Color.parseColor("#D3DBDE"))
             }
-
-
         }
 
         // use array-adapter and define an array
         val arrayAdapter: ArrayAdapter<*>
-        val array = arrayOf(
-            "Mpesa 320320 Acc No xxxx",
-            "Airtel (Pay your Zuku Bill Via Airtel money using the business Name ZUKUCATV )")
-
+        val array = arrayListOf<String>()
+        for (data in dataSet[position].paymentoptionsdata){
+            array.add(data.option)
+        }
         // access the listView from xml file
         arrayAdapter = ArrayAdapter(context , R.layout.list_item_view, array)
         viewHolder.listView.adapter = arrayAdapter

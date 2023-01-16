@@ -89,5 +89,6 @@
     <string name="shifting_location">Shifting address</string>
     <string name="additional">Additional information</string>
     <string name="select_date">Select Date</string>
+    <string name="payments">Payments Options</string>
 
 </resources>

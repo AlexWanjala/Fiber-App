@@ -14,7 +14,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 
 private const val HOST = "https://fiberapp.zuku.co.ke/"
-//Kama
+//Kiambu
 
 
 private val client = OkHttpClient.Builder()
@@ -72,6 +72,20 @@ interface API {
                              @Field("phoneNumber") phoneNumber: String,
                              @Field("hashCode") hashCode: String,
                              @Field("message") message: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun changePlanRequest(@Field("function") function: String,
+                             @Field("title") title : String,
+                             @Field("date") date: String,
+                             @Field("description") description: String,
+                             @Field("amount") amount: String,
+                             @Field("subid") subid: String,
+                             @Field("subdb") subdb: String,
+                             @Field("subName") subName: String,
+                             @Field("phoneNumber") phoneNumber: String,
+                             @Field("currentPackage") currentPackage: String): Json4Kotlin_Base
+
     @FormUrlEncoded
     @POST("index.php")
     suspend fun shiftRequest(@Field("function") function: String,
@@ -83,6 +97,11 @@ interface API {
                              @Field("fromAddress") fromAddress: String,
                              @Field("phoneNumber") phoneNumber: String,
                              @Field("accNo") accNo: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun paymentsoptions(@Field("function") function: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
 
 

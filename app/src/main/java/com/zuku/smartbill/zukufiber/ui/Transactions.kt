@@ -31,7 +31,7 @@ class Transactions : AppCompatActivity() {
     fun getSubsTrans(subid :String,subdb: String){
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
-          val result =   api.getSubsTrans("getSubsTrans",subid, subdb)
+          val result = api.getSubsTrans("getSubsTrans",subid, subdb)
             runOnUiThread {  progress_circular.visibility = View.GONE }
             if(result.success){
                runOnUiThread {

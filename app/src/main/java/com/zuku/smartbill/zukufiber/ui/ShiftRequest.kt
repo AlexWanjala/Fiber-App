@@ -59,7 +59,7 @@ class ShiftRequest : AppCompatActivity() {
     }
 
     private fun shiftRequest(){
-        progress_circular.visibility = View.VISIBLE
+      progress_circular2.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
 
            val result =  api.shiftRequest("shiftRequest",
@@ -74,7 +74,7 @@ class ShiftRequest : AppCompatActivity() {
                getValue(this@ShiftRequest,"subdb").toString()
            )
             runOnUiThread {
-                progress_circular.visibility = View.GONE
+                progress_circular2.visibility = View.GONE
                 Toast.makeText(this@ShiftRequest,result.message,Toast.LENGTH_LONG).show() }
 
             if(result.success){
