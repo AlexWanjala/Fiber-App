@@ -2,6 +2,8 @@ package com.zuku.smartbill.zukufiber.data.services
 
 
 import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.yfbx.demo.net.HeaderInterceptor
 import com.yfbx.demo.net.LoggerInterceptor
 import com.zuku.smartbill.zukufiber.BuildConfig
@@ -12,12 +14,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
+import java.time.Duration
 
 private const val HOST = "https://fiberapp.zuku.co.ke/"
 //Kiambu
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 private val client = OkHttpClient.Builder()
+    .connectTimeout(Duration.ofSeconds(30))
+    .readTimeout(Duration.ofSeconds(30))
+    .writeTimeout(Duration.ofSeconds(30))
     .addInterceptor(HeaderInterceptor())
     .apply {
         if (BuildConfig.DEBUG) {
