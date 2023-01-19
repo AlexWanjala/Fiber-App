@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
@@ -25,6 +26,7 @@ class Login : AppCompatActivity() {
     }
 
     fun Activity.openWebPage(url: String?) = url?.let {
+
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
         if (intent.resolveActivity(packageManager) != null) startActivity(intent)
     }
@@ -59,8 +61,15 @@ class Login : AppCompatActivity() {
                         dialIntent.data = Uri.parse("tel:" + result.data.appinfo.phone)
                         startActivity(dialIntent)
                     }
-                    info.setOnClickListener { openWebPage(result.data.appinfo.info) }
-                    faq.setOnClickListener { openWebPage(result.data.appinfo.faq) }
+                    info.setOnClickListener {
+
+                        openWebPage(result.data.appinfo.info)
+
+                    }
+                    faq.setOnClickListener {
+                        Toast.makeText(this@Login,"hhss",Toast.LENGTH_LONG).show()
+                      //  openWebPage(result.data.appinfo.faq)
+                    }
                 }
 
             }else{

@@ -16,7 +16,7 @@
         android:layout_marginTop="20dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="wrap_content">
 
         <TextView
@@ -113,7 +113,7 @@
         android:textSize="9dp"
         tools:text="KK"
         android:layout_width="wrap_content"
-        android:layout_height="36sp"/>
+        android:layout_height="wrap_content"/>
 
 
     <androidx.constraintlayout.widget.ConstraintLayout

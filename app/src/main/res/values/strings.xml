@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Zuku Fiber</string>
+    <string name="app_name">Zuku</string>
     <string name="acc">ACC.</string>
     <string name="loyalty_points">Loyalty Points</string>
     <string name="last_payment">Last Payment</string>
