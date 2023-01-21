@@ -2,10 +2,17 @@ package com.zuku.smartbill.zukufiber.ui
 
 import PackageItems
 import Packages
+import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
@@ -14,30 +21,30 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.Const
-import com.zuku.smartbill.zukufiber.data.services.api
-import com.zuku.smartbill.zukufiber.data.services.getValue
-import com.zuku.smartbill.zukufiber.data.services.save
+import com.zuku.smartbill.zukufiber.data.services.*
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
+import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycler_view
+import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
 import kotlinx.android.synthetic.main.radio_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Math.abs
-import java.text.FieldPosition
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-import kotlin.collections.ArrayList
+
 
 //ALex boey
 
@@ -49,6 +56,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var accNo: String = ""
     private var subdb: String =""
     lateinit var adapter : PackageAdapter
+
+    fun ussdToCallableUri(ussd: String): Uri? {
+        var uriString: String? = ""
+        if (!ussd.startsWith("tel:")) uriString += "tel:"
+        for (c in ussd.toCharArray()) {
+            if (c == '#') uriString += Uri.encode("#") else uriString += c
+        }
+        return Uri.parse(uriString)
+    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -85,25 +101,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         })
 
         tv_change_plan.setOnClickListener {
-            startActivity(Intent(this, PackagesActivity::class.java))
+            startActivity(Intent(this@MainActivity, PackagesActivity::class.java))
         }
-        ll_package.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
-        ll_package2.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
-        ll_package3.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
-
 
         tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener {
-
-            if (subdb.contentEquals("ZukuFiberKe")|| subdb.contentEquals("ZukuSatKe")){
-                stkPayments()
-            }else{
-                if(getValue(this,"subdb")?.contains("ke") == true){
-
-                }else{
-                    startActivity(Intent(this, Payments::class.java))
-                }
-            }
+            toggleBottomSheet()
 
         }
         image_statement.setOnClickListener {
@@ -122,9 +125,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
         profile.setOnClickListener {
             Toast.makeText(this,"coming soon",Toast.LENGTH_LONG).show()
-           //startActivity(Intent(this, Profile::class.java))
+        //startActivity(Intent(this, Profile::class.java))
         }
-        getSubscriber()
+        if(isOnline(this)){
+            getSubscriber()
+        }else{
+            Toast.makeText(this,"You are offline",Toast.LENGTH_LONG).show()
+        }
+
     }
 
      fun initRecyclerView(packageItems: List<PackageItems>){
@@ -144,13 +152,47 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     }
 
-    fun stkPayments(){
+     fun stkPayments(){
         startActivity(Intent(this, Amount::class.java)
             .putExtra("amountDue",tvAmountDue.text)
             .putExtra("accNo",accNo)
             .putExtra("speed",  tvSPeed.text))
     }
 
+    private fun requestOverlayPermission() {
+        val permission = ContextCompat.checkSelfPermission(this,
+            Manifest.permission.SYSTEM_ALERT_WINDOW)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+           // Log.i(TAG, "Permission to record denied")
+        }
+    }
+
+
+
+    private fun getpaymentmethods (){
+       lifecycleScope.launch(Dispatchers.IO){
+
+           val result = api.getpaymentmethods("getpaymentmethods", getValue(this@MainActivity,"subdb").toString())
+           if(result.success){
+               runOnUiThread {
+                   val adapter = PaymentMethodsAdapter(this@MainActivity,result.data.paymethods)
+                   recycler_view2.adapter = adapter
+                   recycler_view2.layoutManager = LinearLayoutManager(this@MainActivity)
+               }
+
+           }else{
+               runOnUiThread { Toast.makeText(this@MainActivity,result.message,Toast.LENGTH_LONG).show()}
+           }
+
+       }
+
+    }
+
+    override fun onResume() {
+        requestOverlayPermission()
+        super.onResume()
+    }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -167,6 +209,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
+                getpaymentmethods()
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
@@ -295,5 +338,27 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }
 
         }
+    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun isOnline(context: Context): Boolean {
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (connectivityManager != null) {
+            val capabilities =
+                connectivityManager.getNetworkCapabilities(connectivityManager.activeNetwork)
+            if (capabilities != null) {
+                if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_CELLULAR")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_WIFI")
+                    return true
+                } else if (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    Log.i("Internet", "NetworkCapabilities.TRANSPORT_ETHERNET")
+                    return true
+                }
+            }
+        }
+        return false
     }
 }

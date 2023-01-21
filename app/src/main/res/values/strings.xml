@@ -90,5 +90,6 @@
     <string name="additional">Additional information</string>
     <string name="select_date">Select Date</string>
     <string name="payments">Payments Options</string>
+    <string name="select_payment">Select Payment</string>
 
 </resources>

@@ -1,7 +1,11 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
+import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -29,7 +33,16 @@ class ShiftRequest : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shift_request)
 
-        select_map.setOnClickListener { startActivity(Intent(this,ShiftingMap::class.java)) }
+        select_map.setOnClickListener {
+
+            val manager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+            if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                checkGPSEnable()
+            }else{
+                startActivity(Intent(this,ShiftingMap::class.java))
+            }
+
+        }
 
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -56,6 +69,22 @@ class ShiftRequest : AppCompatActivity() {
                 shiftRequest()
             }
         }
+    }
+
+    private fun checkGPSEnable() {
+        val dialogBuilder = AlertDialog.Builder(this)
+        dialogBuilder.setMessage("Your GPS seems to be disabled, do you want to enable it?")
+            .setCancelable(false)
+            .setPositiveButton("Yes", DialogInterface.OnClickListener { dialog, id
+                ->
+                startActivity(Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS))
+                finish()
+            })
+            .setNegativeButton("No", DialogInterface.OnClickListener { dialog, id ->
+                dialog.cancel()
+            })
+        val alert = dialogBuilder.create()
+        alert.show()
     }
 
     private fun shiftRequest(){

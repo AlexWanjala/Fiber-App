@@ -1,7 +1,10 @@
 package com.zuku.smartbill.zukufiber.data.services
 
 
+import android.content.ActivityNotFoundException
+import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.yfbx.demo.net.HeaderInterceptor
@@ -15,6 +18,7 @@ import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
 import java.time.Duration
+
 
 private const val HOST = "https://fiberapp.zuku.co.ke/"
 //Kiambu
@@ -66,6 +70,11 @@ interface API {
     @POST("index.php")
     suspend fun getInfo(@Field("function") function: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun getpaymentmethods(@Field("function") function: String,
+                                  @Field("subdb") subdb: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")
@@ -125,5 +134,61 @@ fun getValue(context: Context, key: String?): String? {
     val prefs = context.getSharedPreferences("com.zuku.startbill.zukufiber", Context.MODE_PRIVATE)
     return prefs.getString(key, "")
 }
+
+fun launchSTK(activity: Context) {
+
+   // activity.startService(Intent(activity, FloatingWindow2::class.java))
+    val intent = activity.packageManager.getLaunchIntentForPackage("com.android.stk")
+    if (intent == null) {
+        try {
+            val intent1 = Intent()
+            intent1.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent1.addCategory("android.intent.category.LAUNCHER")
+            intent1.action = "android.intent.action.MAIN"
+            intent1.type = "text/plain"
+            intent1.component =
+                ComponentName("com.android.stk", "com.android.stk.StkLauncherActivity")
+            activity.startActivity(intent1)
+            return
+        } catch (activitynotfoundexception: ActivityNotFoundException) {
+        }
+    } else if (intent == null) {
+        try {
+            val intent2 = Intent()
+            intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            intent2.addCategory("android.intent.category.LAUNCHER")
+            intent2.action = "android.intent.action.MAIN"
+            intent2.type = "text/plain"
+            intent2.component = ComponentName("com.android.stk", "com.android.stk.StkMain")
+            activity.startActivity(intent2)
+            return
+        } catch (activitynotfoundexception1: ActivityNotFoundException) {
+        }
+    } else if (intent == null) {
+        val intent3 = Intent()
+        intent3.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent3.addCategory("android.intent.category.LAUNCHER")
+        intent3.action = "android.intent.action.MAIN"
+        intent3.type = "text/plain"
+        intent3.component = ComponentName("com.android.stk", "com.android.stk.StkLauncherActivity")
+        activity.startActivity(intent3)
+    } else if (intent == null) {
+        val intent4 = Intent()
+        intent4.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent4.addCategory("android.intent.category.LAUNCHER")
+        intent4.action = "android.intent.action.MAIN"
+        intent4.type = "text/plain"
+        intent4.component = ComponentName("com.android.stk", "com.android.stk.StkMain")
+        activity.startActivity(intent4)
+    } else if (intent == null) {
+        val launchIntent5 =
+            activity.packageManager.getLaunchIntentForPackage("com.mediatek.StkSelection")
+        activity.startActivity(launchIntent5)
+    } else {
+        activity.startActivity(intent)
+    }
+    return
+}
+
 
 

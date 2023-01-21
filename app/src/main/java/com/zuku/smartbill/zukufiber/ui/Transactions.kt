@@ -28,11 +28,11 @@ class Transactions : AppCompatActivity() {
         getSubsTrans(intent.getStringExtra("subid").toString(),intent.getStringExtra("subdb").toString())
     }
 
-    fun getSubsTrans(subid :String,subdb: String){
+    private fun getSubsTrans(subid :String, subdb: String){
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
           val result = api.getSubsTrans("getSubsTrans",subid, subdb)
-            runOnUiThread {  progress_circular.visibility = View.GONE }
+            runOnUiThread { progress_circular.visibility = View.GONE }
             if(result.success){
                runOnUiThread {
                    val adapter = TransactionAdapter(this@Transactions,result.data.substrans)
