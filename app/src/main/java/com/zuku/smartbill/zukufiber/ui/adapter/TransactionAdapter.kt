@@ -50,8 +50,6 @@ class TransactionAdapter(private val context: Context, private val dataSet:  Lis
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         var list = dataSet[position]
-
-
         viewHolder.tvPhone.text = list.subid.toString()
         viewHolder.tv_payment_type.text = list.descrip
         viewHolder.tv_amount.text = list.amt

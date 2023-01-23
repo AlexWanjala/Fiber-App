@@ -28,11 +28,8 @@ class Payments : AppCompatActivity() {
 
     fun paymentsoptions(){
         lifecycleScope.launch(Dispatchers.IO){
-
             val result = api.paymentsoptions("paymentsoptions", getValue(this@Payments,"subdb").toString())
-
             if(result.success){
-
              runOnUiThread {
                  val adapter = PaymentAdapter(this@Payments,result.data.paymentData)
                  recycler_view.adapter = adapter

@@ -12,6 +12,7 @@ import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -57,14 +58,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var subdb: String =""
     lateinit var adapter : PackageAdapter
 
-    fun ussdToCallableUri(ussd: String): Uri? {
-        var uriString: String? = ""
-        if (!ussd.startsWith("tel:")) uriString += "tel:"
-        for (c in ussd.toCharArray()) {
-            if (c == '#') uriString += Uri.encode("#") else uriString += c
-        }
-        return Uri.parse(uriString)
-    }
 
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -106,7 +99,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener {
-            toggleBottomSheet()
+
+            if (android.os.Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
+                startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")),1)
+                Toast.makeText(this,"Please Allow",Toast.LENGTH_LONG).show()
+                return@setOnClickListener;
+            }else{
+                toggleBottomSheet()
+            }
+
 
         }
         image_statement.setOnClickListener {
@@ -117,15 +118,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         tv_top_up.setOnClickListener {
 
-            startActivity(Intent(this, Payments::class.java))
+            if (android.os.Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
+                startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")),1)
+                Toast.makeText(this,"Please Allow",Toast.LENGTH_LONG).show()
+                return@setOnClickListener;
+            }else{
+                startActivity(Intent(this, Payments::class.java))
+            }
+
+
         }
         chat.setOnClickListener {
             save(this,"address","")
             startActivity(Intent(this, ShiftRequest::class.java))
         }
         profile.setOnClickListener {
-            Toast.makeText(this,"coming soon",Toast.LENGTH_LONG).show()
-        //startActivity(Intent(this, Profile::class.java))
+           // Toast.makeText(this,"coming soon",Toast.LENGTH_LONG).show()
+            startActivity(Intent(this, Profile::class.java))
         }
         if(isOnline(this)){
             getSubscriber()
@@ -133,6 +142,23 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             Toast.makeText(this,"You are offline",Toast.LENGTH_LONG).show()
         }
 
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun requestPermission() {
+        val intent = Intent(
+            Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+            Uri.parse("package:$packageName")
+        )
+        try {
+          //  startActivityForResult(intent, PERMISSION_REQUEST_CODE)
+        } catch (e: Exception) {
+         /*   showDialog(
+                getString(R.string.permission_error_title),
+                getString(R.string.permission_error_text)
+            )*/
+        }
     }
 
      fun initRecyclerView(packageItems: List<PackageItems>){

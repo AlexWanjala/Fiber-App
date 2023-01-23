@@ -18,5 +18,7 @@ data class Appinfo (
 	@SerializedName("phone") val phone : String,
 	@SerializedName("info") val info : String,
 	@SerializedName("faq") val faq : String,
-	@SerializedName("subdb") val subdb : String
+	@SerializedName("subdb") val subdb : String,
+	@SerializedName("facebook") val facebook : String,
+	@SerializedName("twitter") val twitter : String
 )

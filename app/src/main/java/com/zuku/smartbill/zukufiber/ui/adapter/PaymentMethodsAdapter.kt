@@ -9,6 +9,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,37 +71,36 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
                     (context as MainActivity).stkPayments()
 
                 }
-            }else if (dataSet[position].method=="SIMTOOLKIT"){
+            }
+            else if (dataSet[position].method=="SIMTOOLKIT"){
 
                 launchSTK(context)
 
-            }else if (dataSet[position].method=="PAYMENTS"){
+            }
+            else if (dataSet[position].method=="PAYMENTS"){
 
                 context.startActivity(Intent(context, Payments::class.java))
 
-            }else if (dataSet[position].method=="DIAL"){
+            }
+            else if (dataSet[position].method=="DIAL"){
 
                 val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
 
                 if (permission != PackageManager.PERMISSION_GRANTED) {
-                    // Log.i(TAG, "Permission to record denied")
-                    Toast.makeText(context,"Permission to record denied",Toast.LENGTH_LONG).show()
-
                     requestPermissions(context as Activity, arrayOf(Manifest.permission.CALL_PHONE), 1)
 
                 }else{
 
-                    val callIntent = Intent(Intent.ACTION_CALL,   (context as MainActivity).ussdToCallableUri(dataSet[position].dial))
-                    context.startActivity(callIntent)
-                    /*val ussd = "*544*2" + Uri.encode("#")
+                    val string =dataSet[position].dial
+                    val ussd = string.replace("#",Uri.encode("#"))
                     val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: $ussd"))
-                    startActivity(intent)*/
+                    context.startActivity(intent)
                 }
 
-            }else{
+            }
+            else{
                 Toast.makeText(context, dataSet[position].method+"Not available",Toast.LENGTH_LONG).show()
             }
-
 
         }
     }

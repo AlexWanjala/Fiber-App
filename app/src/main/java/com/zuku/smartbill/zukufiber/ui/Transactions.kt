@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui
 
+import android.annotation.SuppressLint
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -28,6 +29,7 @@ class Transactions : AppCompatActivity() {
         getSubsTrans(intent.getStringExtra("subid").toString(),intent.getStringExtra("subdb").toString())
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private fun getSubsTrans(subid :String, subdb: String){
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){

@@ -91,5 +91,7 @@
     <string name="select_date">Select Date</string>
     <string name="payments">Payments Options</string>
     <string name="select_payment">Select Payment</string>
+    <string name="twitter">Twitter</string>
+    <string name="facebook">Facebook</string>
 
 </resources>

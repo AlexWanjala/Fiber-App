@@ -137,7 +137,9 @@ fun getValue(context: Context, key: String?): String? {
 
 fun launchSTK(activity: Context) {
 
-   // activity.startService(Intent(activity, FloatingWindow2::class.java))
+    //Remember to allow overlay permission
+    activity.startService(Intent(activity, FloatingWindow::class.java))
+
     val intent = activity.packageManager.getLaunchIntentForPackage("com.android.stk")
     if (intent == null) {
         try {

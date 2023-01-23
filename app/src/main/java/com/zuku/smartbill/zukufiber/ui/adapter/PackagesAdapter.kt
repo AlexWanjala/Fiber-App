@@ -87,7 +87,6 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
                     .putExtra("price",list.price)
                     .putExtra("des",list.des)
                     .putExtra("currency",list.currency)
-
                 )
             }
         }

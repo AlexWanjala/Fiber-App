@@ -1,18 +1,27 @@
 package com.zuku.smartbill.zukufiber.ui.adapter
 
 import PaymentData
+import android.Manifest
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
 import android.content.res.Resources
 import android.graphics.Color
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import androidx.core.view.get
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
-
+import com.zuku.smartbill.zukufiber.data.services.launchSTK
+import com.zuku.smartbill.zukufiber.ui.MainActivity
 
 
 class PaymentAdapter(private val context: Context, private val dataSet:  List<PaymentData>) :
@@ -76,6 +85,34 @@ class PaymentAdapter(private val context: Context, private val dataSet:  List<Pa
         arrayAdapter = ArrayAdapter(context , R.layout.list_item_view, array)
         viewHolder.listView.adapter = arrayAdapter
         viewHolder.listView.divider = null;
+        viewHolder.listView.setOnItemClickListener { parent, view, index, id ->
+
+            if(dataSet[position].paymentoptionsdata[index].method=="STK"){
+                if (context is MainActivity) {
+                    (context as MainActivity).stkPayments()
+                }
+            }
+            else if (dataSet[position].paymentoptionsdata[index].method=="SIMTOOLKIT"){
+
+                launchSTK(context)
+
+            } else if (dataSet[position].paymentoptionsdata[index].method=="DIAL"){
+
+                //Check permission
+                val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
+                if (permission != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(context as Activity, arrayOf(Manifest.permission.CALL_PHONE), 1)
+                }else{
+                    //Dial
+                val string =dataSet[position].paymentoptionsdata[index].dial
+                val ussd = string.replace("#", Uri.encode("#"))
+                val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: $ussd"))
+                context.startActivity(intent)
+
+                }
+            }
+
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)

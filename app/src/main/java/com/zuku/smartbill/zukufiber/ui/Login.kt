@@ -31,11 +31,7 @@ class Login : AppCompatActivity() {
 
     }
 
-    fun Activity.openWebPage(url: String?) = url?.let {
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-        if (intent.resolveActivity(packageManager) != null) startActivity(intent)
-    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun isOnline(context: Context): Boolean {
@@ -65,7 +61,7 @@ class Login : AppCompatActivity() {
         if(getValue(this,"login").equals("true")){
             register.visibility = View.GONE
             if(isOnline(this)){
-                getInfo()
+               // getInfo()
             }else{
                 Toast.makeText(this,"You are offline",Toast.LENGTH_LONG).show()
             }
@@ -76,47 +72,5 @@ class Login : AppCompatActivity() {
             finish()
         }
         super.onResume()
-    }
-
-    private fun getInfo(){
-        lifecycleScope.launch(Dispatchers.IO){
-
-            val result =  api.getInfo("getInfo", getValue(this@Login,"subdb").toString())
-
-            if(result.success){
-                runOnUiThread {
-                    whatsapp.setOnClickListener {
-                        val url = "https://api.whatsapp.com/send?phone="+result.data.appinfo.whatsapp
-                        val i = Intent(Intent.ACTION_VIEW)
-                        i.data = Uri.parse(url)
-                        startActivity(i)
-                    }
-                    call.setOnClickListener {
-                        val dialIntent = Intent(Intent.ACTION_DIAL)
-                        dialIntent.data = Uri.parse("tel:" + result.data.appinfo.phone)
-                        startActivity(dialIntent)
-                    }
-                    info.setOnClickListener {
-
-                        openWebPage(result.data.appinfo.info)
-
-                    }
-                    faq.setOnClickListener {
-                        Toast.makeText(this@Login,"hhss",Toast.LENGTH_LONG).show()
-                      //  openWebPage(result.data.appinfo.faq)
-                    }
-                }
-
-            }else{
-                runOnUiThread {
-                    whatsapp.visibility = View.GONE
-                    call.visibility = View.GONE
-                    info.visibility = View.GONE
-                    faq.visibility = View.GONE
-                }
-            }
-
-        }
-
     }
 }

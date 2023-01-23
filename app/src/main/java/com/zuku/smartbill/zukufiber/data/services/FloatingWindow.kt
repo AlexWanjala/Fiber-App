@@ -44,17 +44,18 @@ class FloatingWindow : Service() {
         ll!!.layoutParams = layoutParameteres
         ll!!.orientation = LinearLayout.VERTICAL
 
-        val LAYOUT_FLAG: Int
+
+     /*   val LAYOUT_FLAG: Int
         LAYOUT_FLAG = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
         } else {
             WindowManager.LayoutParams.TYPE_PHONE
-        }
+        }*/
 
         val parameters = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
-            WindowManager.LayoutParams.TYPE_APPLICATION_PANEL,
+            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                     WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
             PixelFormat.TRANSLUCENT
         )
