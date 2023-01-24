@@ -21,6 +21,7 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     lateinit var value: String
     var amount : String =""
     var accNo : String =""
+    var paybill : String =""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,6 +44,7 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         value = ""
         amount =  intent.getStringExtra("amount").toString()
         accNo =  intent.getStringExtra("accNo").toString()
+        paybill = intent.getStringExtra("desc").toString().split(":")[1]
 
     }
 
@@ -118,15 +120,15 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
         if (tv_phone.text.isEmpty()) {
             Toast.makeText(this, "Amount Required", Toast.LENGTH_LONG).show()
         } else {
-            sendPrompt(accNo,amount,tv_phone.text.toString() );
+            sendPrompt(accNo,amount,tv_phone.text.toString(),paybill.toString());
         }
 
     }
-    private fun sendPrompt(accNo: String,amount: String,phoneNumber: String){
+    private fun sendPrompt(accNo: String,amount: String,phoneNumber: String, paybill: String){
         tv_message.text ="Initiating Payment Prompt.."
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
-            val result = api.sendPrompt("sendPrompt", accNo,amount, phoneNumber)
+            val result = api.sendPrompt("sendPrompt", accNo,amount, phoneNumber,paybill)
             runOnUiThread {
                 progress_circular.visibility = View.GONE
                 tv_message.text =result.message }

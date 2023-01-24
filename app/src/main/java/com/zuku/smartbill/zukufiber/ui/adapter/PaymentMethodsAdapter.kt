@@ -26,7 +26,6 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
      */
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvPaymentMethod: TextView
-        val tvDes: TextView
         val layoutPaymentMethod: LinearLayoutCompat
 
 
@@ -34,7 +33,7 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
             // Define click listener for the ViewHolder's View.
             tvPaymentMethod = view.findViewById(R.id.tvPaymentMethod)
             layoutPaymentMethod = view.findViewById(R.id.layoutPaymentMethod)
-            tvDes = view.findViewById(R.id.tvDes)
+
         }
     }
 

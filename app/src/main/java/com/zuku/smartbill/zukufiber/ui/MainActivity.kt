@@ -181,12 +181,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     }
 
-     fun stkPayments(){
+     fun stkPayments(desc: String){
+
         startActivity(Intent(this, Amount::class.java)
             .putExtra("amountDue",tvAmountDue.text)
             .putExtra("accNo",accNo)
-            .putExtra("speed",  tvSPeed.text))
-    }
+            .putExtra("speed",  tvSPeed.text)
+            .putExtra("desc",  desc))
+
+     }
 
     private fun requestOverlayPermission() {
         val permission = ContextCompat.checkSelfPermission(this,

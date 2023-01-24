@@ -54,7 +54,8 @@ interface API {
     suspend fun sendPrompt(@Field("function") function: String,
                            @Field("accNo") accNo : String,
                            @Field("amount") amount: String,
-                           @Field("phoneNumber") phoneNumber: String): Json4Kotlin_Base
+                           @Field("phoneNumber") phoneNumber: String,
+                           @Field("paybill") paybill: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")

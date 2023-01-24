@@ -22,38 +22,16 @@
               android:src="@drawable/internet_only"
               android:layout_width="47sp"
               android:layout_height="47sp"/>
-
-         <androidx.appcompat.widget.LinearLayoutCompat
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
-
-             <TextView
-                 android:id="@+id/tvPaymentMethod"
-                 android:textColor="@color/text_color_black"
-                 android:textAllCaps="true"
-                 android:layout_marginStart="10sp"
-                 android:textSize="14sp"
-                 android:text="@string/internet_only_package"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"/>
-
-             <TextView
-                 android:id="@+id/tvDes"
-                 android:textColor="@color/text_color"
-                 android:layout_marginTop="1sp"
-                 android:textSize="10sp"
-                 android:layout_marginStart="10sp"
-                 android:text="Fiber Business Name:ZUKUCATV, Fiber Phone Business Name: ZUKUVOICE"
-                 android:layout_width="wrap_content"
-                 android:layout_height="wrap_content"/>
-
-
-
-         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
-
+         <TextView
+             android:layout_gravity="center"
+             android:id="@+id/tvPaymentMethod"
+             android:textColor="@color/text_color_black"
+             android:textAllCaps="true"
+             android:layout_marginStart="10sp"
+             android:textSize="14sp"
+             android:text="@string/internet_only_package"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"/>
 
 
 

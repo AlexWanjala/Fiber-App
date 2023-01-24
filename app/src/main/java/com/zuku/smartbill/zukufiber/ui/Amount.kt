@@ -32,6 +32,7 @@ class Amount : AppCompatActivity(), View.OnClickListener {
         btnNext.setOnClickListener(this)
         value =""
 
+        tvDescription.text = intent.getStringExtra("desc").toString()
         tvAmountDue.text = intent.getStringExtra("amountDue").toString()
         tvAccNo.text = "Acc No."+ intent.getStringExtra("accNo").toString()
     }
@@ -86,6 +87,7 @@ class Amount : AppCompatActivity(), View.OnClickListener {
                 .putExtra("amount",tv_amount.text)
                 .putExtra("accNo",intent.getStringExtra("accNo").toString())
                 .putExtra("speed",intent.getStringExtra("speed").toString())
+                .putExtra("desc",intent.getStringExtra("desc").toString())
             )
         }
 

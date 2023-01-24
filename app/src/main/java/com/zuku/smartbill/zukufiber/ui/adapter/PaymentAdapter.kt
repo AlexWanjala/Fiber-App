@@ -89,7 +89,7 @@ class PaymentAdapter(private val context: Context, private val dataSet:  List<Pa
 
             if(dataSet[position].paymentoptionsdata[index].method=="STK"){
                 if (context is MainActivity) {
-                    (context as MainActivity).stkPayments()
+                    (context as MainActivity).stkPayments(dataSet[position].paymentoptionsdata[index].option)
                 }
             }
             else if (dataSet[position].paymentoptionsdata[index].method=="SIMTOOLKIT"){

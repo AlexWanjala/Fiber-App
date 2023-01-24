@@ -13,6 +13,9 @@ import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
+import com.zuku.smartbill.zukufiber.data.services.launchSTK
+import com.zuku.smartbill.zukufiber.data.services.save
+import com.zuku.smartbill.zukufiber.ui.MainActivity
 import com.zuku.smartbill.zukufiber.ui.PaymentsActivity
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
 
@@ -48,8 +51,25 @@ class SubPaymentMethodsAdapter(private val context: Context, private val dataSet
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.tvItem.text = dataSet[position].payment
+        if(dataSet[position].payment.contains("FIBER"))
+        viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_speed, 0, 0, 0)
+        if(dataSet[position].payment.contains("PHONE"))
+            viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone_iphone, 0, 0, 0)
 
-        viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.stat_notify_more, 0, 0, 0);
+        viewHolder.tvItem.setOnClickListener {
+            if(dataSet[position].method=="STK"){
+
+                if (context is MainActivity) {
+                (context as MainActivity).stkPayments(dataSet[position].desc)
+                }
+           }else if (dataSet[position].method=="SIMTOOLKIT"){
+                 save(context,"paybill",dataSet[position].desc.split(":")[1])
+                //paybill: String, accNo: String
+                launchSTK(context)
+            }
+        }
+
+
 
     }
 

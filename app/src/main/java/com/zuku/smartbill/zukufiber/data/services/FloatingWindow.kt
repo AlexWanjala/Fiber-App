@@ -9,13 +9,16 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
 import android.view.*
 import android.view.View.OnTouchListener
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.view.marginStart
 
 
 class FloatingWindow : Service() {
@@ -44,14 +47,6 @@ class FloatingWindow : Service() {
         ll!!.layoutParams = layoutParameteres
         ll!!.orientation = LinearLayout.VERTICAL
 
-
-     /*   val LAYOUT_FLAG: Int
-        LAYOUT_FLAG = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
-        } else {
-            WindowManager.LayoutParams.TYPE_PHONE
-        }*/
-
         val parameters = WindowManager.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -62,34 +57,66 @@ class FloatingWindow : Service() {
         parameters.gravity = Gravity.TOP or Gravity.END
         parameters.x = 0
         parameters.y = 0
+
         val stop = Button(application)
         stop.setBackgroundColor(Color.TRANSPARENT)
-        val textView = TextView(application)
-        stop.text = "Done"
+        stop.text = "Close"
         stop.setTextColor(Color.parseColor("#183b32"))
-        textView.text = "Business No: KUKUKU"
+        stop.setOnClickListener {
+            wm!!.removeView(ll)
+            stopSelf()
+            //System.exit(0);
+        }
+
+
+        val textView0 = TextView(application)
+        textView0.text = "Tap to copy paste"
+        textView0.textSize = 11f
+        textView0.setTextColor(Color.RED)
+
+        val textView = TextView(application)
+        textView.text = "Business No: "+ getValue(this,"paybill").toString()
         textView.textSize = 18f
         textView.setTextColor(Color.BLACK)
+        textView.setOnClickListener {
+            val clipboard2 = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip2 =ClipData.newPlainText("BUZ: ", getValue(this,"paybill").toString())
+            clipboard2.setPrimaryClip(clip2)
 
-        //Copying and pasting
-        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("Business No: ", "88896")
-        val clip2 = ClipData.newPlainText("Account No: ", "HAHAHAHA")
+        }
 
-        // Set the clipboard's primary clip.
-        clipboard.setPrimaryClip(clip2)
+        val textView2 = TextView(application)
+        textView2.text = "AccNo: "+ getValue(this,"subid").toString();
+        textView2.textSize = 18f
+        textView2.setTextColor(Color.BLACK)
+        textView2.setOnClickListener {
+
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip =ClipData.newPlainText("Account No: ", getValue(this,"subid").toString())
+            clipboard.setPrimaryClip(clip)
+
+        }
+
+
         val btnParameters = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        stop.layoutParams = btnParameters
+
         val txtParameters = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
+        stop.layoutParams = btnParameters
+        textView0.layoutParams = txtParameters
         textView.layoutParams = txtParameters
+        textView2.layoutParams = txtParameters
+
+
         ll!!.addView(stop)
+        ll!!.addView(textView0)
         ll!!.addView(textView)
+        ll!!.addView(textView2)
         wm!!.addView(ll, parameters)
         ll!!.setOnTouchListener(object : OnTouchListener {
             var updatedParameters = parameters
@@ -115,13 +142,8 @@ class FloatingWindow : Service() {
                 return false
             }
         })
-        stop.setOnClickListener {
-            wm!!.removeView(ll)
-            stopSelf()
-            //System.exit(0);
-        }
-    }
 
+    }
     override fun onDestroy() {
         super.onDestroy()
         stopSelf()
