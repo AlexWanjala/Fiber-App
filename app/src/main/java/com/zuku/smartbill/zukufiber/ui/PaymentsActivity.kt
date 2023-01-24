@@ -13,7 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 
-class Payments : AppCompatActivity() {
+class PaymentsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,12 +28,12 @@ class Payments : AppCompatActivity() {
 
     fun paymentsoptions(){
         lifecycleScope.launch(Dispatchers.IO){
-            val result = api.paymentsoptions("paymentsoptions", getValue(this@Payments,"subdb").toString())
+            val result = api.paymentsoptions("paymentsoptions", getValue(this@PaymentsActivity,"subdb").toString())
             if(result.success){
              runOnUiThread {
-                 val adapter = PaymentAdapter(this@Payments,result.data.paymentData)
+                 val adapter = PaymentAdapter(this@PaymentsActivity,result.data.paymentData)
                  recycler_view.adapter = adapter
-                 recycler_view.layoutManager = LinearLayoutManager(this@Payments) }
+                 recycler_view.layoutManager = LinearLayoutManager(this@PaymentsActivity) }
 
             }else{
 

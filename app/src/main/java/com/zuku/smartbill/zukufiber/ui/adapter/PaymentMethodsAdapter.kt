@@ -1,30 +1,20 @@
 package com.zuku.smartbill.zukufiber.ui.adapter
 
-import PaymentData
+import Payments
 import Paymethods
-import android.Manifest
-import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.content.res.Resources
-import android.graphics.Color
-import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import android.widget.AdapterView.OnItemClickListener
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityCompat.requestPermissions
-import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.launchSTK
-import com.zuku.smartbill.zukufiber.ui.MainActivity
-import com.zuku.smartbill.zukufiber.ui.PackagesActivity
-import com.zuku.smartbill.zukufiber.ui.Payments
+import com.zuku.smartbill.zukufiber.ui.PaymentsActivity
+import kotlinx.android.synthetic.main.bottom_sheet_plans.*
 
 
 class PaymentMethodsAdapter(private val context: Context, private val dataSet:  List<Paymethods>) :
@@ -62,15 +52,28 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.tvPaymentMethod.text = dataSet[position].payment
-        viewHolder.tvDes.text = dataSet[position].desc
+        viewHolder.tvPaymentMethod.text = dataSet[position].paymentCategory.payment
+      //  viewHolder.tvDes.text = dataSet[position].desc
         viewHolder.layoutPaymentMethod.setOnClickListener {
 
-            if(dataSet[position].method=="STK"){
-                if (context is MainActivity) {
-                    (context as MainActivity).stkPayments()
+            if(dataSet[position].payments.size>1){
+
+                showDialog(context,dataSet[position].payments)
+
+            }else{
+                if (dataSet[position].payments[0].method=="PAYMENTS"){
+
+                    context.startActivity(Intent(context, PaymentsActivity::class.java))
 
                 }
+            }
+
+         /*   if(dataSet[position].method=="STK"){
+                showDialog(context)
+               *//* if (context is MainActivity) {
+                    (context as MainActivity).stkPayments()
+
+                }*//*
             }
             else if (dataSet[position].method=="SIMTOOLKIT"){
 
@@ -101,11 +104,35 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
             else{
                 Toast.makeText(context, dataSet[position].method+"Not available",Toast.LENGTH_LONG).show()
             }
-
+*/
         }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
     override fun getItemCount() = dataSet.size
+
+    private fun showDialog(activity: Context, payments : List<Payments>) {
+
+        val dialog = Dialog(activity)
+        // dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false)
+        dialog.setContentView(R.layout.dialog_layout)
+
+
+        var recyclerView2: RecyclerView? = null
+        recyclerView2 = dialog.findViewById(R.id.recyclerView2)
+
+      var tvCancel: TextView? = null
+        tvCancel = dialog.findViewById(R.id.tvCancel)
+        tvCancel.setOnClickListener {  dialog.dismiss() }
+
+        val adapter = SubPaymentMethodsAdapter(context,payments)
+        recyclerView2?.adapter = adapter
+        recyclerView2?.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+
+        dialog.show()
+
+    }
+
 
 }

@@ -22,7 +22,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,6 +36,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycler_view
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
+import kotlinx.android.synthetic.main.bottom_sheet_plans.recycler_view2
+import kotlinx.android.synthetic.main.dialog_layout.*
 import kotlinx.android.synthetic.main.radio_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var accNo: String = ""
     private var subdb: String =""
     lateinit var adapter : PackageAdapter
+
 
 
 
@@ -100,6 +102,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener {
 
+
             if (android.os.Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
                 startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")),1)
                 Toast.makeText(this,"Please Allow",Toast.LENGTH_LONG).show()
@@ -123,7 +126,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                 Toast.makeText(this,"Please Allow",Toast.LENGTH_LONG).show()
                 return@setOnClickListener;
             }else{
-                startActivity(Intent(this, Payments::class.java))
+                startActivity(Intent(this, PaymentsActivity::class.java))
             }
 
 

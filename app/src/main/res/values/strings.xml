@@ -93,5 +93,7 @@
     <string name="select_payment">Select Payment</string>
     <string name="twitter">Twitter</string>
     <string name="facebook">Facebook</string>
+    <string name="cancel">Cancel</string>
+    <string name="select">Select the payment option for your preferred service</string>
 
 </resources>

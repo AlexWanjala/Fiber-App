@@ -124,7 +124,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".ui.Payments"
+            android:name=".ui.PaymentsActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
