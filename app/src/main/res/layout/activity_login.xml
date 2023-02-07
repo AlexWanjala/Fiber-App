@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,22 +19,19 @@
         android:layout_height="wrap_content"/>
 
     <ImageView
+        android:layout_gravity="center"
         android:layout_marginStart="20sp"
         android:layout_marginTop="50sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:src="@drawable/logo"
         android:layout_width="104sp"
         android:layout_height="46sp"/>
 
     <LinearLayout
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
         android:orientation="vertical"
-        android:layout_width="350sp"
-        android:layout_height="408sp">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_gravity="center"
@@ -51,6 +50,9 @@
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:gravity="center"
+            android:layout_marginEnd="30sp"
+            android:layout_marginStart="30sp"
             android:layout_marginTop="20sp"
             android:layout_gravity="center"
             android:textColor="@color/text_grey"
@@ -60,6 +62,9 @@
 
 
         <EditText
+            android:layout_marginEnd="30sp"
+            android:layout_marginStart="30sp"
+            android:padding="10sp"
             android:id="@+id/edPhone"
             android:inputType="phone"
             android:layout_gravity="center"
@@ -69,34 +74,33 @@
             android:hint="@string/phone_number"
             android:layout_marginTop="70sp"
             android:background="@color/grey"
-            android:layout_width="320sp"
-            android:layout_height="57sp"/>
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+        <TextView
+            android:layout_marginTop="30dp"
+            android:padding="10dp"
+            android:drawableEnd="@drawable/long_right_arrow"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textCursorDrawable="@drawable/long_right_arrow"
+            android:id="@+id/tv_get_otp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="@drawable/indicator_state_blue_background"
+            android:textColor="@drawable/indicator_state_color_button"
+            android:layout_marginEnd="30sp"
+            android:layout_marginStart="30sp"
+            android:textSize="12sp"
+            android:text="@string/get_opt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
     </LinearLayout>
 
-    <TextView
-        android:drawableEnd="@drawable/long_right_arrow"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:textCursorDrawable="@drawable/long_right_arrow"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:id="@+id/tv_get_otp"
-        android:clickable="true"
-        android:focusable="true"
-        android:background="@drawable/indicator_state_blue_background"
-        android:textColor="@drawable/indicator_state_color_button"
-        android:layout_marginEnd="30sp"
-        android:layout_marginStart="30sp"
-        android:textSize="12sp"
-        android:text="@string/get_opt"
-        android:layout_width="320sp"
-        android:layout_height="40sp"
-        android:layout_marginBottom="100sp"
-        />
 
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>
