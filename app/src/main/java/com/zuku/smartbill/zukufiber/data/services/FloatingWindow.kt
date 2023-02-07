@@ -79,8 +79,10 @@ class FloatingWindow : Service() {
         textView.textSize = 18f
         textView.setTextColor(Color.BLACK)
         textView.setOnClickListener {
+
+            Toast.makeText(application,getValue(this,"paybill").toString(),Toast.LENGTH_LONG).show()
             val clipboard2 = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip2 =ClipData.newPlainText("BUZ: ", getValue(this,"paybill").toString())
+            val clip2 =ClipData.newPlainText("PAYBILL: ", getValue(this,"paybill").toString())
             clipboard2.setPrimaryClip(clip2)
 
         }
@@ -91,9 +93,11 @@ class FloatingWindow : Service() {
         textView2.setTextColor(Color.BLACK)
         textView2.setOnClickListener {
 
-            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clip =ClipData.newPlainText("Account No: ", getValue(this,"subid").toString())
-            clipboard.setPrimaryClip(clip)
+            Toast.makeText(application,getValue(this,"subid").toString(),Toast.LENGTH_LONG).show()
+
+            val clipboard3 = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+            val clip3 =ClipData.newPlainText("SUBID", getValue(this,"subid").toString())
+            clipboard3.setPrimaryClip(clip3)
 
         }
 
@@ -111,8 +115,6 @@ class FloatingWindow : Service() {
         textView0.layoutParams = txtParameters
         textView.layoutParams = txtParameters
         textView2.layoutParams = txtParameters
-
-
         ll!!.addView(stop)
         ll!!.addView(textView0)
         ll!!.addView(textView)

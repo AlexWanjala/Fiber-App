@@ -6,8 +6,8 @@ import Packages
 import PaymentData
 import Paymethods
 import Push
+import SubDetailsResponse
 import Substrans
-import com.zuku.smartbill.zukufiber.data.models.subscriber.SubDetailsResponse
 import com.google.gson.annotations.SerializedName
 
 

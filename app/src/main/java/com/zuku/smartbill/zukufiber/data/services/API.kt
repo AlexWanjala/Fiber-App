@@ -121,6 +121,16 @@ interface API {
     suspend fun paymentsoptions(@Field("function") function: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
 
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun updateProfile(@Field("function") function: String,
+                              @Field("subid") subid: String,
+                              @Field("subdb") subdb: String,
+                              @Field("taxpin") taxpin: String,
+                              @Field("email") email: String,
+                              @Field("phoneNumber") phoneNumber: String,
+                              @Field("cid") cid: String): Json4Kotlin_Base
+
 
 }
 

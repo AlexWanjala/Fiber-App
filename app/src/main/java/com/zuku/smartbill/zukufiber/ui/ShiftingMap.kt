@@ -29,7 +29,17 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.zuku.smartbill.zukufiber.R
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.firebase.firestore.GeoPoint
+import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.data.services.save
+import com.zuku.smartbill.zukufiber.ui.adapter.PlacesResultAdapter
 import kotlinx.android.synthetic.main.activity_shifting_map.*
 import java.io.IOException
 import java.util.*
@@ -59,8 +69,7 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
         getLocationPermission()
         getDeviceLocation()
 
-
-
+        init()
 
     }
 
@@ -228,5 +237,111 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
     }
+
+
+
+    //Search Places
+    private lateinit var mPlacesClient: PlacesClient
+    private lateinit var placeAdapter: PlacesResultAdapter
+    private fun getLocationFromAddress(strAddress: String?): GeoPoint? {
+        val coder = Geocoder(this)
+        val address: List<Address>?
+        var p1: GeoPoint? = null
+        try {
+            address = coder.getFromLocationName(strAddress!!, 5000)
+            if (address == null) {
+                return null
+            }
+            val location: Address = address[0]
+            location.getLatitude()
+            location.getLongitude()
+            p1 = GeoPoint(
+                (location.getLatitude()) as Double,
+                (location.getLongitude()) as Double
+            )
+            return p1
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return null
+    }
+    fun distanceInKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
+        val theta = lon1 - lon2
+        var dist = Math.sin(deg2rad(lat1)) * Math.sin(deg2rad(lat2)) + Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.cos(deg2rad(theta))
+        dist = Math.acos(dist)
+        dist = rad2deg(dist)
+        dist = dist * 60 * 1.1515
+        dist = dist * 1.609344
+        return dist
+    }
+    private fun deg2rad(deg: Double): Double {
+        return deg * Math.PI / 180.0
+    }
+    private fun rad2deg(rad: Double): Double {
+        return rad * 180.0 / Math.PI
+    }
+
+    private fun init() {
+        val apiKey = "AIzaSyAC5kUIdmqqXtarw83GU-DmNO_ykpfPkNA"
+        if (!Places.isInitialized()) {
+            Places.initialize(this, apiKey)
+        }
+
+        val placesClient = Places.createClient(this)
+        placeAdapter = PlacesResultAdapter(this) { prediction ->
+
+            try {
+                et_search_bar.setText(prediction.getFullText(null).toString())
+                val startAddress =  et_search_bar.text.toString().replace("[^a-zA-Z0-9]","")
+                val latLong = getLocationFromAddress(startAddress)
+
+                try {
+                    start = LatLng(latLong!!.latitude, latLong.longitude)
+                    updateMap(LatLng(start.latitude, start.longitude))
+                    et_search_bar.text.clear()
+
+                }catch (ex: NullPointerException){
+
+                }
+            }catch (ex: IOException){
+                runOnUiThread { Toast.makeText(this,"Kindly restart the app",Toast.LENGTH_LONG).show() }
+            }
+
+        }
+        rv_place_results.layoutManager = LinearLayoutManager(this)
+        rv_place_results.adapter = placeAdapter
+
+        et_search_bar.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+
+            override fun afterTextChanged(text: Editable?) {
+
+                if (text.toString().isNotEmpty()) {
+                    placeAdapter.filter.filter(text.toString())
+                    if (rv_place_results.isGone) {
+                        rv_place_results.visibility = View.VISIBLE
+                    }
+                } else {
+                    if (rv_place_results.isVisible) {
+                        rv_place_results.visibility = View.GONE
+                    }
+                }
+            }
+        })
+
+    }
+
+    fun round(x: Int): Int {
+
+        if (x % 10 === 0) x
+        else (x / 10 + 1) * 10
+
+        return x
+    }
+
 
 }

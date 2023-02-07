@@ -14,22 +14,29 @@ import com.zuku.smartbill.zukufiber.data.services.getValue
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import retrofit2.http.Field
 
 class Profile : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
         getInfo()
-    }
+        edTaxPin.text.append(getValue(this,"taxpin"))
+        edPhoneNumber.text.append(getValue(this,"cellcont"))
+        edEmail.text.append(getValue(this,"emcont"))
 
-    fun Activity.openWebPage(url: String?) = url?.let {
+
+
+        tvUpdatePlan.setOnClickListener { updateProfile() }
+    }
+    private fun Activity.openWebPage(url: String?) = url?.let {
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
         if (intent.resolveActivity(packageManager) != null) startActivity(intent)
     }
-
-     private fun getInfo(){
+    private fun getInfo(){
       lifecycleScope.launch(Dispatchers.IO){
 
           val result =  api.getInfo("getInfo", getValue(this@Profile,"subdb").toString())
@@ -80,4 +87,29 @@ class Profile : AppCompatActivity() {
       }
 
   }
+    fun updateProfile(){
+        progress_circular2.visibility = View.VISIBLE
+        lifecycleScope.launch(Dispatchers.IO){
+
+            val result = api.updateProfile(
+                "updateProfile",
+                getValue(this@Profile,"subid").toString(),
+                getValue(this@Profile,"subdb").toString(),
+                edTaxPin.text.toString(),
+                edEmail.text.toString(),
+                edPhoneNumber.text.toString(),
+                getValue(this@Profile,"cid").toString())
+
+            runOnUiThread {   progress_circular2.visibility = View.GONE
+            Toast.makeText(this@Profile,result.message,Toast.LENGTH_LONG).show()
+            }
+        }
+
+    }
+
+
+   /* save(this,"cid", item.subcontacts.cid)
+    save(this,"cellcont", item.subcontacts.cellcont)
+    save(this,"emcont", item.subcontacts.cellcont)
+    save(this,"taxpin", item.subcontacts.cellcont)*/
 }

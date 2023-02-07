@@ -11,6 +11,7 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.data.services.save
+import com.zuku.smartbill.zukufiber.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
@@ -34,14 +35,20 @@ class Login : AppCompatActivity() {
         progress_circular.visibility = View.VISIBLE
 
        lifecycleScope.launch(Dispatchers.IO) {
-
             try {
                 val response = api.getSubscriber("getSubscriber", edPhone.text.toString())
                 runOnUiThread {
                     progress_circular.visibility = View.GONE
                     if (response.success) {
                         save(this@Login,"phoneNumber",edPhone.text.toString())
-                        startActivity(Intent(this@Login, OTP::class.java).putExtra("phoneNumber", edPhone.text.toString()))
+                        if(response.data.subDetailsResponse[0].packageinfo.subdb.contains("Ke")){
+                            startActivity(Intent(this@Login, OTP::class.java).putExtra("phoneNumber", edPhone.text.toString()))
+                        }else{
+                            startActivity(Intent(this@Login, MainActivity::class.java))
+                            save(this@Login,"login","true")
+                            finishAffinity()
+                        }
+
                     } else {
                         Toast.makeText(this@Login, response.message, Toast.LENGTH_LONG).show()
                     }

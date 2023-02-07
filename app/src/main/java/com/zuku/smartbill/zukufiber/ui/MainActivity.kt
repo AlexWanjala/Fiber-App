@@ -7,12 +7,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.location.Address
+import android.location.Geocoder
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.View
@@ -25,12 +31,22 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.firebase.firestore.GeoPoint
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.*
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
+import com.zuku.smartbill.zukufiber.ui.adapter.PlacesResultAdapter
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.recycler_view
@@ -41,14 +57,21 @@ import kotlinx.android.synthetic.main.dialog_layout.*
 import kotlinx.android.synthetic.main.radio_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
 
-
-//ALex boey
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.graphics.BitmapFactory
+import android.graphics.Color
+import android.widget.RemoteViews
+import kotlinx.android.synthetic.main.notification.*
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
@@ -59,6 +82,52 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private var subdb: String =""
     lateinit var adapter : PackageAdapter
 
+    // declaring variables
+    lateinit var notificationManager: NotificationManager
+    lateinit var notificationChannel: NotificationChannel
+    lateinit var builder: Notification.Builder
+    private val channelId = "i.apps.notifications"
+    private val description = "Test notification"
+
+
+
+
+    private fun notification(){
+
+        val intent = Intent(this, MainActivity::class.java)
+        val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
+        // RemoteViews are used to use the content of
+        // some different layout apart from the current activity layout
+        val contentView = RemoteViews(packageName, R.layout.notification)
+
+
+
+
+        // checking if android version is greater than oreo(API 26) or not
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
+            notificationChannel.enableLights(true)
+            notificationChannel.lightColor = Color.GREEN
+            notificationChannel.enableVibration(false)
+            notificationManager.createNotificationChannel(notificationChannel)
+
+            builder = Notification.Builder(this, channelId)
+                .setContent(contentView)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
+                .setContentIntent(pendingIntent)
+        } else {
+
+            builder = Notification.Builder(this)
+                .setContent(contentView)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setLargeIcon(BitmapFactory.decodeResource(this.resources, R.drawable.ic_launcher_background))
+                .setContentIntent(pendingIntent)
+        }
+        notificationManager.notify(1234, builder.build())
+    }
+
 
 
 
@@ -66,6 +135,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         bottomSheetBehavior = BottomSheetBehavior.from(bottomSheetLayout)
         bottomSheetBehavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
@@ -103,6 +174,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         tv_pay.setOnClickListener {
 
 
+
             if (android.os.Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
                 startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")),1)
                 Toast.makeText(this,"Please Allow",Toast.LENGTH_LONG).show()
@@ -113,6 +185,13 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
 
         }
+        tv_pay.setOnLongClickListener(object: View.OnLongClickListener {
+            override fun onLongClick(v: View?): Boolean {
+                notification()
+                return true
+            }
+
+        })
         image_statement.setOnClickListener {
             startActivity(Intent(this, Transactions::class.java)
             .putExtra("subdb",subdb)
@@ -162,6 +241,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                 getString(R.string.permission_error_text)
             )*/
         }
+
+        notification()
     }
 
      fun initRecyclerView(packageItems: List<PackageItems>){
@@ -259,7 +340,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     for (item in response.data.subDetailsResponse){
                         getPackageInfo(response.data.subDetailsResponse[0].packageinfo.subid.toString())
                         accounts.add(item.packageinfo.subid.toString())
-
                     }
 
                     runOnUiThread {
@@ -298,6 +378,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     save(this,"subName",item.subdetails.subname)
                     save(this,"subapt",item.subdetails.subapt)
                     save(this,"subid",item.subdetails.subid.toString())
+                    save(this,"cid", item.subcontacts.cid)
+                    save(this,"cellcont", item.subcontacts.cellcont)
+                    save(this,"emcont", item.subcontacts.emcont)
+                    save(this,"taxpin", item.subcontacts.taxpin)
+
                     updatedate.text = item.packageinfo.updatedate
                     tvName.text = item.subdetails.subname
                     tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
@@ -317,7 +402,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     }
                     tvSPeed.text =  speed
 
-                    getPackages(item.packageinfo.subdb)
+                        getPackages(item.packageinfo.subdb)
 
                 }
             }
@@ -393,4 +478,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
         return false
     }
+
+
+
+
 }

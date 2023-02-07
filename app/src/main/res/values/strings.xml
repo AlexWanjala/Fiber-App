@@ -95,5 +95,9 @@
     <string name="facebook">Facebook</string>
     <string name="cancel">Cancel</string>
     <string name="select">Select the payment option for your preferred service</string>
+    <string name="email">Email</string>
+    <string name="kra_pin">KRA PIN</string>
+    <string name="search">Search my place</string>
+
 
 </resources>

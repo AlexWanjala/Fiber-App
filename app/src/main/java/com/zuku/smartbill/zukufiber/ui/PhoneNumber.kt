@@ -142,6 +142,7 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
     private fun checkPayment(accNo: String){
         lifecycleScope.launch(Dispatchers.IO){
             val result = api.checkPayment("checkPayment",accNo)
+
             if(result.success){
                 runOnUiThread { tv_message.text ="Payment received" }
                 Const.ConstHolder.INSTANCE.getInstance().setPush(result.data.push)
@@ -160,7 +161,8 @@ class PhoneNumber : AppCompatActivity(), View.OnClickListener {
                     runOnUiThread { tv_message.text = result.data.push.message}
                 }
 
-            }else{
+            }
+            else{
                 runOnUiThread { tv_message.text ="Waiting for payment.." }
                 TimeUnit.SECONDS.sleep(2L)
                 checkPayment(accNo)

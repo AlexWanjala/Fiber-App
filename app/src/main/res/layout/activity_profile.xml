@@ -19,7 +19,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <LinearLayout
             android:layout_marginBottom="5sp"
             android:orientation="horizontal"
@@ -28,64 +27,15 @@
 
             <TextView
                 android:textColor="@color/text_color"
-                android:text="@string/show_status"
+                android:text="@string/kra_pin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
-
-            <TextView
-                android:drawableTint="@color/green_zuku"
-                android:drawablePadding="5sp"
-                android:drawableStart="@drawable/dot"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/text_color_black"
-                android:text="@string/online"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginBottom="5sp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/text_color"
-                android:text="@string/address"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-            <TextView
-                android:drawablePadding="5sp"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/text_color_black"
-                android:text="173.292.9393.10"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginBottom="5sp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <TextView
-                android:textColor="@color/text_color"
-                android:text="@string/device"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
 
 
             <EditText
+                android:id="@+id/edTaxPin"
+                android:padding="5dp"
                 android:paddingTop="2sp"
                 android:paddingBottom="2sp"
                 android:paddingStart="10sp"
@@ -93,8 +43,8 @@
                 android:drawablePadding="5sp"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/text_color_black"
-                android:text="Alex"
-                android:layout_width="100sp"
+                tools:text="P700392999222"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"/>
 
 
@@ -109,12 +59,14 @@
 
             <TextView
                 android:textColor="@color/text_color"
-                android:text="@string/password"
+                android:text="@string/phone_number"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
             <EditText
+                android:id="@+id/edPhoneNumber"
+                android:padding="5dp"
                 android:paddingTop="2sp"
                 android:paddingBottom="2sp"
                 android:paddingStart="10sp"
@@ -122,17 +74,56 @@
                 android:drawablePadding="5sp"
                 android:layout_marginStart="20dp"
                 android:textColor="@color/text_color_black"
-                android:text="1234567"
-                android:layout_width="100sp"
+                tools:text="@string/phone"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"/>
 
 
 
         </LinearLayout>
+
+        <LinearLayout
+            android:layout_marginBottom="5sp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:textColor="@color/text_color"
+                android:text="@string/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+
+            <EditText
+                android:id="@+id/edEmail"
+                android:padding="5dp"
+                android:paddingTop="2sp"
+                android:paddingBottom="2sp"
+                android:paddingStart="10sp"
+                android:background="@drawable/bg_border"
+                android:drawablePadding="5sp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/text_color_black"
+                tools:text="wanjalaalex25@gmail.com"
+                android:layout_width="270dp"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/progress_circular2"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
         <TextView
-            android:id="@+id/tv_change_plan"
+            android:id="@+id/tvUpdatePlan"
             android:clickable="true"
             android:focusable="true"
             android:background="@drawable/indicator_state_blue_background"
