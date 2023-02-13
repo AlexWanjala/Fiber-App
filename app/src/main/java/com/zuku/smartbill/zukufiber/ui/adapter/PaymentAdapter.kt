@@ -65,13 +65,13 @@ class PaymentAdapter(private val context: Context, private val dataSet:  List<Pa
             if(viewHolder.listLayout.visibility==View.VISIBLE){
                 viewHolder.listLayout.visibility = View.GONE
                 viewHolder.tvView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_down_black, 0)
-                viewHolder.tvView.setBackgroundColor(Color.parseColor("#F6FBFD"))
-                viewHolder.layout.setBackgroundColor(Color.parseColor("#F6FBFD"))
+              /*  viewHolder.tvView.setBackgroundColor(Color.parseColor("#F6FBFD"))
+                viewHolder.layout.setBackgroundColor(Color.parseColor("#F6FBFD"))*/
             }else{
                 viewHolder.listLayout.visibility = View.VISIBLE
                 viewHolder.tvView.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.arrow_up_black, 0)
-                viewHolder.tvView.setBackgroundColor(Color.parseColor("#D3DBDE"))
-                viewHolder.layout.setBackgroundColor(Color.parseColor("#D3DBDE"))
+               /* viewHolder.tvView.setBackgroundColor(Color.parseColor("#D3DBDE"))
+                viewHolder.layout.setBackgroundColor(Color.parseColor("#D3DBDE"))*/
             }
         }
 

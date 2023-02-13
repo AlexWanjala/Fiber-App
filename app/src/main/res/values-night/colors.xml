@@ -6,15 +6,15 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
+    <color name="black">#DCD5D5</color>
     <color name="black_">#252424</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="white_trans">#A1FFFFFF</color>
+    <color name="white">#1E1D1D</color>
+    <color name="white_trans">#A13E3D3D</color>
     <color name="my_spinner_text_color">#FFFFFF</color>
-    <color name="text_color">#0493C2</color>
-    <color name="text_color_black">#161515</color>
+    <color name="text_color">#F6F9FA</color>
+    <color name="text_color_black">#FCFCFC</color>
     <color name="yellow_zuku">#F9C104</color>
-    <color name="text_grey">#9C9C9C</color>
+    <color name="text_grey">#DCD5D5</color>
     <color name="green_zuku">#67BA04</color>
     <color name="blue_zuku">#0493C2</color>
     <color name="blue_zuku_trans">#DA0493C2</color>
@@ -22,10 +22,10 @@
     <color name="label_color">#202426</color>
     <color name="blue_shade">#E0F4F8</color>
     <color name="blue_bg">#F6FBFD</color>
-    <color name="bg_greenish">#D3DBDE</color>
-    <color name="grey_bg">#D3DBDE</color>
-    <color name="grey_light">#EAEAEA</color>
-    <color name="grey_light_2">#707070</color>
-    <color name="phone_color">#0556C0</color>
+    <color name="bg_greenish">#404140</color>
+    <color name="grey_bg">#272727</color>
+    <color name="grey_light">#4E4D4D</color>
+    <color name="grey_light_2">#FAFAFA</color>
+    <color name="phone_color">#78ACF1</color>
     <color name="border_color">#D7737272</color>
 </resources>

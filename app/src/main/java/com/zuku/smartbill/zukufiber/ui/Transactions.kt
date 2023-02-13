@@ -23,9 +23,6 @@ class Transactions : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
         image_close.setOnClickListener { finish() }
-
-
-
         getSubsTrans(intent.getStringExtra("subid").toString(),intent.getStringExtra("subdb").toString())
     }
 
