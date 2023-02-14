@@ -1,5 +1,6 @@
 package com.zuku.smartbill.zukufiber.ui.adapter
 
+import Invoices
 import Substrans
 import android.content.Context
 import android.content.Intent
@@ -14,7 +15,7 @@ import com.zuku.smartbill.zukufiber.ui.TransactionResponse
 import kotlinx.android.synthetic.main.activity_transaction_reponse.*
 
 
-class TransactionAdapter(private val context: Context, private val dataSet:  List<Substrans>) :
+class TransactionAdapter(private val context: Context, private val dataSet:  List<Invoices>) :
         RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     /**
@@ -50,15 +51,18 @@ class TransactionAdapter(private val context: Context, private val dataSet:  Lis
     // Replace the contents of a view (invoked by the layout manager)
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         var list = dataSet[position]
-        viewHolder.tvPhone.text = list.subid.toString()
-        viewHolder.tv_payment_type.text = list.descrip
-        viewHolder.tv_amount.text = list.amt
-        viewHolder.tdate.text = list.tdate
-        viewHolder.layoutTransaction.setOnClickListener { context.startActivity(Intent(context, TransactionResponse::class.java)
-            .putExtra("accNo",list.subid)
-            .putExtra("amount",list.amt)
-            .putExtra("paymentCode",list.tid)
-            .putExtra("speed",list.descrip)
+        viewHolder.tvPhone.text = list.invoice_no
+        viewHolder.tv_payment_type.text = list.customer_name
+        viewHolder.tv_amount.text = list.currency+" "+ list.value
+        viewHolder.tdate.text =list.invoice_date
+        viewHolder.layoutTransaction.setOnClickListener {
+            context.startActivity(Intent(context, TransactionResponse::class.java)
+            .putExtra("id",list.id.toString())
+            .putExtra("customer_name",list.customer_name)
+            .putExtra("accNo",list.invoice_no)
+            .putExtra("amount", list.currency+" "+ list.value)
+            .putExtra("invoice_date",list.invoice_date)
+            .putExtra("speed",list.invoice_date)
         ) }
 
 

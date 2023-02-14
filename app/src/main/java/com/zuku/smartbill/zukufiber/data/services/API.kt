@@ -85,6 +85,11 @@ interface API {
 
     @FormUrlEncoded
     @POST("index.php")
+    suspend fun getInvoices(@Field("function") function: String,
+                             @Field("accNo") subdb: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
     suspend fun sendSMS(@Field("function") function: String,
                              @Field("phoneNumber") phoneNumber: String,
                              @Field("hashCode") hashCode: String,

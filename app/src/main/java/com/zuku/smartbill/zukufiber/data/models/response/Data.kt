@@ -2,6 +2,7 @@ package com.zuku.smartbill.zukufiber.data.models.response
 
 
 import Appinfo
+import Invoices
 import Packages
 import PaymentData
 import Paymethods
@@ -18,6 +19,7 @@ data class Data (
 	@SerializedName("substrans") val substrans : List<Substrans>,
 	@SerializedName("appinfo") val appinfo : Appinfo,
 	@SerializedName("paymentData") val paymentData : List<PaymentData>,
-	@SerializedName("paymethods") val paymethods : List<Paymethods>
+	@SerializedName("paymethods") val paymethods : List<Paymethods>,
+	@SerializedName("Invoices") val invoices : List<Invoices>
 
 )

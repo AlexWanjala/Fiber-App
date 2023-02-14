@@ -23,18 +23,18 @@ class Transactions : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_transactions)
         image_close.setOnClickListener { finish() }
-        getSubsTrans(intent.getStringExtra("subid").toString(),intent.getStringExtra("subdb").toString())
+        getSubsTrans(intent.getStringExtra("subid").toString())
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun getSubsTrans(subid :String, subdb: String){
+    private fun getSubsTrans(subid :String){
         progress_circular.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
-          val result = api.getSubsTrans("getSubsTrans",subid, subdb)
+          val result = api.getInvoices("getInvoices",subid)
             runOnUiThread { progress_circular.visibility = View.GONE }
             if(result.success){
                runOnUiThread {
-                   val adapter = TransactionAdapter(this@Transactions,result.data.substrans)
+                   val adapter = TransactionAdapter(this@Transactions,result.data.invoices)
                    recycler_view.adapter = adapter
                    recycler_view.layoutManager = LinearLayoutManager(this@Transactions)
                }
