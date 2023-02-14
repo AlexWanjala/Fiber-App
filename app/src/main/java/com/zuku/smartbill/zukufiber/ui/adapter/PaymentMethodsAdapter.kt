@@ -67,43 +67,6 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
                 }
             }
 
-         /*   if(dataSet[position].method=="STK"){
-                showDialog(context)
-               *//* if (context is MainActivity) {
-                    (context as MainActivity).stkPayments()
-
-                }*//*
-            }
-            else if (dataSet[position].method=="SIMTOOLKIT"){
-
-                launchSTK(context)
-
-            }
-            else if (dataSet[position].method=="PAYMENTS"){
-
-                context.startActivity(Intent(context, Payments::class.java))
-
-            }
-            else if (dataSet[position].method=="DIAL"){
-
-                val permission = ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE)
-
-                if (permission != PackageManager.PERMISSION_GRANTED) {
-                    requestPermissions(context as Activity, arrayOf(Manifest.permission.CALL_PHONE), 1)
-
-                }else{
-
-                    val string =dataSet[position].dial
-                    val ussd = string.replace("#",Uri.encode("#"))
-                    val intent = Intent(Intent.ACTION_CALL, Uri.parse("tel: $ussd"))
-                    context.startActivity(intent)
-                }
-
-            }
-            else{
-                Toast.makeText(context, dataSet[position].method+"Not available",Toast.LENGTH_LONG).show()
-            }
-*/
         }
     }
 

@@ -51,8 +51,7 @@ class SubPaymentMethodsAdapter(private val context: Context, private val dataSet
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
 
         viewHolder.tvItem.text = dataSet[position].payment
-        if(dataSet[position].payment.contains("FIBER"))
-        viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_speed, 0, 0, 0)
+        if(dataSet[position].payment.contains("FIBER")) viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.internet, 0, 0, 0)
         if(dataSet[position].payment.contains("PHONE"))
             viewHolder.tvItem.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_phone_iphone, 0, 0, 0)
 
