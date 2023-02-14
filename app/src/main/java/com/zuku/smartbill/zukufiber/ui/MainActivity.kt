@@ -1,29 +1,26 @@
 package com.zuku.smartbill.zukufiber.ui
 
 import PackageItems
-import Packages
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.location.Address
-import android.location.Geocoder
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -31,47 +28,30 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.gms.maps.CameraUpdateFactory
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.model.PolylineOptions
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
+import com.denzcoskun.imageslider.ImageSlider
+import com.denzcoskun.imageslider.interfaces.ItemClickListener
+import com.denzcoskun.imageslider.models.SlideModel
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.firebase.firestore.GeoPoint
+import com.google.android.youtube.player.YouTubeStandalonePlayer
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.*
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
-import com.zuku.smartbill.zukufiber.ui.adapter.PlacesResultAdapter
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_main.recycler_view
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
-import kotlinx.android.synthetic.main.bottom_sheet_plans.recycler_view2
 import kotlinx.android.synthetic.main.dialog_layout.*
+import kotlinx.android.synthetic.main.notification.*
 import kotlinx.android.synthetic.main.radio_group.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.io.IOException
 import java.lang.Math.abs
 import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
-
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.graphics.BitmapFactory
-import android.graphics.Color
-import android.widget.RemoteViews
-import kotlinx.android.synthetic.main.notification.*
 
 
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
@@ -168,7 +148,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             startActivity(Intent(this@MainActivity, PackagesActivity::class.java))
         }
 
-        tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
+   //     tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener {
 
 
@@ -222,6 +202,41 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             Toast.makeText(this,"You are offline",Toast.LENGTH_LONG).show()
         }
 
+        adverts()
+
+    }
+
+
+    fun adverts(){
+        val imageList = ArrayList<SlideModel>() // Create image list
+
+// imageList.add(SlideModel("String Url" or R.drawable)
+// imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
+
+        imageList.add(SlideModel("https://www.dignited.com/wp-content/uploads/2018/10/zuku-fiber.jpg", "Efficient"))
+        imageList.add(SlideModel("https://kisiifinest.co.ke/wp-content/uploads/2021/06/List-of-best-Zuku-internet-packages-2021-Kenya-prices-fiber-WiFi-satellite-TV-rates.jpg", "Fast reliable"))
+        imageList.add(SlideModel("https://arkafrica.com/wp-content/uploads/2021/03/ark-zuku-tv-ident.jpg", "Creating Africa’s first triple play brand."))
+        imageList.add(SlideModel("https://pbs.twimg.com/media/DBix2lvXYAI-u0K.jpg", "Zuku Reward"))
+
+        val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
+        imageSlider.setImageList(imageList)
+
+        imageSlider.setItemClickListener(object : ItemClickListener {
+            override fun onItemSelected(position: Int) {
+                var intent: Intent? = null
+                if (this@MainActivity as Activity? != null) {
+                    intent = YouTubeStandalonePlayer.createVideoIntent(
+                        this@MainActivity as Activity?,
+                        "AIzaSyC_L1ygZnDwoAcd8C23aL6BkqcNCifVMX4",
+                        "ANMmYoLVx_M",
+                        0,
+                        false,
+                        true
+                    )
+                }
+                startActivity(intent)
+            }
+        })
     }
 
 
@@ -249,7 +264,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
-
+/*
     private fun initRecyclerViewRadio(arrayList: List<Packages>){
         //Packages
         runOnUiThread {
@@ -258,7 +273,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             recycler_view_radio.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         }
 
-    }
+    }*/
 
      fun stkPayments(desc: String){
 
@@ -446,7 +461,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             val response =  api.getPackages("getPackages",subid)
             if(response.success){
                 Const.ConstHolder.INSTANCE.setPackages(response.data.packages)
-                initRecyclerViewRadio(response.data.packages)
+             //   initRecyclerViewRadio(response.data.packages)
 
             }else{
                 Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show()

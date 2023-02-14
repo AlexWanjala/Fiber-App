@@ -7,7 +7,6 @@
 
 
     <TextView
-        android:drawableTint="@color/white"
         android:layout_marginStart="10dp"
         android:drawableStart="@android:drawable/ic_dialog_info"
         android:id="@+id/tvItem"

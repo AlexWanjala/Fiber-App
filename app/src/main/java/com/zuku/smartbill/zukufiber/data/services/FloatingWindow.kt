@@ -67,8 +67,6 @@ class FloatingWindow : Service() {
             stopSelf()
             //System.exit(0);
         }
-
-
         val textView0 = TextView(application)
         textView0.text = "Tap to copy paste"
         textView0.textSize = 11f
@@ -81,6 +79,7 @@ class FloatingWindow : Service() {
         textView.setOnClickListener {
 
             Toast.makeText(application,getValue(this,"paybill").toString(),Toast.LENGTH_LONG).show()
+
             val clipboard2 = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clip2 =ClipData.newPlainText("PAYBILL: ", getValue(this,"paybill").toString())
             clipboard2.setPrimaryClip(clip2)

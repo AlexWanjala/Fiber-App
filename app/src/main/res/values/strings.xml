@@ -12,7 +12,7 @@
     <string name="mbps">MBPS</string>
     <string name="day">Days</string>
     <string name="desc">Prepaid SIP Bundle 1,ASIA PREMIUM SALES PROMO ,GPON DUO CLASSIC 20</string>
-    <string name="change_plan">Change Plan</string>
+    <string name="change_plan">Change Package</string>
     <string name="zuku_fiber_plans">Zuku Fiber Plans</string>
     <string name="see_all">See All</string>
     <string name="triple_play">Tripleplay</string>
@@ -20,7 +20,7 @@
     <string name="office_plan">Office Plan</string>
     <string name="high_speed">High Speed</string>
     <string name="internet">internet</string>
-    <string name="pay">PAY</string>
+    <string name="pay">Pay</string>
     <string name="select_package">Select Package</string>
     <string name="internet_only_package">Internet Only Package</string>
     <string name="triple_play_packages">Triple Play Packages</string>
@@ -98,6 +98,7 @@
     <string name="email">Email</string>
     <string name="kra_pin">KRA PIN</string>
     <string name="search">Search my place</string>
+
 
 
 </resources>
