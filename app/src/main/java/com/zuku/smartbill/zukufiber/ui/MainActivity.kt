@@ -7,6 +7,7 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.ConnectivityManager
@@ -39,6 +40,7 @@ import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login2.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
@@ -317,7 +319,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     override fun onResume() {
         requestOverlayPermission()
+        currentTheme()
         super.onResume()
+    }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {//Night Mode
+
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.bg_long)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -415,7 +435,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     }
                     tvSPeed.text =  speed
 
-                        getPackages(item.packageinfo.subdb)
+                        getPackages(speed,item.packageinfo.subdb)
 
                 }
             }
@@ -456,9 +476,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
     }
 
-    private fun getPackages(subid :String){
+    private fun getPackages(mbps:String, subid :String){
         lifecycleScope.launch(Dispatchers.IO){
-            val response =  api.getPackages("getPackages",subid)
+            val response =  api.getPackages("getPackages",mbps,subid)
             if(response.success){
                 Const.ConstHolder.INSTANCE.setPackages(response.data.packages)
              //   initRecyclerViewRadio(response.data.packages)

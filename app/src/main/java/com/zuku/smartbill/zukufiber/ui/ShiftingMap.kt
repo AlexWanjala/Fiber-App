@@ -2,6 +2,7 @@ package com.zuku.smartbill.zukufiber.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -23,10 +24,6 @@ import com.google.android.gms.maps.GoogleMap.OnCameraIdleListener
 import com.google.android.gms.maps.GoogleMap.OnCameraMoveListener
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.BitmapDescriptorFactory
-import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 import com.zuku.smartbill.zukufiber.R
 import android.provider.Settings
 import android.text.Editable
@@ -34,6 +31,7 @@ import android.text.TextWatcher
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.gms.maps.model.*
 import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.firestore.GeoPoint
@@ -68,8 +66,31 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
 
         getLocationPermission()
         getDeviceLocation()
-
         init()
+
+    }
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+        val success= mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this,R.raw.style_json));
+
+        if (!success) {
+            Log.e(ContentValues.TAG, "Style parsing failed.")
+        }
+
+        mMap.setOnCameraIdleListener {
+            val coords = mMap.cameraPosition.target
+            //Toast.makeText(this,"djjd",Toast.LENGTH_LONG).show()
+            getAddress()
+            tv_submit.visibility = View.VISIBLE
+            toolbar.visibility = View.VISIBLE
+        }
+        mMap.setOnCameraMoveListener {
+            tv_submit.visibility = View.GONE
+            toolbar.visibility = View.GONE
+        }
+
+
+
 
     }
 
@@ -117,27 +138,10 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
         }
 
     }
-
-    override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
-        mMap.setOnCameraIdleListener {
-            val coords = mMap.cameraPosition.target
-          //Toast.makeText(this,"djjd",Toast.LENGTH_LONG).show()
-            getAddress()
-            tv_submit.visibility = View.VISIBLE
-            toolbar.visibility = View.VISIBLE
-        }
-        mMap.setOnCameraMoveListener {
-            tv_submit.visibility = View.GONE
-            toolbar.visibility = View.GONE
-        }
-
-    }
     private fun getLocationPermission() {
 
         ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 1)
     }
-
     @SuppressLint("MissingPermission")
     private fun getDeviceLocation() {
         try {
@@ -237,9 +241,6 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
     override fun onResume() {
         super.onResume()
     }
-
-
-
     //Search Places
     private lateinit var mPlacesClient: PlacesClient
     private lateinit var placeAdapter: PlacesResultAdapter
@@ -280,7 +281,6 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
     private fun rad2deg(rad: Double): Double {
         return rad * 180.0 / Math.PI
     }
-
     private fun init() {
         val apiKey = "AIzaSyAC5kUIdmqqXtarw83GU-DmNO_ykpfPkNA"
         if (!Places.isInitialized()) {
@@ -334,7 +334,6 @@ class ShiftingMap : AppCompatActivity(), OnMapReadyCallback {
         })
 
     }
-
     fun round(x: Int): Int {
 
         if (x % 10 === 0) x

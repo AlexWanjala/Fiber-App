@@ -27,12 +27,6 @@
         tools:targetApi="31">
 
 
-        <receiver android:name=".data.services.SMSReceiver" android:exported="true">
-            <intent-filter>
-                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
-            </intent-filter>
-        </receiver>
-
         <activity
             android:name=".ui.Login"
             android:exported="true">
@@ -146,6 +140,17 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyDg4PrE3vX2KfDhLnhErGGPcj6eWBbCmhc" />
+
+
+        <receiver
+            android:name="com.roberts.smsretriverapi.MessageBroadcastReceiver"
+            android:exported="true"
+            android:permission="com.google.android.gms.auth.api.phone.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

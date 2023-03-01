@@ -29,4 +29,7 @@
     <color name="grey_light_2">#707070</color>
     <color name="phone_color">#0556C0</color>
     <color name="border_color">#D7737272</color>
+    <color name="map">#4CAF50</color>
+    <color name="map_lable">#F44336</color>
+    <color name="map_stroke">#FFC107</color>
 </resources>

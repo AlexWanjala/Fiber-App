@@ -1,10 +1,12 @@
 package com.zuku.smartbill.zukufiber.ui.landing
 
+
 import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -16,15 +18,20 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.phone.SmsRetriever
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient
+import com.roberts.smsretriverapi.RetrievalEvent
+import com.roberts.smsretriverapi.SignatureHelper
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.AppSignatureHashHelper
-import com.zuku.smartbill.zukufiber.data.services.SMSReceiver
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.save
 import com.zuku.smartbill.zukufiber.ui.MainActivity
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.apache.commons.lang3.StringUtils
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 import java.util.*
 
 
@@ -36,8 +43,6 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     lateinit var mainHandler: Handler
     var verificationCode: String =""
 
-    private var intentFilter: IntentFilter? = null
-    private var smsReceiver: SMSReceiver? = null
 
     private val updateTextTask = object : Runnable {
         override fun run() {
@@ -55,12 +60,11 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_otp)
-        image_close.setOnClickListener{ super.onBackPressed()}
-
+        image_close6.setOnClickListener{ super.onBackPressed()}
         myClipboard = getSystemService(CLIPBOARD_SERVICE) as ClipboardManager?;
 
         edText1.setOnClickListener{
-            val abc = myClipboard?.getPrimaryClip()
+            val abc = myClipboard?.primaryClip
             val item = abc?.getItemAt(0)
             if(item?.text?.isEmpty()!=null){
                 code = item?.text.toString()
@@ -74,7 +78,7 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             val abc = myClipboard?.getPrimaryClip()
             val item = abc?.getItemAt(0)
             if(item?.text?.isEmpty()!=null){
-                code = item?.text.toString()
+                code = item.text.toString()
                 updateEditText()
                 myClipboard?.clearPrimaryClip()
             }
@@ -85,7 +89,7 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             val abc = myClipboard?.getPrimaryClip()
             val item = abc?.getItemAt(0)
             if(item?.text?.isEmpty()!=null){
-                code = item?.text.toString()
+                code = item.text.toString()
                 updateEditText()
                 myClipboard?.clearPrimaryClip()
             }
@@ -118,14 +122,32 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         code =""
         mainHandler = Handler(Looper.getMainLooper())
 
-        initBroadCast()
-        initSmsListener()
 
         verificationCode = generateNumber(4).toString()
         tv_phone.text ="Enter the OTP sent to "+ intent.getStringExtra("phoneNumber").toString()
 
-        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)  }
-        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)
+        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),"Your Sms Retriever Api code is: $verificationCode "+ SignatureHelper(this@OTP).appSignature.toString())  }
+
+        smsClient = SmsRetriever.getClient(this)
+        initSmsListener()
+        sendSMS(intent.getStringExtra("phoneNumber").toString(),"Your Sms Retriever Api code is: $verificationCode "+ SignatureHelper(this@OTP).appSignature.toString())
+
+    }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {
+                    image4.setImageDrawable(resources.getDrawable(R.drawable.zuku_logo_white))
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
     }
 
     private fun generateNumber(length: Int): Int {
@@ -145,8 +167,6 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         }
         return result.toInt()
     }
-
-
     fun minusOneSecond() {
         if (secondsLeft > 0 ){
             if(secondsLeft==0){
@@ -230,7 +250,7 @@ class OTP : AppCompatActivity(), View.OnClickListener{
     override fun onPause() {
         super.onPause()
         mainHandler.removeCallbacks(updateTextTask)
-        unregisterReceiver(smsReceiver)
+       /* unregisterReceiver(smsReceiver)*/
     }
     @RequiresApi(Build.VERSION_CODES.P)
     override fun onResume() {
@@ -243,39 +263,58 @@ class OTP : AppCompatActivity(), View.OnClickListener{
             updateEditText()
             myClipboard?.clearPrimaryClip()
         }
-        registerReceiver(smsReceiver, intentFilter)
+        currentTheme()
 
     }
+
+
+    private lateinit var smsClient: SmsRetrieverClient
     private fun sendSMS(phoneNumber: String, message: String){
         lifecycleScope.launch(Dispatchers.IO){
-           val hashCode = "hashCode" to  AppSignatureHashHelper(this@OTP).appSignatures[0]
-            Log.d("hashCode",AppSignatureHashHelper(this@OTP).appSignatures[0])
-           api.sendSMS("sendSMS",phoneNumber,hashCode.toString(),message)
-
+            api.sendSMS("sendSMS",phoneNumber,message)
         }
     }
-
-
-    //SMS Reader
-    //SMS Reader
-    private fun showToast(msg: String?) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+    override fun onStart() {
+        super.onStart()
+        EventBus.getDefault().register(this)
+    }
+    override fun onStop() {
+        EventBus.getDefault().unregister(this)
+        super.onStop()
     }
     private fun initSmsListener() {
-        val client = SmsRetriever.getClient(this)
-        client.startSmsRetriever()
-    }
-    private fun initBroadCast() {
-        intentFilter = IntentFilter(SmsRetriever.SMS_RETRIEVED_ACTION)
-        smsReceiver = SMSReceiver()
-        smsReceiver?.setOTPListener(object : SMSReceiver.OTPReceiveListener {
-            override fun onOTPReceived(otp: String?) {
-                showToast("OTP Received: $otp")
-                runOnUiThread { setText(otp.toString())}
-                validate()
+        smsClient.startSmsRetriever()
+            .addOnSuccessListener {
+                Toast.makeText(
+                    this, "Waiting for sms message",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }.addOnFailureListener { failure ->
+                Toast.makeText(
+                    this, failure.localizedMessage,
+                    Toast.LENGTH_SHORT
+                ).show()
             }
-        })
     }
+    @Subscribe
+    fun onReceiveSms(retrievalEvent: RetrievalEvent) {
+        val code: String =
+            StringUtils.substringAfterLast(retrievalEvent.message, "is").replace(":", "")
+                .trim().substring(0, 4)
+
+        runOnUiThread {
+            if (!retrievalEvent.timedOut) {
+                // binding.editText.setText(code)
+              //  Toast.makeText(this, code, Toast.LENGTH_SHORT).show()
+                setText(code)
+
+            } else {
+                Toast.makeText(this, "Failed", Toast.LENGTH_SHORT).show()
+            }
+        }
+        initSmsListener()
+    }
+
 
 
 }

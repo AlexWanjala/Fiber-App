@@ -9,15 +9,16 @@
 
     <ImageView
         android:layout_gravity="right"
-        android:id="@+id/image_close"
-        android:layout_marginEnd="10sp"
-        android:layout_marginTop="5sp"
+        android:id="@+id/image_close6"
+        android:layout_marginEnd="20sp"
+        android:layout_marginTop="20sp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:tint="@color/black" />
 
     <ImageView
-        android:id="@+id/logo"
+        android:id="@+id/image4"
         android:layout_marginStart="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -81,10 +82,10 @@
                 android:orientation="vertical" >
 
                 <EditText
+                    android:inputType="number"
                     android:maxLength="1"
                     tools:text="5"
                     android:background="@null"
-                    android:focusable="false"
                     android:id="@+id/edText1"
                     android:gravity="center"
                     android:textSize="30sp"
@@ -108,10 +109,10 @@
                 android:orientation="vertical" >
 
                 <EditText
+                    android:inputType="number"
                     android:maxLength="1"
                     tools:text="4"
                     android:background="@null"
-                    android:focusable="false"
                     android:id="@+id/edText2"
                     android:gravity="center"
                     android:textSize="30sp"
@@ -134,10 +135,10 @@
                 android:orientation="vertical" >
 
                 <EditText
+                    android:inputType="number"
                     android:maxLength="1"
                     tools:text="1"
                     android:background="@null"
-                    android:focusable="false"
                     android:id="@+id/edText3"
                     android:gravity="center"
                     android:textSize="30sp"
@@ -161,10 +162,10 @@
                 android:orientation="vertical" >
 
                 <EditText
+                    android:inputType="number"
                     android:maxLength="1"
                     tools:text="2"
                     android:background="@null"
-                    android:focusable="false"
                     android:id="@+id/edText4"
                     android:gravity="center"
                     android:textSize="30sp"

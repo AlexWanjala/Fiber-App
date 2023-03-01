@@ -20,8 +20,6 @@ class PackagesActivity : AppCompatActivity() {
         setContentView(R.layout.activity_packages)
         image_close.setOnClickListener { finish() }
 
-
-
         initRecyclerViewRadio(Const.ConstHolder.INSTANCE.getPackages()!!)
 
 

@@ -98,6 +98,9 @@
     <string name="email">Email</string>
     <string name="kra_pin">KRA PIN</string>
     <string name="search">Search my place</string>
+    <string name="home">Home</string>
+    <string name="invoice">Invoices</string>
+    <string name="profile">Profile</string>
 
 
 

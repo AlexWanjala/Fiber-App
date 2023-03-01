@@ -1,6 +1,7 @@
 package com.zuku.smartbill.zukufiber.ui.landing
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.opengl.Visibility
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,6 +14,7 @@ import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.data.services.save
 import com.zuku.smartbill.zukufiber.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_login2.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.joinAll
 import kotlinx.coroutines.launch
@@ -22,6 +24,8 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        image_close2.setOnClickListener { finish() }
 
         tv_get_otp.setOnClickListener {
             if (edPhone.text.isEmpty()){
@@ -60,4 +64,24 @@ class Login : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        currentTheme()
+    }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {
+                    image3.setImageDrawable(resources.getDrawable(R.drawable.zuku_logo_white))
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }

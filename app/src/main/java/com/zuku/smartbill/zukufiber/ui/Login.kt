@@ -1,11 +1,10 @@
 package com.zuku.smartbill.zukufiber.ui
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -13,13 +12,9 @@ import android.view.View
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
 import kotlinx.android.synthetic.main.activity_login2.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -71,6 +66,23 @@ class Login : AppCompatActivity() {
             startActivity(Intent(this,com.zuku.smartbill.zukufiber.ui.landing.Login::class.java))
             finish()
         }
+        currentTheme()
         super.onResume()
+    }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+               runOnUiThread {
+                   logo.setImageDrawable(resources.getDrawable(R.drawable.zuku_logo_white))
+               }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+             //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+               // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
     }
 }

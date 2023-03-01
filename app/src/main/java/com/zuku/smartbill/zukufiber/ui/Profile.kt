@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
+import com.zuku.smartbill.zukufiber.data.services.save
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,8 +29,12 @@ class Profile : AppCompatActivity() {
         edEmail.text.append(getValue(this,"emcont"))
 
 
-
         tvUpdatePlan.setOnClickListener { updateProfile() }
+        logout.setOnClickListener {
+            startActivity(Intent(this,Login ::class.java))
+            save(this,"login","false")
+            finishAffinity()
+        }
     }
     private fun Activity.openWebPage(url: String?) = url?.let {
 

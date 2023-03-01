@@ -143,6 +143,14 @@
             />
 
 
+        <ImageView
+            android:id="@+id/logout"
+            android:layout_gravity="center"
+            android:src="@drawable/logout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
