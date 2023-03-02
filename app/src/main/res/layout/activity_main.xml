@@ -608,9 +608,9 @@
 
             <ImageView
                 app:tint="@color/text_color"
-                android:src="@drawable/ic_more"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:src="@drawable/more"
+                android:layout_width="30dp"
+                android:layout_height="25dp"
                />
             <TextView
                 android:textColor="@color/black"
