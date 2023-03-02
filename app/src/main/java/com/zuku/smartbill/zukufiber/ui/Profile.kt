@@ -1,6 +1,7 @@
 package com.zuku.smartbill.zukufiber.ui
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -33,10 +34,30 @@ class Profile : AppCompatActivity() {
 
         tvUpdatePlan.setOnClickListener { updateProfile() }
         logout.setOnClickListener {
+            logout()
+        }
+    }
+
+    private fun logout(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout")
+        builder.setMessage("Would you like to logout? or Just to exit?")
+
+
+        builder.setPositiveButton("Cancel") { dialog, which ->
+            dialog.cancel()
+        }
+
+        builder.setNegativeButton("Logout") { dialog, which ->
             startActivity(Intent(this,Login ::class.java))
             save(this,"login","false")
             finishAffinity()
         }
+
+        builder.setNeutralButton("Exit") { dialog, which ->
+            finishAffinity()
+        }
+        builder.show()
     }
     private fun Activity.openWebPage(url: String?) = url?.let {
 
@@ -94,7 +115,7 @@ class Profile : AppCompatActivity() {
       }
 
   }
-    fun updateProfile(){
+    private fun updateProfile(){
         progress_circular2.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
 

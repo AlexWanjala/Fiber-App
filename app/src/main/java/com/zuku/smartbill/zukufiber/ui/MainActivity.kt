@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -205,6 +206,8 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
 
         adverts()
+
+        tvName.setOnClickListener { logout() }
 
     }
 
@@ -408,6 +411,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                 if(subid==item.packageinfo.subid.toString()){
 
                     if(item.packageinfo.subdb.contains("ZukuSatKe")){
+
                         runOnUiThread {
                             layoutSpeed.visibility = View.GONE
                             tvPackageName.visibility = View.VISIBLE
@@ -424,6 +428,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                         }
                     }
+
 
                     subdb = item.subdetails.subdb
                     save(this,"subdb",subdb)
@@ -453,6 +458,17 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     }
                     tvSPeed.text =  speed
                     getPackages(speed,item.packageinfo.subdb)
+
+
+                   if(item.packageinfo.currentpack == null){
+
+                       runOnUiThread {
+                            layoutSpeed.visibility = View.GONE
+                            tvPackageName.visibility = View.VISIBLE
+                            tvPackageName.text = "inactive"
+                            tvDes.text = "Pay to activate"
+                        }
+                    }
 
 
                 }
@@ -530,7 +546,26 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         return false
     }
 
+    private fun logout(){
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Logout")
+        builder.setMessage("Would you like to logout? or Just to exit?")
 
 
+        builder.setPositiveButton("Cancel") { dialog, which ->
+           dialog.cancel()
+        }
+
+        builder.setNegativeButton("Logout") { dialog, which ->
+            startActivity(Intent(this,Login ::class.java))
+            save(this,"login","false")
+            finishAffinity()
+        }
+
+        builder.setNeutralButton("Exit") { dialog, which ->
+           finishAffinity()
+        }
+        builder.show()
+    }
 
 }

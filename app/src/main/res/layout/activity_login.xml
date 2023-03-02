@@ -19,6 +19,7 @@
         app:tint="@color/black" />
 
     <ProgressBar
+        android:layout_gravity="center"
         android:visibility="gone"
         android:id="@+id/progress_circular"
         android:layout_marginTop="60sp"
