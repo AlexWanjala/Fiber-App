@@ -13,8 +13,8 @@ android {
         applicationId "com.zuku.smartbill.zukufiber"
         minSdk 21
         targetSdk 33
-        versionCode 10
-        versionName "2"
+        versionCode 11
+        versionName "3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {

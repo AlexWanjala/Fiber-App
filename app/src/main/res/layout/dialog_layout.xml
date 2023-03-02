@@ -10,8 +10,8 @@
     android:layout_height="wrap_content">
 
     <ImageView
+        android:layout_marginTop="25dp"
         android:id="@+id/image4"
-        android:layout_marginStart="20sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:src="@drawable/logo"

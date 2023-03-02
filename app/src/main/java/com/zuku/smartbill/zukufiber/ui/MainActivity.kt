@@ -342,7 +342,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        getPackageInfo( p0?.getItemAtPosition(p2).toString());
+         getPackageInfo( p0?.getItemAtPosition(p2).toString());
        // Toast.makeText(this, p0?.getItemAtPosition(p2).toString(),Toast.LENGTH_LONG).show()
 
     }
@@ -406,6 +406,25 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         try {
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
+
+                    if(item.packageinfo.subdb.contains("ZukuSatKe")){
+                        runOnUiThread {
+                            layoutSpeed.visibility = View.GONE
+                            tvPackageName.visibility = View.VISIBLE
+                            tvPackageName.text = item.packageinfo.currentpack
+                            tvDes.text = item.packageinfo.des
+                        }
+                    }else{
+                        runOnUiThread {
+                            layoutSpeed.visibility = View.VISIBLE
+                            tvPackageName.visibility = View.GONE
+
+                            tvPackageName.text = item.packageinfo.currentpack
+                            tvDes.text = item.packageinfo.lastpack
+
+                        }
+                    }
+
                     subdb = item.subdetails.subdb
                     save(this,"subdb",subdb)
                     save(this,"subName",item.subdetails.subname)
@@ -427,7 +446,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     }
 
                     tvUntil.text = "Until "+ item.packageinfo.billthru
-                    tvDes.text = item.packageinfo.lastpack
                     save(this,"currentPackage",item.packageinfo.lastpack)
                     var speed = item.packageinfo.lastpack.filter { it.isDigit() }
                     if(speed.length > 3){
@@ -435,6 +453,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     }
                     tvSPeed.text =  speed
                     getPackages(speed,item.packageinfo.subdb)
+
 
                 }
             }
