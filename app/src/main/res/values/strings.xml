@@ -6,7 +6,7 @@
     <string name="select_acc">Select Account No</string>
     <string name="current_balance">Current Balance</string>
     <string name="top_Up_balance">Top Up Balance</string>
-    <string name="current_plan_details">current plan details</string>
+    <string name="current_plan_details">current package</string>
     <string name="internet_speed">Internet Speed</string>
     <string name="time_">Until 23 No</string>
     <string name="mbps">MBPS</string>
@@ -101,6 +101,7 @@
     <string name="home">Home</string>
     <string name="invoice">Invoices</string>
     <string name="profile">Profile</string>
+    <string name="more">More</string>
 
 
 
