@@ -434,8 +434,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                         speed = speed.drop(1);
                     }
                     tvSPeed.text =  speed
-
-                        getPackages(speed,item.packageinfo.subdb)
+                    getPackages(speed,item.packageinfo.subdb)
 
                 }
             }

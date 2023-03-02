@@ -10,6 +10,18 @@
     android:layout_height="match_parent"
     tools:context=".ui.Profile">
 
+    <ImageView
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_gravity="right"
+        android:id="@+id/image_close6"
+        android:layout_marginEnd="20sp"
+        android:layout_marginTop="40sp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:tint="@color/black" />
+
     <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_marginTop="100sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -158,7 +170,7 @@
 
 
     <LinearLayout
-        android:layout_marginBottom="50sp"
+        android:layout_marginBottom="70sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -187,9 +199,9 @@
 
 
             <TextView
+                android:textColor="@color/text_color"
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/whatsapp"
@@ -219,7 +231,7 @@
             <TextView
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/call"
@@ -249,7 +261,7 @@
             <TextView
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/info"
@@ -280,7 +292,7 @@
             <TextView
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/faq"
@@ -311,7 +323,7 @@
             <TextView
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/twitter"
@@ -341,7 +353,7 @@
             <TextView
                 android:lines="1"
                 android:textSize="10sp"
-                android:textColor="@color/black"
+                android:textColor="@color/text_color"
                 android:layout_marginBottom="5sp"
                 android:layout_gravity="center"
                 android:text="@string/facebook"

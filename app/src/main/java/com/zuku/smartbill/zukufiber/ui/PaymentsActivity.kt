@@ -34,7 +34,6 @@ class PaymentsActivity : AppCompatActivity() {
                  val adapter = PaymentAdapter(this@PaymentsActivity,result.data.paymentData)
                  recycler_view.adapter = adapter
                  recycler_view.layoutManager = LinearLayoutManager(this@PaymentsActivity) }
-
             }else{
 
             }

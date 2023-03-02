@@ -5,6 +5,7 @@ import Paymethods
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.ui.PaymentsActivity
+import kotlinx.android.synthetic.main.activity_otp.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
 
 
@@ -80,13 +82,24 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
         dialog.setCancelable(false)
         dialog.setContentView(R.layout.dialog_layout)
 
-
         var recyclerView2: RecyclerView? = null
         recyclerView2 = dialog.findViewById(R.id.recyclerView2)
 
       var tvCancel: TextView? = null
         tvCancel = dialog.findViewById(R.id.tvCancel)
         tvCancel.setOnClickListener {  dialog.dismiss() }
+
+        when (activity.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                dialog.image4.setImageDrawable(activity.resources.getDrawable(R.drawable.zuku_logo_white))
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
 
         val adapter = SubPaymentMethodsAdapter(context,payments)
         recyclerView2?.adapter = adapter
@@ -95,6 +108,7 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
         dialog.show()
 
     }
+
 
 
 }

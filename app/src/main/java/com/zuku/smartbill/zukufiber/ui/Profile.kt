@@ -23,6 +23,8 @@ class Profile : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_profile)
 
+        image_close6.setOnClickListener { finish() }
+
         getInfo()
         edTaxPin.text.append(getValue(this,"taxpin"))
         edPhoneNumber.text.append(getValue(this,"cellcont"))

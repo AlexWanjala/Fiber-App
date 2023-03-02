@@ -179,7 +179,8 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         }
     }
     private fun validate(){
-        if(verificationCode.equals(code)|| code=="1234"){
+        code = edText1.text.toString() +  edText2.text.toString() +  edText3.text.toString()+ edText4.text.toString()
+        if(verificationCode.equals(code.replace(" ",""))|| code=="1234"){
             startActivity(Intent(this,MainActivity::class.java))
             save(this,"login","true")
             finishAffinity()
