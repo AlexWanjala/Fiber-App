@@ -407,16 +407,17 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private fun getPackageInfo(subid :String){
         accNo = subid
         try {
+            var currentPackage = ""
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
 
                     if(item.packageinfo.subdb.contains("ZukuSatKe")){
-
                         runOnUiThread {
                             layoutSpeed.visibility = View.GONE
                             tvPackageName.visibility = View.VISIBLE
                             tvPackageName.text = item.packageinfo.currentpack
                             tvDes.text = item.packageinfo.des
+                            currentPackage = item.packageinfo.currentpack
                         }
                     }else{
                         runOnUiThread {
@@ -425,6 +426,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                             tvPackageName.text = item.packageinfo.currentpack
                             tvDes.text = item.packageinfo.lastpack
+                            currentPackage =""
 
                         }
                     }
@@ -457,7 +459,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                         speed = speed.drop(1);
                     }
                     tvSPeed.text =  speed
-                    getPackages(speed,item.packageinfo.subdb)
+                    getPackages(currentPackage,speed,item.packageinfo.subdb)
 
 
                    if(item.packageinfo.currentpack == null){
@@ -510,9 +512,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
     }
 
-    private fun getPackages(mbps:String, subid :String){
+    private fun getPackages(currentPackage:String, mbps:String, subid :String){
         lifecycleScope.launch(Dispatchers.IO){
-            val response =  api.getPackages("getPackages",mbps,subid)
+            val response =  api.getPackages("getPackages",currentPackage,mbps,subid)
             if(response.success){
                 Const.ConstHolder.INSTANCE.setPackages(response.data.packages)
              //   initRecyclerViewRadio(response.data.packages)

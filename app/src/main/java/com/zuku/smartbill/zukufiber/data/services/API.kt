@@ -65,6 +65,7 @@ interface API {
     @FormUrlEncoded
     @POST("index.php")
     suspend fun getPackages(@Field("function") function: String,
+                             @Field("currentPackage") currentPackage: String,
                              @Field("mbps") mbps: String,
                              @Field("subdb") subdb: String): Json4Kotlin_Base
 
