@@ -1,11 +1,15 @@
 package com.zuku.smartbill.zukufiber.data.services
 
 
+import android.app.Activity
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Build
+import android.view.View
+import android.view.WindowManager
 import androidx.annotation.RequiresApi
 import com.yfbx.demo.net.HeaderInterceptor
 import com.yfbx.demo.net.LoggerInterceptor
@@ -43,6 +47,15 @@ val api: API = Retrofit.Builder()
     .addConverterFactory(GsonConverterFactory.create())
     .build()
     .create(API::class.java)
+
+fun Context.statusBarTransparent(activity: Activity){
+    activity.window.apply {
+        clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+        addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        statusBarColor = Color.TRANSPARENT
+    }
+}
 
 interface API {
     @FormUrlEncoded

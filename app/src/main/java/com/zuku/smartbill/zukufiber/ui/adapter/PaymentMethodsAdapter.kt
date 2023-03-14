@@ -6,6 +6,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,16 +58,18 @@ class PaymentMethodsAdapter(private val context: Context, private val dataSet:  
       //  viewHolder.tvDes.text = dataSet[position].desc
         viewHolder.layoutPaymentMethod.setOnClickListener {
 
-            if(dataSet[position].payments.size>1){
+            if(dataSet[position].payments.size>=1){
 
-                showDialog(context,dataSet[position].payments)
-
-            }else{
                 if (dataSet[position].payments[0].method=="PAYMENTS"){
 
                     context.startActivity(Intent(context, PaymentsActivity::class.java))
 
+                }else{
+                    showDialog(context,dataSet[position].payments)
                 }
+
+            }else{
+              Toast.makeText(context,"No Payment options",Toast.LENGTH_LONG).show()
             }
 
         }

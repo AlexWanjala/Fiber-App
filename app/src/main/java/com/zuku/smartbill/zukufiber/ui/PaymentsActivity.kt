@@ -28,7 +28,7 @@ class PaymentsActivity : AppCompatActivity() {
 
     fun paymentsoptions(){
         lifecycleScope.launch(Dispatchers.IO){
-            val result = api.paymentsoptions("paymentsoptions", getValue(this@PaymentsActivity,"subdb").toString())
+            val result = api.paymentsoptions("paymentsoptions", getValue(this@PaymentsActivity,"subdb").toString().replace(" ",""))
             if(result.success){
              runOnUiThread {
                  val adapter = PaymentAdapter(this@PaymentsActivity,result.data.paymentData)

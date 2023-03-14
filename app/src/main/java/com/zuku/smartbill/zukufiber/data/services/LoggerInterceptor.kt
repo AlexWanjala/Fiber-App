@@ -36,11 +36,10 @@ class LoggerInterceptor(private val onPrintLog: ((String) -> Unit)? = null) : In
     private fun logRequest(chain: Interceptor.Chain, request: Request) {
         val requestBody = request.body()
         val hasRequestBody = requestBody != null
-
         val connection = chain.connection()
         val protocol = if (connection != null) connection.protocol() else Protocol.HTTP_1_1
         val requestStartMessage = "--> " + request.method() + ' ' + request.url() + ' ' + protocol
-        Log.i(TAG, requestStartMessage)
+        Log.e(TAG, requestStartMessage)
 
         if (hasRequestBody) {
             if (requestBody!!.contentType() != null) {

@@ -151,10 +151,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             startActivity(Intent(this@MainActivity, PackagesActivity::class.java))
         }
 
-   //     tv_see_all.setOnClickListener { startActivity(Intent(this, PackagesActivity::class.java)) }
         tv_pay.setOnClickListener {
 
-
+            getpaymentmethods()
 
             if (android.os.Build.VERSION.SDK_INT >= 23 && !Settings.canDrawOverlays(this)) {
                 startActivityForResult(Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, Uri.parse("package:$packageName")),1)
@@ -163,7 +162,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             }else{
                 toggleBottomSheet()
             }
-
 
         }
         tv_pay.setOnLongClickListener(object: View.OnLongClickListener {
@@ -302,11 +300,15 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
 
     private fun getpaymentmethods (){
+        Log.e("#######","######")
        lifecycleScope.launch(Dispatchers.IO){
-
            val result = api.getpaymentmethods("getpaymentmethods", getValue(this@MainActivity,"subdb").toString())
            if(result.success){
+               Log.e("#######",result.toString())
                runOnUiThread {
+                   recycler_view2.adapter = null
+                   recycler_view2?.adapter?.notifyDataSetChanged()
+
                    val adapter = PaymentMethodsAdapter(this@MainActivity,result.data.paymethods)
                    recycler_view2.adapter = adapter
                    recycler_view2.layoutManager = LinearLayoutManager(this@MainActivity)
@@ -346,6 +348,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
          getPackageInfo( p0?.getItemAtPosition(p2).toString());
+        bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
        // Toast.makeText(this, p0?.getItemAtPosition(p2).toString(),Toast.LENGTH_LONG).show()
 
     }
@@ -358,7 +361,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             if (bottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED) {
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
             } else {
-                getpaymentmethods()
                 bottomSheetBehavior.state = BottomSheetBehavior.STATE_HALF_EXPANDED
             }
         }
@@ -377,7 +379,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                         getPackageInfo(response.data.subDetailsResponse[0].packageinfo.subid.toString())
                         accounts.add(item.packageinfo.subid.toString())
                     }
-
                     runOnUiThread {
                         val aa = ArrayAdapter(this@MainActivity, R.layout.spinner_right_aligned, accounts)
                         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -410,8 +411,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             var currentPackage = ""
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
-
-                    if(item.packageinfo.subdb.contains("ZukuSatKe")){
+                    if(item.packageinfo.subdb.contains("ZukuSat")){
                         runOnUiThread {
                             layoutSpeed.visibility = View.GONE
                             tvPackageName.visibility = View.VISIBLE
@@ -419,7 +419,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                             tvDes.text = item.packageinfo.des
                             currentPackage = item.packageinfo.currentpack
                         }
-                    }else{
+
+                        if(item.packageinfo.currentpack == null || item.packageinfo.currentpack.isEmpty()|| item.packageinfo.currentpack==""){
+                            runOnUiThread {
+                                layoutSpeed.visibility = View.GONE
+                                tvPackageName.visibility = View.VISIBLE
+                                tvPackageName.text = "inactive"
+                                tvDes.text = "Pay to activate"
+                            }
+                        }
+                        getPackages(currentPackage,"",item.packageinfo.subdb)
+                    }
+                    else{
                         runOnUiThread {
                             layoutSpeed.visibility = View.VISIBLE
                             tvPackageName.visibility = View.GONE
@@ -430,8 +441,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                         }
                     }
-
-
                     subdb = item.subdetails.subdb
                     save(this,"subdb",subdb)
                     save(this,"subName",item.subdetails.subname)
@@ -462,7 +471,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     getPackages(currentPackage,speed,item.packageinfo.subdb)
 
 
-                   if(item.packageinfo.currentpack == null){
+                   if(item.packageinfo.currentpack == null || item.packageinfo.currentpack.isEmpty()|| item.packageinfo.currentpack==""){
 
                        runOnUiThread {
                             layoutSpeed.visibility = View.GONE

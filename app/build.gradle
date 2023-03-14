@@ -13,8 +13,8 @@ android {
         applicationId "com.zuku.smartbill.zukufiber"
         minSdk 21
         targetSdk 33
-        versionCode 13
-        versionName "5"
+        versionCode 16
+        versionName "8"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -85,9 +85,5 @@ dependencies {
 
 
     implementation 'com.toptoche.searchablespinner:searchablespinnerlibrary:1.3.1'
-    //buildConfigField("String", "YOUTUBE_API_KEY", "AIzaSyC_L1ygZnDwoAcd8C23aL6BkqcNCifVMX4")
-
-
-
-
+    //buildConfigField("String", "YOUTUBE_API_KEY", "AIzaSyC_L1ygZnDwoAcd8C23aL6BkqcNCifVMX4"
 }

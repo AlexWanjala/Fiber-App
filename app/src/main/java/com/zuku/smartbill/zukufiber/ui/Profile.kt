@@ -13,6 +13,7 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.data.services.save
+import com.zuku.smartbill.zukufiber.ui.landing.Browser
 import kotlinx.android.synthetic.main.activity_profile.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,8 +62,10 @@ class Profile : AppCompatActivity() {
     }
     private fun Activity.openWebPage(url: String?) = url?.let {
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-        if (intent.resolveActivity(packageManager) != null) startActivity(intent)
+        startActivity(Intent(this@Profile,Browser::class.java).putExtra("link",url))
+
+      /*  val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+        if (intent.resolveActivity(packageManager) != null) startActivity(intent)*/
     }
     private fun getInfo(){
       lifecycleScope.launch(Dispatchers.IO){
