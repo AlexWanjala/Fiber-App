@@ -25,12 +25,12 @@
         app:drawableTint="@color/black" />
 
     <LinearLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:background="@color/grey_bg"
         android:id="@+id/list_layout"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="123sp">
+        android:layout_height="250sp">
         <View
             android:background="@color/grey"
             android:layout_width="match_parent"

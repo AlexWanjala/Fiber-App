@@ -42,10 +42,10 @@ class PackageDetails : AppCompatActivity() {
         setContentView(R.layout.activity_package_details)
 
 
-        tvTitle.text =  intent.getStringExtra("packageName").toString()
-        tvSPeed.text =   intent.getStringExtra("item").toString()
-        tvAmount.text =  intent.getStringExtra("currency").toString()+" "+ intent.getStringExtra("price").toString()
-        tvDes.text =   intent.getStringExtra("des").toString()
+        tvTitle.text = intent.getStringExtra("packageName").toString()
+        tvSPeed.text = intent.getStringExtra("item").toString()
+        tvAmount.text = intent.getStringExtra("currency").toString()+" "+ intent.getStringExtra("price").toString()
+        tvDes.text = intent.getStringExtra("des").toString()
 
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -82,26 +82,27 @@ class PackageDetails : AppCompatActivity() {
         val messageBoxBuilder = AlertDialog.Builder(this).setView(messageBoxView)
         val  messageBoxInstance = messageBoxBuilder.show()
 
-        messageBoxView.tvHeader.text ="${intent.getStringExtra("item")} Channels"
-
         lifecycleScope.launch(Dispatchers.IO){
 
             val result =  api.getChannels(
                 "getChannels", intent.getStringExtra("item").toString())
             if(result.success){
                 runOnUiThread {
-                    progress_circular2.visibility = View.GONE
-                    // use array-adapter and define an array
-                    val arrayAdapter: ArrayAdapter<*>
-                    val array = arrayListOf<String>()
-                    for (data in result.data.channels){
-                        array.add("${data.channel_code} ${data.channel_name}")
+                    if(!result.data.channels.equals(null)){
+                        messageBoxView.tvHeader.text ="${intent.getStringExtra("item")} Channels"
+                        progress_circular2.visibility = View.GONE
+                        // use array-adapter and define an array
+                        val arrayAdapter: ArrayAdapter<*>
+                        val array = arrayListOf<String>()
+                        for (data in result.data.channels){
+                            array.add("${data.channel_code} ${data.channel_name}")
+                        }
+                        // access the listView from xml file
+                        arrayAdapter = ArrayAdapter(this@PackageDetails , R.layout.list_item_view, array)
+                        messageBoxView.list_view.adapter = arrayAdapter
+                        messageBoxView.list_view.adapter = arrayAdapter
+                        messageBoxView.list_view.divider = null;
                     }
-                    // access the listView from xml file
-                    arrayAdapter = ArrayAdapter(this@PackageDetails , R.layout.list_item_view, array)
-                    messageBoxView.list_view.adapter = arrayAdapter
-                    messageBoxView.list_view.adapter = arrayAdapter
-                    messageBoxView.list_view.divider = null;
                 }
 
             }else{
@@ -113,7 +114,6 @@ class PackageDetails : AppCompatActivity() {
 
         //setting text values
         messageBoxView.imageView.setOnClickListener { messageBoxInstance.dismiss()}
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

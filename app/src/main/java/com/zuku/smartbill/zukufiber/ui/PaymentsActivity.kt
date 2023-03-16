@@ -2,6 +2,7 @@ package com.zuku.smartbill.zukufiber.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.zuku.smartbill.zukufiber.R
@@ -18,24 +19,23 @@ class PaymentsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_payments)
-
-
-
         image_close.setOnClickListener { finish() }
 
         paymentsoptions()
     }
 
-    fun paymentsoptions(){
+    private fun paymentsoptions(){
         lifecycleScope.launch(Dispatchers.IO){
-            val result = api.paymentsoptions("paymentsoptions", getValue(this@PaymentsActivity,"subdb").toString().replace(" ",""))
+            val result = api.paymentsoptions("paymentsoptions",
+                getValue(this@PaymentsActivity,"subdb").toString().replace(" ",""),"version"
+            )
             if(result.success){
              runOnUiThread {
                  val adapter = PaymentAdapter(this@PaymentsActivity,result.data.paymentData)
                  recycler_view.adapter = adapter
                  recycler_view.layoutManager = LinearLayoutManager(this@PaymentsActivity) }
             }else{
-
+                runCatching { Toast.makeText(this@PaymentsActivity,result.message,Toast.LENGTH_LONG) }
             }
         }
 

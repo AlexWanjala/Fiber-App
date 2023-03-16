@@ -143,7 +143,8 @@ interface API {
     @FormUrlEncoded
     @POST("index.php")
     suspend fun paymentsoptions(@Field("function") function: String,
-                             @Field("subdb") subdb: String): Json4Kotlin_Base
+                                @Field("subdb") subdb: String,
+                                @Field("version") version: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")
