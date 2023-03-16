@@ -25,7 +25,7 @@
         app:drawableTint="@color/black" />
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:background="@color/grey_bg"
         android:id="@+id/list_layout"
         android:orientation="vertical"

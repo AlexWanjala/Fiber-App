@@ -111,6 +111,11 @@ interface API {
 
     @FormUrlEncoded
     @POST("index.php")
+    suspend fun getChannels(@Field("function") function: String,
+                            @Field("package") packageName: String): Json4Kotlin_Base
+
+    @FormUrlEncoded
+    @POST("index.php")
     suspend fun changePlanRequest(@Field("function") function: String,
                              @Field("title") title : String,
                              @Field("date") date: String,

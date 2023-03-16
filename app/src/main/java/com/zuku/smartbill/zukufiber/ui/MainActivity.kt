@@ -84,9 +84,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         // some different layout apart from the current activity layout
         val contentView = RemoteViews(packageName, R.layout.notification)
 
-
-
-
         // checking if android version is greater than oreo(API 26) or not
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationChannel = NotificationChannel(channelId, description, NotificationManager.IMPORTANCE_HIGH)
@@ -203,23 +200,31 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
             Toast.makeText(this,"You are offline",Toast.LENGTH_LONG).show()
         }
 
-        adverts()
+
 
         tvName.setOnClickListener { logout() }
 
     }
 
 
-    fun adverts(){
+    private fun adverts(){
         val imageList = ArrayList<SlideModel>() // Create image list
 
 // imageList.add(SlideModel("String Url" or R.drawable)
 // imageList.add(SlideModel("String Url" or R.drawable, "title") You can add title
 
-        imageList.add(SlideModel("https://www.dignited.com/wp-content/uploads/2018/10/zuku-fiber.jpg", "Efficient"))
-        imageList.add(SlideModel("https://kisiifinest.co.ke/wp-content/uploads/2021/06/List-of-best-Zuku-internet-packages-2021-Kenya-prices-fiber-WiFi-satellite-TV-rates.jpg", "Fast reliable"))
-        imageList.add(SlideModel("https://arkafrica.com/wp-content/uploads/2021/03/ark-zuku-tv-ident.jpg", "Creating Africa’s first triple play brand."))
-        imageList.add(SlideModel("https://pbs.twimg.com/media/DBix2lvXYAI-u0K.jpg", "Zuku Reward"))
+
+         if(getValue(this,"subdb").toString().contains("Sat")){
+             imageList.add(SlideModel("https://victormatara.com/wp-content/uploads/2018/06/Zuku-Satellite-TV-Packages-2018-1024x452.jpg", "Satellite"))
+             imageList.add(SlideModel("https://www.jitimu.com/wp-jtech/wp-content/uploads/2022/12/Full-Zuku-Satellite-Kit.jpg", "Satellite"))
+             imageList.add(SlideModel("https://www.jitimu.com/wp-jtech/wp-content/uploads/2020/10/Zuku-satellite-TV-Decoder-packages-and-channels.jpg", "Satellite"))
+         }else{
+             imageList.add(SlideModel("https://www.dignited.com/wp-content/uploads/2018/10/zuku-fiber.jpg", "Efficient"))
+             imageList.add(SlideModel("https://kisiifinest.co.ke/wp-content/uploads/2021/06/List-of-best-Zuku-internet-packages-2021-Kenya-prices-fiber-WiFi-satellite-TV-rates.jpg", "Fast reliable"))
+             imageList.add(SlideModel("https://arkafrica.com/wp-content/uploads/2021/03/ark-zuku-tv-ident.jpg", "Creating Africa’s first triple play brand."))
+             imageList.add(SlideModel("https://pbs.twimg.com/media/DBix2lvXYAI-u0K.jpg", "Zuku Reward"))
+         }
+
 
         val imageSlider = findViewById<ImageSlider>(R.id.image_slider)
         imageSlider.setImageList(imageList)
@@ -451,7 +456,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                     save(this,"emcont", item.subcontacts.emcont)
                     save(this,"taxpin", item.subcontacts.taxpin)
 
-                    updatedate.text = item.packageinfo.updatedate
+                    updatedate.text = item.packageinfo.billthru
                     tvName.text = item.subdetails.subname
                     tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
                     tvAmountDue.text = item.packageinfo.dueamt.toString()
@@ -488,7 +493,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         }
 
-
+        adverts()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)

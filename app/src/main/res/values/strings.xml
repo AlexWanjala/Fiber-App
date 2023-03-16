@@ -25,7 +25,7 @@
     <string name="internet_only_package">Internet Only Package</string>
     <string name="triple_play_packages">Triple Play Packages</string>
     <string name="office_packages">Office packages</string>
-    <string name="zuku_fiber_packages">Zuku Fiber Packages</string>
+    <string name="zuku_fiber_packages">Zuku Packages</string>
     <string name="close">Close</string>
     <string name="currency">KES</string>
     <string name="amount_value">KES 2,899</string>
@@ -62,7 +62,7 @@
     <string name="online">Online</string>
     <string name="address">IP Address</string>
     <string name="password">Password</string>
-    <string name="update">Update</string>
+    <string name="update">Add</string>
     <string name="download">DOWNLOAD</string>
     <string name="phone_des">Enter your phone number for verification</string>
     <string name="get_opt">Get OTP</string>
@@ -102,6 +102,8 @@
     <string name="invoice">Invoices</string>
     <string name="profile">Profile</string>
     <string name="more">More</string>
+    <string name="add_phone">Add phone Number</string>
+    <string name="add_des">Update your contact information by adding an email or phoneNumber</string>
 
 
 </resources>

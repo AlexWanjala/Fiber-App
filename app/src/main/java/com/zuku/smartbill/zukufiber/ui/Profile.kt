@@ -127,8 +127,8 @@ class Profile : AppCompatActivity() {
                 getValue(this@Profile,"subid").toString(),
                 getValue(this@Profile,"subdb").toString(),
                 edTaxPin.text.toString(),
-                edEmail.text.toString(),
-                edPhoneNumber.text.toString(),
+                edEmailAdd.text.toString(),
+                edPhoneNumbeAddr.text.toString(),
                 getValue(this@Profile,"cid").toString())
 
             runOnUiThread {   progress_circular2.visibility = View.GONE
@@ -137,10 +137,4 @@ class Profile : AppCompatActivity() {
         }
 
     }
-
-
-   /* save(this,"cid", item.subcontacts.cid)
-    save(this,"cellcont", item.subcontacts.cellcont)
-    save(this,"emcont", item.subcontacts.cellcont)
-    save(this,"taxpin", item.subcontacts.cellcont)*/
 }

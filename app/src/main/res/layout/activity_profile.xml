@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
+    android:scrollbars="none"
     android:padding="10sp"
     android:background="@drawable/bg_border"
     android:orientation="vertical"
@@ -10,108 +11,199 @@
     android:layout_height="match_parent"
     tools:context=".ui.Profile">
 
-    <ImageView
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        android:layout_gravity="right"
-        android:id="@+id/image_close6"
-        android:layout_marginEnd="20sp"
-        android:layout_marginTop="40sp"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:tint="@color/black" />
-
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:padding="20dp"
+        android:padding="10sp"
         android:background="@drawable/bg_border"
-        android:layout_marginTop="100sp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        tools:context=".ui.Profile">
 
-        <TextView
-            android:textStyle="bold"
-            android:textColor="@color/text_color"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center"
-            android:text="Update your Personal Info"
+        <ImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_gravity="right"
+            android:id="@+id/image_close6"
+            android:layout_marginEnd="20sp"
+            android:layout_marginTop="40sp"
+            android:src="@android:drawable/ic_menu_close_clear_cancel"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            app:tint="@color/black" />
 
-        <LinearLayout
-            android:layout_marginBottom="5sp"
-            android:orientation="horizontal"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/topBar"
+            android:padding="20dp"
+            android:background="@drawable/bg_border"
+            android:layout_marginTop="15sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
+                android:textSize="11dp"
+                android:textStyle="bold"
                 android:textColor="@color/text_color"
-                android:text="@string/kra_pin"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:text="Update your Personal Info"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginBottom="5sp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="11dp"
+                    android:textColor="@color/text_color"
+                    android:text="@string/kra_pin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+
+                <EditText
+                    android:textSize="11dp"
+                    android:id="@+id/edTaxPin"
+                    android:padding="5dp"
+                    android:paddingTop="2sp"
+                    android:paddingBottom="2sp"
+                    android:paddingStart="10sp"
+                    android:background="@drawable/bg_border"
+                    android:drawablePadding="5sp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/text_color_black"
+                    tools:text="P700392999222"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5sp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="11dp"
+                    android:textColor="@color/text_color"
+                    android:text="@string/phone_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <EditText
+                    android:textSize="11dp"
+                    android:focusable="false"
+                    android:id="@+id/edPhoneNumber"
+                    android:padding="5dp"
+                    android:paddingTop="2sp"
+                    android:paddingBottom="2sp"
+                    android:paddingStart="10sp"
+                    android:background="@drawable/bg_border"
+                    android:drawablePadding="5sp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/text_color_black"
+                    tools:text="@string/phone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_marginBottom="5sp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:textSize="11dp"
+                    android:textColor="@color/text_color"
+                    android:text="@string/email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+
+                <EditText
+                    android:textSize="11dp"
+                    android:focusable="false"
+                    android:lines="1"
+                    android:id="@+id/edEmail"
+                    android:padding="5dp"
+                    android:paddingTop="2sp"
+                    android:paddingBottom="2sp"
+                    android:paddingStart="10sp"
+                    android:background="@drawable/bg_border"
+                    android:drawablePadding="5sp"
+                    android:layout_marginStart="20dp"
+                    android:textColor="@color/text_color_black"
+                    tools:text="wanjalaalex25@gmail.com"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+
+
+            </LinearLayout>
+
+
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/progress_circular2"
+                android:layout_gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
 
 
-            <EditText
-                android:id="@+id/edTaxPin"
-                android:padding="5dp"
-                android:paddingTop="2sp"
-                android:paddingBottom="2sp"
-                android:paddingStart="10sp"
-                android:background="@drawable/bg_border"
-                android:drawablePadding="5sp"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/text_color_black"
-                tools:text="P700392999222"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
 
 
-        </LinearLayout>
+            <ImageView
+                android:visibility="gone"
+                android:id="@+id/logout"
+                android:layout_gravity="center"
+                android:src="@drawable/logout"
+                android:layout_width="100dp"
+                android:layout_height="100dp"/>
+
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
 
         <LinearLayout
-            android:layout_marginBottom="5sp"
-            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_border"
+            app:layout_constraintTop_toBottomOf="@+id/topBar"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <TextView
-                android:textColor="@color/text_color"
-                android:text="@string/phone_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-
-
-            <EditText
-                android:id="@+id/edPhoneNumber"
-                android:padding="5dp"
-                android:paddingTop="2sp"
-                android:paddingBottom="2sp"
-                android:paddingStart="10sp"
-                android:background="@drawable/bg_border"
-                android:drawablePadding="5sp"
-                android:layout_marginStart="20dp"
-                android:textColor="@color/text_color_black"
-                tools:text="@string/phone"
+                android:textSize="11dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="@string/add_des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
-
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_marginBottom="5sp"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
             <TextView
+                android:textSize="11dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
                 android:textColor="@color/text_color"
                 android:text="@string/email"
                 android:layout_width="wrap_content"
@@ -119,8 +211,12 @@
 
 
             <EditText
+                android:inputType="textEmailAddress"
+                android:layout_marginTop="5dp"
+                android:textSize="11sp"
+                android:layout_marginBottom="5dp"
                 android:lines="1"
-                android:id="@+id/edEmail"
+                android:id="@+id/edEmailAdd"
                 android:padding="5dp"
                 android:paddingTop="2sp"
                 android:paddingBottom="2sp"
@@ -133,265 +229,272 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
 
+            <TextView
+                android:textSize="11sp"
+                android:layout_marginTop="20dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/text_color"
+                android:text="@string/add_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
+            <EditText
+                android:inputType="phone"
+                android:textSize="11sp"
+                android:id="@+id/edPhoneNumbeAddr"
+                android:padding="5dp"
+                android:paddingTop="2sp"
+                android:paddingBottom="2sp"
+                android:paddingStart="10sp"
+                android:background="@drawable/bg_border"
+                android:drawablePadding="5sp"
+                android:layout_marginStart="20dp"
+                android:textColor="@color/text_color_black"
+                tools:text="@string/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
+            <TextView
+                android:textSize="11sp"
+                android:layout_marginBottom="10dp"
+                android:id="@+id/tvUpdatePlan"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="@drawable/indicator_state_blue_background"
+                android:textColor="@drawable/indicator_state_color_button"
+                android:layout_marginEnd="30sp"
+                android:layout_marginStart="30sp"
+                android:gravity="center"
+                android:layout_marginTop="20sp"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/update"
+                android:layout_width="match_parent"
+                android:layout_height="40sp"
+                />
         </LinearLayout>
 
 
-        <ProgressBar
-            android:visibility="gone"
-            android:id="@+id/progress_circular2"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-
-        <TextView
-            android:id="@+id/tvUpdatePlan"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="@drawable/indicator_state_blue_background"
-            android:textColor="@drawable/indicator_state_color_button"
-            android:layout_marginEnd="30sp"
-            android:layout_marginStart="30sp"
-            android:gravity="center"
-            android:layout_marginTop="20sp"
-            app:layout_constraintRight_toRightOf="parent"
+        <LinearLayout
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_border"
+            android:orientation="vertical"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textSize="12sp"
-            android:text="@string/update"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="match_parent"
-            android:layout_height="40sp"
-            />
+            android:layout_height="wrap_content">
+            <TextView
+                android:textSize="11dp"
+                android:layout_marginTop="20dp"
+                android:textStyle="bold"
+                android:textColor="@color/text_color"
+                android:layout_marginBottom="10dp"
+                android:layout_gravity="center"
+                android:text="Call center contact channels"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <LinearLayout
+                android:layout_marginBottom="20dp"
+                android:layout_marginTop="20dp"
+                android:weightSum="6"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/whatsapp"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/whastapp"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"/>
 
 
-        <ImageView
-            android:visibility="gone"
-            android:id="@+id/logout"
-            android:layout_gravity="center"
-            android:src="@drawable/logout"
-            android:layout_width="100dp"
-            android:layout_height="100dp"/>
+                    <TextView
+                        android:textColor="@color/text_color"
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/whatsapp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/call"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"
+                        android:src="@drawable/call" />
+
+
+                    <TextView
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/call"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/info"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/website"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"/>
+
+
+                    <TextView
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/info"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/faq"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/faw"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"/>
+
+
+                    <TextView
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/faq"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/twitter"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/twitter"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"/>
+
+
+                    <TextView
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/twitter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/facebook"
+                    android:layout_marginBottom="5sp"
+                    android:layout_marginEnd="5sp"
+                    android:layout_marginStart="5sp"
+                    android:background="@color/white"
+                    android:elevation="10sp"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:src="@drawable/facebook"
+                        android:layout_width="40sp"
+                        android:layout_height="40sp"/>
+
+
+                    <TextView
+                        android:lines="1"
+                        android:textSize="10sp"
+                        android:textColor="@color/text_color"
+                        android:layout_marginBottom="5sp"
+                        android:layout_gravity="center"
+                        android:text="@string/facebook"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
 
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
-     <LinearLayout
-         android:background="@drawable/bg_border"
-         android:orientation="vertical"
-         android:layout_marginBottom="70sp"
-         app:layout_constraintLeft_toLeftOf="parent"
-         app:layout_constraintRight_toRightOf="parent"
-         app:layout_constraintBottom_toBottomOf="parent"
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content">
-         <TextView
-             android:layout_marginTop="20dp"
-             android:textStyle="bold"
-             android:textColor="@color/text_color"
-             android:layout_marginBottom="10dp"
-             android:layout_gravity="center"
-             android:text="Call center contact channels"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"/>
-
-         <LinearLayout
-             android:layout_marginBottom="20dp"
-             android:layout_marginTop="20dp"
-             android:weightSum="6"
-             android:orientation="horizontal"
-             android:layout_width="match_parent"
-             android:layout_height="wrap_content">
-
-             <LinearLayout
-                 android:id="@+id/whatsapp"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:src="@drawable/whastapp"
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"/>
-
-
-                 <TextView
-                     android:textColor="@color/text_color"
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/whatsapp"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-             <LinearLayout
-                 android:id="@+id/call"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"
-                     android:src="@drawable/call" />
-
-
-                 <TextView
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:textColor="@color/text_color"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/call"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-             <LinearLayout
-                 android:id="@+id/info"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:src="@drawable/website"
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"/>
-
-
-                 <TextView
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:textColor="@color/text_color"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/info"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-
-             <LinearLayout
-                 android:id="@+id/faq"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:src="@drawable/faw"
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"/>
-
-
-                 <TextView
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:textColor="@color/text_color"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/faq"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-
-             <LinearLayout
-                 android:id="@+id/twitter"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:src="@drawable/twitter"
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"/>
-
-
-                 <TextView
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:textColor="@color/text_color"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/twitter"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-             <LinearLayout
-                 android:id="@+id/facebook"
-                 android:layout_marginBottom="5sp"
-                 android:layout_marginEnd="5sp"
-                 android:layout_marginStart="5sp"
-                 android:background="@color/white"
-                 android:elevation="10sp"
-                 android:gravity="center"
-                 android:layout_weight="1"
-                 android:orientation="vertical"
-                 android:layout_width="0dp"
-                 android:layout_height="match_parent">
-
-                 <ImageView
-                     android:src="@drawable/facebook"
-                     android:layout_width="40sp"
-                     android:layout_height="40sp"/>
-
-
-                 <TextView
-                     android:lines="1"
-                     android:textSize="10sp"
-                     android:textColor="@color/text_color"
-                     android:layout_marginBottom="5sp"
-                     android:layout_gravity="center"
-                     android:text="@string/facebook"
-                     android:layout_width="wrap_content"
-                     android:layout_height="wrap_content"/>
-
-             </LinearLayout>
-
-         </LinearLayout>
-
-     </LinearLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
