@@ -33,7 +33,8 @@ class PaymentsActivity : AppCompatActivity() {
              runOnUiThread {
                  val adapter = PaymentAdapter(this@PaymentsActivity,result.data.paymentData)
                  recycler_view.adapter = adapter
-                 recycler_view.layoutManager = LinearLayoutManager(this@PaymentsActivity) }
+                 recycler_view.layoutManager = LinearLayoutManager(this@PaymentsActivity)
+             }
             }else{
                 runCatching { Toast.makeText(this@PaymentsActivity,result.message,Toast.LENGTH_LONG) }
             }

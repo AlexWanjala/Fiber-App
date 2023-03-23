@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    android:layout_marginStart="20dp"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:background="@drawable/indicator_state_background_grey"
+        android:clickable="true"
+        android:textSize="11dp"
+        android:layout_marginStart="10dp"
+        android:id="@+id/tvPaymentOption"
+        android:drawablePadding="10dp"
+        android:drawableStart="@drawable/dot"
+        android:textColor="#028CFA"
+        android:text="Mpesa 320320 AccNo XXXXX"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:layout_marginStart="25dp"
+        android:background="#3BB9FF"
+        android:layout_width="140dp"
+        android:layout_height="1dp"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -9,5 +9,5 @@
     app:drawableStartCompat="@drawable/dot"
     android:drawablePadding="10sp"
     android:padding="2sp"
-    android:drawableTint="@color/black"
-    />
+    android:text="wikipeda.org"
+    app:drawableTint="@color/black" />
