@@ -272,16 +272,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
-/*
-    private fun initRecyclerViewRadio(arrayList: List<Packages>){
-        //Packages
-        runOnUiThread {
-            adapter = PackageAdapter(this,arrayList)
-            recycler_view_radio.adapter = adapter
-            recycler_view_radio.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        }
 
-    }*/
 
      fun stkPayments(desc: String){
 

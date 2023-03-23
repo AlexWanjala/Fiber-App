@@ -40,7 +40,13 @@ class TransactionResponse : AppCompatActivity() {
         tvPackage.text = intent.getStringExtra("customer_name")
         tvAccNo.text = intent.getStringExtra("accNo").toString()
         tvAmount.text = intent.getStringExtra("amount").toString()
-        paymentCode.text = intent.getStringExtra("customer_email").toString()
+        val email = intent.getStringExtra("customer_email").toString()
+        if (email.isEmpty() || email==null || email=="null"){
+            paymentCode.text ="#"
+        }else{
+            paymentCode.text = email
+        }
+
         tvSPeed.text =  intent.getStringExtra("speed").toString()
 
     }

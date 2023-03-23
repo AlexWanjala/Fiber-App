@@ -12,6 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.ui.MainActivity
 import com.zuku.smartbill.zukufiber.ui.PackagesActivity
+import kotlinx.android.synthetic.main.activity_packages.*
+import kotlinx.android.synthetic.main.activity_transactions.*
+import kotlinx.android.synthetic.main.item_payment_options.*
+import kotlinx.android.synthetic.main.item_payment_options.recycler_view
 
 
 class PackageAdapter(private val context: Context, private val dataSet: List<Packages>) :
@@ -64,20 +68,22 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
 
             }
             if (context is PackagesActivity) {
-                (context as PackagesActivity).initRecyclerView(item.packageItems)
+                if (item.packageItems==null || item.packageItems.isEmpty()){
+                   // Toast.makeText(context,"No further packages available check later",Toast.LENGTH_LONG).show()
+                    (context as PackagesActivity).recycler_view2.adapter = null
+                }else{
+                    (context as PackagesActivity).initRecyclerView(item.packageItems)
 
-                //Check the 1st item
-                viewHolder.radio_1.isChecked = true
-                if (lastCheckedRB != null) {
-                    lastCheckedRB?.isChecked = false
+                    //Check the 1st item
+                    viewHolder.radio_1.isChecked = true
+                    if (lastCheckedRB != null) {
+                        lastCheckedRB?.isChecked = false
+                    }
+                    lastCheckedRB = viewHolder.radio_1
                 }
-                lastCheckedRB = viewHolder.radio_1
+
             }
-
-
-
         }
-
         viewHolder.radio_1.text = item.packageName.toString().lowercase().capitalize()
         viewHolder.radio_1.setOnClickListener {
             if (lastCheckedRB != null) {
@@ -88,15 +94,25 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
 
 
             if (context is MainActivity) {
-                (context as MainActivity).initRecyclerView(item.packageItems)
+                if (item.packageItems==null || item.packageItems.isEmpty()){
+                   // Toast.makeText(context,"No further packages available check later",Toast.LENGTH_LONG).show()
+                    (context as MainActivity).recycler_view.adapter = null
+                }else{
+                    (context as MainActivity).initRecyclerView(item.packageItems)
+                }
+
             }
 
             if (context is PackagesActivity) {
-                (context as PackagesActivity).initRecyclerView(item.packageItems)
+                if (item.packageItems==null || item.packageItems.isEmpty()){
+                   // Toast.makeText(context,"No further packages available check later",Toast.LENGTH_LONG).show()
+                    (context as PackagesActivity).recycler_view2.adapter = null
+                }else{
+                    (context as PackagesActivity).initRecyclerView(item.packageItems)
+                }
+
             }
         }
-
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
