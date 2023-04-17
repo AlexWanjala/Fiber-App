@@ -41,7 +41,6 @@ import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.activity_login2.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
@@ -57,6 +56,7 @@ import java.time.format.DateTimeFormatter
 import java.util.*
 
 
+//TEST BACKGROUND LUBULI ###
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     private var accounts: MutableList<String> = ArrayList()
@@ -71,8 +71,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     lateinit var builder: Notification.Builder
     private val channelId = "i.apps.notifications"
     private val description = "Test notification"
-
-
 
 
     private fun notification(){
@@ -328,12 +326,12 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 runOnUiThread {//Night Mode
-
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark)
                 }
             }
             Configuration.UI_MODE_NIGHT_NO -> {
                 //Light Mode
-                layoutMain.background = resources.getDrawable(R.drawable.bg_long)
+                layoutMain.background = resources.getDrawable(R.drawable.background_light)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
@@ -404,9 +402,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private fun getPackageInfo(subid :String){
         accNo = subid
         try {
-            var currentPackage = ""
+           var currentPackage = ""
+            var lastpack = ""
             for (item in Const.ConstHolder.INSTANCE.getJson4Kotlin_Base()?.data!!.subDetailsResponse){
                 if(subid==item.packageinfo.subid.toString()){
+                    lastpack = item.packageinfo.lastpack
                     if(item.packageinfo.subdb.contains("ZukuSat")){
                         runOnUiThread {
                             layoutSpeed.visibility = View.GONE
@@ -414,6 +414,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                             tvPackageName.text = item.packageinfo.currentpack
                             tvDes.text = item.packageinfo.des
                             currentPackage = item.packageinfo.currentpack
+
                         }
 
                         if(item.packageinfo.currentpack == null || item.packageinfo.currentpack.isEmpty()|| item.packageinfo.currentpack==""){
@@ -424,7 +425,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                                 tvDes.text = "Pay to activate"
                             }
                         }
-                        getPackages(currentPackage,"",item.packageinfo.subdb)
+                        getPackages(currentPackage,"",item.packageinfo.subdb,lastpack)
                     }
                     else{
                         runOnUiThread {
@@ -464,15 +465,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
                         speed = speed.drop(1);
                     }
                     tvSPeed.text =  speed
-                    getPackages(currentPackage,speed,item.packageinfo.subdb)
-
+                    getPackages(currentPackage,speed,item.packageinfo.subdb,lastpack)
 
                    if(item.packageinfo.currentpack == null || item.packageinfo.currentpack.isEmpty()|| item.packageinfo.currentpack==""){
 
                        runOnUiThread {
                             layoutSpeed.visibility = View.GONE
                             tvPackageName.visibility = View.VISIBLE
-                            tvPackageName.text = "inactive"
+                            tvPackageName.text = "inactive(${item.packageinfo.lastpack})"
                             tvDes.text = "Pay to activate"
                         }
                     }
@@ -517,9 +517,9 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         }
     }
 
-    private fun getPackages(currentPackage:String, mbps:String, subid :String){
+    private fun getPackages(currentPackage:String, mbps:String, subid :String,lastpack:String){
         lifecycleScope.launch(Dispatchers.IO){
-            val response =  api.getPackages("getPackages",currentPackage,mbps,subid)
+            val response =  api.getPackages("getPackages",currentPackage,mbps,subid,lastpack)
             if(response.success){
                 Const.ConstHolder.INSTANCE.setPackages(response.data.packages)
              //   initRecyclerViewRadio(response.data.packages)

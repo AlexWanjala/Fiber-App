@@ -74,13 +74,17 @@ interface API {
     @POST("index.php")
     suspend fun checkPayment(@Field("function") function: String,
                              @Field("accNo") accNo: String): Json4Kotlin_Base
+    @FormUrlEncoded
+    @POST("index.php")
+    suspend fun getShops(@Field("function") function: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")
     suspend fun getPackages(@Field("function") function: String,
                              @Field("currentPackage") currentPackage: String,
                              @Field("mbps") mbps: String,
-                             @Field("subdb") subdb: String): Json4Kotlin_Base
+                             @Field("subdb") subdb: String,
+                             @Field("lastpack") lastpack: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")
@@ -101,7 +105,8 @@ interface API {
     @FormUrlEncoded
     @POST("index.php")
     suspend fun getInvoices(@Field("function") function: String,
-                             @Field("accNo") subdb: String): Json4Kotlin_Base
+                             @Field("accNo") subid: String,
+                             @Field("subdb") subdb: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")

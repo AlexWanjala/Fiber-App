@@ -182,8 +182,6 @@
 
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-
-
         <LinearLayout
             android:layout_marginTop="10dp"
             android:background="@drawable/bg_border"
@@ -492,6 +490,17 @@
 
         </LinearLayout>
 
+
+        <fragment
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:id="@+id/map_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"/>
+
+        <TextView
+            android:layout_marginTop="100dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

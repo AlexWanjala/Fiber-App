@@ -8,6 +8,7 @@ import Packages
 import PaymentData
 import Paymethods
 import Push
+import Shops
 import SubDetailsResponse
 import Substrans
 import com.google.gson.annotations.SerializedName
@@ -22,5 +23,6 @@ data class Data (
 	@SerializedName("paymentData") val paymentData : List<PaymentData>,
 	@SerializedName("paymethods") val paymethods : List<Paymethods>,
 	@SerializedName("Invoices") val invoices : List<Invoices>,
-	@SerializedName("channels") val channels : List<Channels>
+	@SerializedName("channels") val channels : List<Channels>,
+	@SerializedName("shops") val shops : List<Shops>
 )

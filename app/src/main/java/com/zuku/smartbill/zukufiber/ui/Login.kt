@@ -26,8 +26,6 @@ class Login : AppCompatActivity() {
 
     }
 
-
-
     @RequiresApi(Build.VERSION_CODES.M)
     fun isOnline(context: Context): Boolean {
         val connectivityManager =
@@ -73,15 +71,16 @@ class Login : AppCompatActivity() {
     private fun currentTheme(){
         when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
-               runOnUiThread {
-                   logo.setImageDrawable(resources.getDrawable(R.drawable.zuku_logo_white))
-               }
+                runOnUiThread {//Night Mode
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark)
+                }
             }
             Configuration.UI_MODE_NIGHT_NO -> {
-             //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.background_light)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
-               // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
             }
         }
     }
