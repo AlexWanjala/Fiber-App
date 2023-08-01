@@ -1,11 +1,9 @@
 package com.zuku.smartbill.zukufiber.ui
 
-import PackageItems
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.res.Configuration
@@ -19,9 +17,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.Gravity
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ImageView
 import android.widget.RemoteViews
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -38,14 +38,13 @@ import com.google.android.youtube.player.YouTubeStandalonePlayer
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.*
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
-import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.activity_transactions.*
+import kotlinx.android.synthetic.main.activity_main.tvDes
+import kotlinx.android.synthetic.main.activity_main.tvSPeed
+import kotlinx.android.synthetic.main.activity_package_details.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
-import kotlinx.android.synthetic.main.dialog_layout.*
-import kotlinx.android.synthetic.main.notification.*
-import kotlinx.android.synthetic.main.radio_group.*
+import kotlinx.android.synthetic.main.message_box.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.lang.Math.abs
@@ -53,9 +52,10 @@ import java.text.SimpleDateFormat
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.*
+import kotlinx.android.synthetic.main.activity_main.layoutMain as layoutMain1
 
 
-//TEST BACKGROUND LUBULI ###
+//TEST BACKGROUND LIBULI ###
 class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
     private var accounts: MutableList<String> = ArrayList()
@@ -76,6 +76,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
         val intent = Intent(this, MainActivity::class.java)
         val pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+
 
         // RemoteViews are used to use the content of
         // some different layout apart from the current activity layout
@@ -144,6 +145,11 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         tv_change_plan.setOnClickListener {
             startActivity(Intent(this@MainActivity, PackagesActivity::class.java))
         }
+        tvDes.setOnClickListener {
+           // Toast.makeText(this,"VIEW CHANNELS",Toast.LENGTH_LONG).show()
+            showMessageBox()
+        }
+
 
         tv_pay.setOnClickListener {
 
@@ -263,12 +269,14 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         notification()
     }
 
-     fun initRecyclerView(packageItems: List<PackageItems>){
+
+  /*   fun initRecyclerView(packageItems: List<PackageItems>){
         //Packages
         val adapter = PackagesAdapter(this,packageItems)
         recycler_view.adapter = adapter
         recycler_view.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
     }
+*/
 
 
      fun stkPayments(desc: String){
@@ -321,16 +329,21 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
         super.onResume()
     }
 
+
     private fun currentTheme(){
         when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 runOnUiThread {//Night Mode
-                    layoutMain.background = resources.getDrawable(R.drawable.background_dark)
+                    layoutMain1.background = resources.getDrawable(R.drawable.background_dark_one)
+                    val logoImageView =findViewById<ImageView>(R.id.logo_image_view)
+                     logoImageView.setImageResource(R.drawable.logo_white)
                 }
             }
             Configuration.UI_MODE_NIGHT_NO -> {
                 //Light Mode
-                layoutMain.background = resources.getDrawable(R.drawable.background_light)
+                layoutMain1.background = resources.getDrawable(R.drawable.background_light_one)
+                val logoImageView =findViewById<ImageView>(R.id.logo_image_view)
+                logoImageView.setImageResource(R.drawable.logo_black)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
@@ -362,14 +375,18 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private fun getSubscriber(){
 
         lifecycleScope.launch(Dispatchers.IO) {
+
             val response = api.getSubscriber("getSubscriber", getValue(this@MainActivity,"phoneNumber").toString())
             runOnUiThread {
+
                 if(response.success){
+
                     Const.ConstHolder.INSTANCE.setJson4Kotlin_Base(response)
 
                     for (item in response.data.subDetailsResponse){
                         getPackageInfo(response.data.subDetailsResponse[0].packageinfo.subid.toString())
-                        accounts.add(item.packageinfo.subid.toString())
+                        //Toast.makeText(this@MainActivity,item.packageinfo.subid.toString(),Toast.LENGTH_LONG).show()
+                         accounts.add(item.packageinfo.subid.toString())
                     }
                     runOnUiThread {
                         val aa = ArrayAdapter(this@MainActivity, R.layout.spinner_right_aligned, accounts)
@@ -448,7 +465,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                     updatedate.text = item.packageinfo.billthru
                     tvName.text = item.subdetails.subname
-                    tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt.toInt()).toString()
+                    tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
                     tvAmountDue.text = item.packageinfo.dueamt.toString()
                     if(item.packageinfo.billthru == null){
                         tvDays.text = "Due";
@@ -523,10 +540,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
              //   initRecyclerViewRadio(response.data.packages)
 
             }else{
-               runOnUiThread {  Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show() }
-                tv_change_plan.setOnClickListener {
-                 Toast.makeText(this@MainActivity,"U have no active package ($lastpack)",Toast.LENGTH_LONG).show()
-                }
+                Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show()
             }
 
         }
@@ -574,6 +588,60 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
            finishAffinity()
         }
         builder.show()
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private fun showMessageBox(){
+
+        val messageBoxView = LayoutInflater.from(this).inflate(R.layout.message_box, null)
+        val messageBoxBuilder = androidx.appcompat.app.AlertDialog.Builder(this).setView(messageBoxView)
+        val  messageBoxInstance = messageBoxBuilder.show()
+
+        lifecycleScope.launch(Dispatchers.IO){
+
+            val str = tvDes.text.toString()
+            val result =  api.getChannels(
+                "getChannels", 
+                (if (str.contains(", ")) {
+                    val result = str.substringAfter(", ")
+                    println(result) // prints the result of substringAfter()
+                } else {
+                    println("String does not contain a comma")
+                }).toString()
+
+
+                //"getChannels", tvDes.text.toString().substringAfter(", ")
+                //replace("Premium - R30")
+            )
+            if(result.success){
+                runOnUiThread {
+                    if(!result.data.channels.equals(null)){
+                        messageBoxView.tvHeader.text ="${intent.getStringExtra("item")} Channels"
+                        progress_circular2.visibility = View.GONE
+                        // use array-adapter and define an array
+                        val arrayAdapter: ArrayAdapter<*>
+                        val array = arrayListOf<String>()
+                        for (data in result.data.channels){
+                            array.add("${data.channel_code} ${data.channel_name}")
+                        }
+                        // access the listView from xml file
+                        arrayAdapter = ArrayAdapter(this@MainActivity , R.layout.list_item_view, array)
+                        messageBoxView.list_view.adapter = arrayAdapter
+                        messageBoxView.list_view.adapter = arrayAdapter
+                        messageBoxView.list_view.divider = null;
+                    }
+                }
+
+            }else{
+                runOnUiThread {
+                  //  progress_circular2.visibility = View.GONE
+                    Toast.makeText(this@MainActivity,result.message,Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+
+        //setting text values
+        messageBoxView.imageView.setOnClickListener { messageBoxInstance.dismiss()}
     }
 
 }

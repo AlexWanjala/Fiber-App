@@ -1,11 +1,7 @@
 package com.zuku.smartbill.zukufiber.ui
 
-import android.Manifest
-import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
+import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -15,22 +11,21 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
-import com.zuku.smartbill.zukufiber.data.services.launchSTK
 import kotlinx.android.synthetic.main.activity_package_details.*
+import kotlinx.android.synthetic.main.activity_package_details.image_close
+import kotlinx.android.synthetic.main.activity_package_details.layoutMain
+import kotlinx.android.synthetic.main.activity_package_details.tvDes
+import kotlinx.android.synthetic.main.activity_transactions.*
+import kotlinx.android.synthetic.main.item_package_.*
 import kotlinx.android.synthetic.main.message_box.view.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import okhttp3.Dispatcher
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.concurrent.fixedRateTimer
 
 class PackageDetails : AppCompatActivity() {
 
@@ -46,6 +41,9 @@ class PackageDetails : AppCompatActivity() {
         tvSPeed.text = intent.getStringExtra("item").toString()
         tvAmount.text = intent.getStringExtra("currency").toString()+" "+ intent.getStringExtra("price").toString()
         tvDes.text = intent.getStringExtra("des").toString()
+       // cableSpeeds.text = intent.getStringExtra("speeds").toString()
+
+
 
         val dateSetListener =
             DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
@@ -69,7 +67,13 @@ class PackageDetails : AppCompatActivity() {
         }
 
         tvPackage.setOnClickListener {
-            changePlanRequest()
+            if(tv_date.text =="Select date"){
+                Toast.makeText(this,"select date",Toast.LENGTH_LONG).show()
+
+            }else{
+                changePlanRequest()
+            }
+
         }
         tvDes.setOnClickListener { showMessageBox() }
     }
@@ -124,6 +128,8 @@ class PackageDetails : AppCompatActivity() {
         tv_date!!.text =  sdf.format(cal.time)
     }
 
+
+
     private fun changePlanRequest(){
         progress_circular2.visibility = View.VISIBLE
         lifecycleScope.launch(Dispatchers.IO){
@@ -154,4 +160,27 @@ class PackageDetails : AppCompatActivity() {
             }
         }
     }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {//Night Mode
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark_one)
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.background_light_one)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        currentTheme()
+
+    }
+
 }

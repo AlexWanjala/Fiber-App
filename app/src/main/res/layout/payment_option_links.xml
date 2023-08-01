@@ -16,6 +16,7 @@
         android:drawableStart="@drawable/dot"
         android:textColor="#028CFA"
         android:text="Mpesa 320320 AccNo XXXXX"
+        android:backgroundTint="@color/grey"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 

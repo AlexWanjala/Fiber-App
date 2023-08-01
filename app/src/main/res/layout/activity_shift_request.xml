@@ -2,6 +2,7 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     android:background="@color/bg_greenish"
     android:orientation="vertical"
+    android:id="@+id/layoutMain"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -43,7 +44,7 @@
 
     <TextView
         android:textColor="@color/blue_zuku"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="20sp"
         android:layout_marginStart="20dp"
         android:text="@string/shift_date"
@@ -57,7 +58,7 @@
         android:id="@+id/ed_date"
         android:padding="15sp"
         android:hint="@string/select_date"
-        android:background="@drawable/bg_border"
+        android:background="@drawable/bg_border_main_pg"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20sp"
         android:layout_marginStart="20dp"
@@ -81,7 +82,7 @@
         android:id="@+id/select_map"
         android:padding="15sp"
         android:hint="@string/select_map"
-        android:background="@drawable/bg_border"
+        android:background="@drawable/bg_border_main"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20sp"
         android:layout_marginStart="20dp"
@@ -102,7 +103,7 @@
         android:id="@+id/edDes"
         android:padding="20sp"
         android:hint="@string/message"
-        android:background="@drawable/bg_border"
+        android:background="@drawable/bg_border_main_blue"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="20sp"
         android:layout_marginStart="20dp"

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#0493C2</color>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
+    <color name="purple_200">#FF9800</color>
+    <color name="purple_500">#FF9800</color>
+    <color name="purple_700">#FF9800</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
@@ -11,7 +11,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="white_trans">#A1FFFFFF</color>
     <color name="my_spinner_text_color">#FFFFFF</color>
-    <color name="text_color">#0493C2</color>
+    <color name="text_color">#0797C6</color>
     <color name="text_color_black">#161515</color>
     <color name="text_color_white">#FFFFFF</color>
     <color name="yellow_zuku">#F9C104</color>
@@ -32,4 +32,5 @@
     <color name="map">#4CAF50</color>
     <color name="map_lable">#F44336</color>
     <color name="map_stroke">#FFC107</color>
+    <color name="zuku_Orange">#FF9800</color>
 </resources>

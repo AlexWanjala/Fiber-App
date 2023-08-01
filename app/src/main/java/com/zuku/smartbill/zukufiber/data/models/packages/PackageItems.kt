@@ -10,5 +10,6 @@ data class PackageItems (
 	@SerializedName("currency") val currency : String,
 	@SerializedName("subdb") val subdb : String,
 	@SerializedName("id") val id : String,
-	@SerializedName("des") val des : String
+	@SerializedName("des") val des : String,
+	@SerializedName("speeds") val speed : String
 )

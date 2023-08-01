@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:background="@drawable/bg_white"
+    android:background="@drawable/bg_border_orange_dialog"
     android:layout_gravity="center"
     android:gravity="center"
     xmlns:android="http://schemas.android.com/apk/res/android"

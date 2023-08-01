@@ -9,6 +9,7 @@ import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -72,12 +73,17 @@ class Login : AppCompatActivity() {
         when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
                 runOnUiThread {//Night Mode
-                    layoutMain.background = resources.getDrawable(R.drawable.background_dark)
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark_one)
+                    val logoImageView =findViewById<ImageView>(R.id.logo)
+                    logoImageView.setImageResource(R.drawable.logo_white)
+
                 }
             }
             Configuration.UI_MODE_NIGHT_NO -> {
                 //Light Mode
-                layoutMain.background = resources.getDrawable(R.drawable.background_light)
+                layoutMain.background = resources.getDrawable(R.drawable.background_light_one)
+                val logoImageView =findViewById<ImageView>(R.id.logo)
+                logoImageView.setImageResource(R.drawable.logo_black)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()

@@ -27,6 +27,7 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
         lateinit var tvAmount: TextView
         lateinit var clPackage: ConstraintLayout
         lateinit var tvDes: TextView
+        lateinit var cableSpeeds: TextView
 
 
         init {
@@ -41,6 +42,7 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
                 tvSpeed = view.findViewById(R.id.tv_speed)
                 tvDes = view.findViewById(R.id.tvDes)
                 clPackage = view.findViewById(R.id.cl_package)
+                cableSpeeds = view.findViewById(R.id.cableSpeeds)
             }
 
         }
@@ -80,6 +82,7 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
             viewHolder.tvAmount.text = list.price
             viewHolder.tvSpeed.text = list.item
             viewHolder.tvDes.text = list.des
+            viewHolder.cableSpeeds.text = list.speed
             viewHolder.clPackage.setOnClickListener {
                 context.startActivity(Intent(context, PackageDetails::class.java)
                     .putExtra("packageName",list.packageName)
@@ -87,6 +90,7 @@ class PackagesAdapter(private val context: Context, private val dataSet: List<Pa
                     .putExtra("price",list.price)
                     .putExtra("des",list.des)
                     .putExtra("currency",list.currency)
+                    .putExtra("speeds",list.speed)
                 )
             }
         }

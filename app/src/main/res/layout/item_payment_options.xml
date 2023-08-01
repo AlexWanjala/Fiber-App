@@ -16,13 +16,13 @@
         android:id="@+id/tv_view"
         android:padding="15dp"
         android:textSize="16sp"
-        android:textColor="@color/black"
+        android:textColor="@color/zuku_Orange"
         android:button="@android:color/transparent"
         android:text="@string/zuku_fiber_plans"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:drawableEndCompat="@drawable/arrow_down_black"
-        app:drawableTint="@color/black" />
+        app:drawableTint="@color/green_zuku" />
 
     <LinearLayout
         android:visibility="gone"

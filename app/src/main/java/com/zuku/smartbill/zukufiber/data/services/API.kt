@@ -112,13 +112,13 @@ interface API {
     @POST("index.php")
     suspend fun sendSMS(@Field("function") function: String,
                              @Field("phoneNumber") phoneNumber: String,
-                             @Field("message") message: String,
-                             @Field("country") country: String): Json4Kotlin_Base
+                             @Field("message") message: String): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")
     suspend fun getChannels(@Field("function") function: String,
-                            @Field("package") packageName: String): Json4Kotlin_Base
+                            @Field("package") packageName: String
+    ): Json4Kotlin_Base
 
     @FormUrlEncoded
     @POST("index.php")

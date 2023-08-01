@@ -5,6 +5,7 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.res.Configuration
 import android.location.LocationManager
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
@@ -16,12 +17,13 @@ import androidx.lifecycle.lifecycleScope
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_package_details.*
 import kotlinx.android.synthetic.main.activity_shift_request.*
 import kotlinx.android.synthetic.main.activity_shift_request.image_close
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-
+import kotlinx.android.synthetic.main.activity_shift_request.layoutMain as layoutMain1
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -119,6 +121,24 @@ class ShiftRequest : AppCompatActivity() {
         val sdf = SimpleDateFormat(myFormat, Locale.US)
         ed_date.setText(sdf.format(cal.time))
     }
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {//Night Mode
+                    layoutMain1.background = resources.getDrawable(R.drawable.background_dark_one)
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //Light Mode
+                layoutMain1.background = resources.getDrawable(R.drawable.background_light_one)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
 
     override fun onResume() {
         if (!getValue(this,"address").equals("")){
@@ -126,5 +146,13 @@ class ShiftRequest : AppCompatActivity() {
         }
 
         super.onResume()
+        currentTheme()
+
     }
+
+
+
+
+
+
 }

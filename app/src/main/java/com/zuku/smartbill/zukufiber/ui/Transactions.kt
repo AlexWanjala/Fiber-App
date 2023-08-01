@@ -1,7 +1,7 @@
 package com.zuku.smartbill.zukufiber.ui
 
 import android.annotation.SuppressLint
-import android.opengl.Visibility
+import android.content.res.Configuration
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,8 +12,10 @@ import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.getValue
 import com.zuku.smartbill.zukufiber.ui.adapter.TransactionAdapter
+import kotlinx.android.synthetic.main.activity_packages.*
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.activity_transactions.image_close
+import kotlinx.android.synthetic.main.activity_transactions.layoutMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
@@ -46,4 +48,26 @@ class Transactions : AppCompatActivity() {
         }
 
     }
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {//Night Mode
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark_one)
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.background_light_one)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        currentTheme()
+
+    }
+
 }

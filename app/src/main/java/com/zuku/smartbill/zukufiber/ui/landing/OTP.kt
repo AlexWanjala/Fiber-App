@@ -5,14 +5,13 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.View
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -20,13 +19,14 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.phone.SmsRetriever
 import com.google.android.gms.auth.api.phone.SmsRetrieverClient
 import com.roberts.smsretriverapi.RetrievalEvent
-import com.roberts.smsretriverapi.SignatureHelper
 import com.zuku.smartbill.zukufiber.R
 import com.zuku.smartbill.zukufiber.data.services.api
 import com.zuku.smartbill.zukufiber.data.services.save
 import com.zuku.smartbill.zukufiber.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_otp.*
+import kotlinx.android.synthetic.main.activity_otp.layoutMain
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.apache.commons.lang3.StringUtils
@@ -126,30 +126,35 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         verificationCode = generateNumber(4).toString()
         tv_phone.text ="Enter the OTP sent to "+ intent.getStringExtra("phoneNumber").toString()
 
-        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode,intent.getStringExtra("country").toString())  }
+        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)  }
 
         smsClient = SmsRetriever.getClient(this)
         initSmsListener()
         //todo Generate the signature once and use it on the API [6QlIaunbBgk] is what am using on the api to identify the app.
-        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode,intent.getStringExtra("country").toString())
+        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)
 
     }
-
     private fun currentTheme(){
         when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
             Configuration.UI_MODE_NIGHT_YES -> {
-                runOnUiThread {
-                    image4.setImageDrawable(resources.getDrawable(R.drawable.zuku_logo_white))
+                runOnUiThread {//Night Mode
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark_one)
+                   // val logoImageView =findViewById<ImageView>(R.id.image4)
+                  //  logoImageView.setImageResource(R.drawable.logo_white)
                 }
             }
             Configuration.UI_MODE_NIGHT_NO -> {
-                //   Toast.makeText(this,"LIGHT",Toast.LENGTH_LONG).show()
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.background_light_one)
+             //   val logoImageView =findViewById<ImageView>(R.id.image4)
+               // logoImageView.setImageResource(R.drawable.logo_black)
             }
             Configuration.UI_MODE_NIGHT_UNDEFINED -> {
                 // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
             }
         }
     }
+
 
     private fun generateNumber(length: Int): Int {
         var result = ""
@@ -271,9 +276,9 @@ class OTP : AppCompatActivity(), View.OnClickListener{
 
 
     private lateinit var smsClient: SmsRetrieverClient
-    private fun sendSMS(phoneNumber: String, message: String, country: String){
+    private fun sendSMS(phoneNumber: String, message: String){
         lifecycleScope.launch(Dispatchers.IO){
-            api.sendSMS("sendSMS",phoneNumber,message,country)
+            api.sendSMS("sendSMS",phoneNumber,message)
         }
     }
     override fun onStart() {

@@ -57,7 +57,7 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
         //Load the 1st item
         if(position==0){
             if (context is MainActivity) {
-                (context as MainActivity).initRecyclerView(item.packageItems)
+                //(context as MainActivity).initRecyclerView(item.packageItems)
 
                 //Check the 1st item
                 viewHolder.radio_1.isChecked = true
@@ -98,7 +98,7 @@ class PackageAdapter(private val context: Context, private val dataSet: List<Pac
                    // Toast.makeText(context,"No further packages available check later",Toast.LENGTH_LONG).show()
                     (context as MainActivity).recycler_view.adapter = null
                 }else{
-                    (context as MainActivity).initRecyclerView(item.packageItems)
+                  //  (context as MainActivity).initRecyclerView(item.packageItems)
                 }
 
             }

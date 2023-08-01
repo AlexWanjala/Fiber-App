@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/layoutMain"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,15 +12,29 @@
         android:layout_gravity="right"
         android:id="@+id/image_close6"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="40sp"
+        android:layout_marginTop="60sp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:tint="@color/black" />
 
+    <LinearLayout
+        android:layout_width="350sp"
+        android:layout_height="550sp"
+        android:layout_marginTop="50sp"
+        android:background="@drawable/bg_border_main_pg"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
     <ImageView
         android:id="@+id/image4"
-        android:layout_marginStart="20sp"
+        android:layout_marginStart="10sp"
+        android:layout_marginTop="60sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:src="@drawable/logo"
@@ -28,7 +43,7 @@
 
 
     <LinearLayout
-        android:layout_marginTop="10sp"
+        android:layout_marginTop="20sp"
         app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -46,7 +61,7 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
-            android:layout_marginTop="20sp"
+            android:layout_marginTop="50sp"
             android:layout_gravity="center"
             android:src="@drawable/blue_rod"
             android:layout_width="wrap_content"
@@ -247,6 +262,8 @@
             android:layout_width="match_parent"
             android:layout_height="40sp"
             />
+
+
 
         <TextView
             android:visibility="visible"
@@ -454,6 +471,8 @@
                 app:tint="@color/text_grey" />
 
         </LinearLayout>
+
+    </LinearLayout>
 
     </LinearLayout>
 

@@ -1,18 +1,17 @@
 package com.zuku.smartbill.zukufiber.ui
 
-import android.annotation.SuppressLint
-import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import com.rajat.pdfviewer.PdfViewerActivity
 import com.zuku.smartbill.zukufiber.R
-import com.zuku.smartbill.zukufiber.data.services.Const
+import kotlinx.android.synthetic.main.activity_main.*
 
 import kotlinx.android.synthetic.main.activity_transaction_reponse.*
+import kotlinx.android.synthetic.main.activity_transaction_reponse.layoutMain
+import kotlinx.android.synthetic.main.activity_transaction_reponse.tvSPeed
 
 class TransactionResponse : AppCompatActivity() {
 
@@ -50,6 +49,30 @@ class TransactionResponse : AppCompatActivity() {
         tvSPeed.text =  intent.getStringExtra("speed").toString()
 
     }
+
+    private fun currentTheme(){
+        when (application.resources?.configuration?.uiMode?.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                runOnUiThread {//Night Mode
+                    layoutMain.background = resources.getDrawable(R.drawable.background_dark_one)
+                }
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                //Light Mode
+                layoutMain.background = resources.getDrawable(R.drawable.background_light_one)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {
+                // Toast.makeText(this,"NOT DEFINED",Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+    override fun onResume() {
+        super.onResume()
+        currentTheme()
+
+    }
+
+
 
 }
 

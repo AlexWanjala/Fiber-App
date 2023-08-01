@@ -33,16 +33,16 @@ class MainActivity : AppCompatActivity() {
         Log.d("SIGNATURE",appSignatureHelper.appSignature.toString())*/
         smsClient = SmsRetriever.getClient(this)
         initSmsListener()
-      //  sendSMS("0719401837","Your Sms Retriever Api code is: 6647 "+SignatureHelper(this@MainActivity).appSignature.toString())
+        sendSMS("0719401837","Your Sms Retriever Api code is: 6647 "+SignatureHelper(this@MainActivity).appSignature.toString())
 
     }
     private lateinit var smsClient: SmsRetrieverClient
-   /* private fun sendSMS(phoneNumber: String, message: String){
+    private fun sendSMS(phoneNumber: String, message: String){
         lifecycleScope.launch(Dispatchers.IO){
             api.sendSMS("sendSMS",phoneNumber,message)
 
         }
-    }*/
+    }
     override fun onStart() {
         super.onStart()
         EventBus.getDefault().register(this)
