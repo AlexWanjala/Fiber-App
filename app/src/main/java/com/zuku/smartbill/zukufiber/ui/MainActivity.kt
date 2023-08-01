@@ -40,7 +40,6 @@ import com.zuku.smartbill.zukufiber.data.services.*
 import com.zuku.smartbill.zukufiber.ui.adapter.PackageAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PackagesAdapter
 import com.zuku.smartbill.zukufiber.ui.adapter.PaymentMethodsAdapter
-import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_transactions.*
 import kotlinx.android.synthetic.main.bottom_sheet_plans.*
@@ -363,7 +362,6 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
     private fun getSubscriber(){
 
         lifecycleScope.launch(Dispatchers.IO) {
-
             val response = api.getSubscriber("getSubscriber", getValue(this@MainActivity,"phoneNumber").toString())
             runOnUiThread {
                 if(response.success){
@@ -450,7 +448,7 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
 
                     updatedate.text = item.packageinfo.billthru
                     tvName.text = item.subdetails.subname
-                    tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt).toString()
+                    tvBalance.text =  kotlin.math.abs(item.packageinfo.buckamt.toInt()).toString()
                     tvAmountDue.text = item.packageinfo.dueamt.toString()
                     if(item.packageinfo.billthru == null){
                         tvDays.text = "Due";
@@ -525,7 +523,10 @@ class MainActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener{
              //   initRecyclerViewRadio(response.data.packages)
 
             }else{
-                Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show()
+               runOnUiThread {  Toast.makeText(this@MainActivity,response.message,Toast.LENGTH_LONG).show() }
+                tv_change_plan.setOnClickListener {
+                 Toast.makeText(this@MainActivity,"U have no active package ($lastpack)",Toast.LENGTH_LONG).show()
+                }
             }
 
         }

@@ -126,12 +126,12 @@ class OTP : AppCompatActivity(), View.OnClickListener{
         verificationCode = generateNumber(4).toString()
         tv_phone.text ="Enter the OTP sent to "+ intent.getStringExtra("phoneNumber").toString()
 
-        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)  }
+        tvResend.setOnClickListener { sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode,intent.getStringExtra("country").toString())  }
 
         smsClient = SmsRetriever.getClient(this)
         initSmsListener()
         //todo Generate the signature once and use it on the API [6QlIaunbBgk] is what am using on the api to identify the app.
-        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode)
+        sendSMS(intent.getStringExtra("phoneNumber").toString(),verificationCode,intent.getStringExtra("country").toString())
 
     }
 
@@ -271,9 +271,9 @@ class OTP : AppCompatActivity(), View.OnClickListener{
 
 
     private lateinit var smsClient: SmsRetrieverClient
-    private fun sendSMS(phoneNumber: String, message: String){
+    private fun sendSMS(phoneNumber: String, message: String, country: String){
         lifecycleScope.launch(Dispatchers.IO){
-            api.sendSMS("sendSMS",phoneNumber,message)
+            api.sendSMS("sendSMS",phoneNumber,message,country)
         }
     }
     override fun onStart() {

@@ -64,7 +64,7 @@
     <string name="password">Password</string>
     <string name="update">Add</string>
     <string name="download">DOWNLOAD</string>
-    <string name="phone_des">Enter your phone number for verification</string>
+    <string name="phone_des">Enter your phone number and Country for verification</string>
     <string name="get_opt">Get OTP</string>
     <string name="otp_verification">OTP verification</string>
     <string name="otp_verification_des">Enter the OTP sent to 0704549859</string>
@@ -104,6 +104,7 @@
     <string name="more">More</string>
     <string name="add_phone">Add phone Number</string>
     <string name="add_des">Update your contact information by adding an email or phoneNumber</string>
+    <string name="select_county">Select County</string>
 
 
 </resources>
